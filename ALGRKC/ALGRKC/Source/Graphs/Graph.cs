@@ -72,6 +72,23 @@ namespace ALGRKC.Source.Graphs
             return adj[v];
         }
 
+        public override string ToString()
+        {
+
+            string s = vertNum + " vertices, " + edgeNum + " edges";
+            for(int v =0;v<vertNum;v++)
+            {
+                s += v + ": ";
+                foreach (int w in adj[v])
+                    s += w + " ";
+
+                s += "\n";
+
+            }
+
+            return s;
+        }
+
        
     }
 }
