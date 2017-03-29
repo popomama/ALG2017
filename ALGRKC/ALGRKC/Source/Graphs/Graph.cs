@@ -39,10 +39,12 @@ namespace ALGRKC.Source.Graphs
             Init(vNum);
 
             line = sr.ReadLine();// read E
-            this.edgeNum = Int32.Parse(line);
+            int E = Int32.Parse(line);
 
-            while((line=sr.ReadLine())!=null)   //each line is an edge
+            //while((line=sr.ReadLine())!=null)   //each line is an edge
+            for(int i=0;i<E;i++)
             {
+                line = sr.ReadLine();
                 string[] pair = line.Split();
                 int v = Int32.Parse(pair[0]);
                 int w = Int32.Parse(pair[1]);
@@ -75,7 +77,7 @@ namespace ALGRKC.Source.Graphs
         public override string ToString()
         {
 
-            string s = vertNum + " vertices, " + edgeNum + " edges";
+            string s = vertNum + " vertices, " + edgeNum + @" edges\n";
             for(int v =0;v<vertNum;v++)
             {
                 s += v + ": ";

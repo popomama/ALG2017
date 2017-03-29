@@ -16,7 +16,7 @@ namespace ALGRKC.Source.Graphs.Tests
         [TestMethod()]
         public void GraphTest()
         {
-            using (StreamReader sr = new StreamReader(@"E:\Study\ALG2017\ALGRKC\dataSelftinyG.txt")) 
+            using (StreamReader sr = new StreamReader(@"E:\Study\ALG2017\ALGRKC\dataSelf\tinyG.txt")) 
             {
                 Graph g = new Graph(sr);
                 Assert.AreEqual(g.V(), 13);
@@ -53,7 +53,7 @@ namespace ALGRKC.Source.Graphs.Tests
         [TestMethod()]
         public void ToStringTest()
         {
-            using (StreamReader sr = new StreamReader(@"E:\Study\ALG2017\ALGRKC\dataSelftinyG.txt"))
+            using (StreamReader sr = new StreamReader(@"E:\Study\ALG2017\ALGRKC\dataSelf\tinyG.txt"))
             {
                 Graph g = new Graph(sr);
                 Console.WriteLine(g.ToString()); ;
