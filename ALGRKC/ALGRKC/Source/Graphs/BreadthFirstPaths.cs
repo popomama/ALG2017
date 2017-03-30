@@ -19,21 +19,25 @@ namespace ALGRKC.Source.Graphs
 
         }
 
-        void bfs(Graph g, int s)
+        public void bfs(Graph g, int s)
         {
             Queue<int> q = new Queue<int>();
             q.Enqueue(s);
-
+            isMarked[s] = true;
+            
             int current;
 
+            
             while(q.Count!=0)
             {
                 current = q.Dequeue();
-                isMarked[current] = true;
-                foreach(int v in g.AdjList(current))
+                //isMarked[current] = true;
+
+                foreach (int v in g.AdjList(current))
                 {
-                    if(!isMarked[v])
+                    if (!isMarked[v])
                     {
+                        isMarked[v] = true;
                         q.Enqueue(v);
                         edgeTo[v] = current;
                     }
@@ -53,7 +57,7 @@ namespace ALGRKC.Source.Graphs
 
             Stack<int> path = new Stack<int>();
 
-            while(v!=source)
+            while (v != source)
             {
                 path.Push(v);
                 v = edgeTo[v];
@@ -62,4 +66,5 @@ namespace ALGRKC.Source.Graphs
             path.Push(source);
             return path;
         }
+    }
 }
