@@ -49,12 +49,17 @@ namespace ALGRKC.Source.Graphs
 
         public IEnumerable<int> PathTo(int v)
         {
+            if (!HasPathTo(v))
+                return null; //return null if no path from source to v;
+
             Stack<int> stack = new Stack<int>();
-            while(edgeTo[v]!=source)
+            while(v!=source)
             {
                 stack.Push(v);
                 v = edgeTo[v];
             }
+
+            stack.Push(source);
             return stack;
         }
     }

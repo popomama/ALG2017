@@ -48,6 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Graphs\DepthFirstPathsTests.cs" />
     <Compile Include="Source\Graphs\GraphTests.cs" />
     <Compile Include="UnitTestBasic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
