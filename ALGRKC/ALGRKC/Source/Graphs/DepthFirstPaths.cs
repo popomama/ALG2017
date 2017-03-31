@@ -16,6 +16,8 @@ namespace ALGRKC.Source.Graphs
         {
             source = s;
             edgeTo = new int[g.V()];
+            for (int i = 0; i < g.V(); i++)
+                edgeTo[i] = -1;//initialize the values to -1
             isMarked = new bool[g.V()];
 
             isMarked[s] = true;
