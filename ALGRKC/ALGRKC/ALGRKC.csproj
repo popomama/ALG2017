@@ -47,6 +47,7 @@
     <Compile Include="Source\Basic\Bag.cs" />
     <Compile Include="Source\Graphs\BreadthFirstPaths.cs" />
     <Compile Include="Source\Graphs\CC.cs" />
+    <Compile Include="Source\Graphs\Cycle.cs" />
     <Compile Include="Source\Graphs\DepthFirstPaths.cs" />
     <Compile Include="Source\Graphs\Graph.cs" />
     <Compile Include="Source\Graphs\Search.cs" />

@@ -12,6 +12,9 @@ namespace ALGRKC.Source.Graphs.Tests
     [TestClass()]
     public class CCTests
     {
+        //CC 0 : 0, 1, 2, 3, 4, 5, 6
+        //CC 1 : 7, 8
+        //CC 2 : 9, 10, 11, 12
         [TestMethod()]
         public void ContectedCompoentTest()
         {
