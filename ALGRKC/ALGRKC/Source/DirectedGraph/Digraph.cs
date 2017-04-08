@@ -69,7 +69,11 @@ namespace ALGRKC.Source.DirectedGraph
 
         }
 
-        Digraph Reverse()
+        public IEnumerable<int> AdjList(int v)
+        {
+            return adj[v];
+        }
+        public Digraph Reverse()
         {
             Digraph g = new Digraph(this.vertNum);
 
