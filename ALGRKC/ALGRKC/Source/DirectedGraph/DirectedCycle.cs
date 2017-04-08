@@ -44,10 +44,10 @@ namespace ALGRKC.Source.DirectedGraph
                     {
                         hasCycle = true;
                         stackCycle = new Stack<int>();
-                        for (int x = s; x != v; x = edgeTo[x])
+                        for (int x = s; x != v; x = edgeTo[x])//starting from the parent of the current node, until it hits the current node
                             stackCycle.Push(x);
-                        stackCycle.Push(v);
-                        stackCycle.Push(s);
+                        stackCycle.Push(v);// push the current node
+                        stackCycle.Push(s);// push the parent node of the current again to for the loop
                     }
                 }
             }
@@ -56,7 +56,7 @@ namespace ALGRKC.Source.DirectedGraph
 
         }
 
-        public bool Hascycle()
+        public bool HasCycle()
         {
             return hasCycle;
         }
