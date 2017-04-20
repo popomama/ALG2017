@@ -55,6 +55,7 @@
     <Compile Include="Source\Graphs\DepthFirstPaths.cs" />
     <Compile Include="Source\Graphs\Graph.cs" />
     <Compile Include="Source\Graphs\Search.cs" />
+    <Compile Include="Source\Graphs\SymbolGraph.cs" />
     <Compile Include="Source\Graphs\TwoColor.cs" />
   </ItemGroup>
   <ItemGroup>

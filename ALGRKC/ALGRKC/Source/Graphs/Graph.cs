@@ -62,7 +62,7 @@ namespace ALGRKC.Source.Graphs
         public int E()
         { return edgeNum; }
 
-        void AddEdge(int v, int w)
+        public void AddEdge(int v, int w)
         {
             adj[v].Add(w);//add the edge to both vertices' adjacency lists
             adj[w].Add(v);

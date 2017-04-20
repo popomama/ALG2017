@@ -41,5 +41,6 @@ namespace ALGRKC.Source.DirectedGraph.Tests
 
                 Assert.AreEqual(tlOrder.IsDAG(), true);
             }
+        }
     }
 }
