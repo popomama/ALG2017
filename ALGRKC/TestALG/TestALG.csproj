@@ -54,6 +54,7 @@
     <Compile Include="Source\Graphs\CCTests.cs" />
     <Compile Include="Source\Graphs\DepthFirstPathsTests.cs" />
     <Compile Include="Source\Graphs\GraphTests.cs" />
+    <Compile Include="Source\Graphs\SymbolGraphTests.cs" />
     <Compile Include="UnitTestBasic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

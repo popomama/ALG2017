@@ -19,6 +19,7 @@ namespace ALGRKC.Source.Graphs
             string line;
             string[] names;
             int vertexNum = 0;
+            st = new Dictionary<string, int>();
 
             //step 1  build the symbol  table
             while ((line= sr.ReadLine()) != null)
@@ -68,6 +69,27 @@ namespace ALGRKC.Source.Graphs
 
             }
 
+
+        }
+
+        public Graph G()
+        {
+            return g;
+        }
+
+        public int Index(string key)
+        {
+            return st[key];
+        }
+
+        public string KeyName(int index)
+        {
+            return keys[index];
+        }
+
+        public bool Contains(string key)
+        {
+            return st.ContainsKey(key);
         }
     }
 }
