@@ -36,9 +36,9 @@ namespace ALGRKC.Source.Graphs
 
                 //vertexNum--;//remove the first source;
             }
-
+            
             int index;
-
+            keys = new string[st.Count];
             //step 2 populate the index-name array
             foreach(string name in st.Keys)
             {
@@ -48,7 +48,7 @@ namespace ALGRKC.Source.Graphs
 
             string source, destination;
             int sourceIndex, destinationIndex;
-
+            
             //step 3 build graph
             vertexNum = st.Count();
             g = new Graph(vertexNum);
