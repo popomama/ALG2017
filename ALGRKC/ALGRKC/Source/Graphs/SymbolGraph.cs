@@ -14,32 +14,39 @@ namespace ALGRKC.Source.Graphs
         string[] keys; //store index-name
         Graph g; // graph will only record the index
 
-        public SymbolGraph(StreamReader sr, string separator)
+        public SymbolGraph(String fileName, string separator)
         {
             string line;
             string[] names;
             int vertexNum = 0;
-            st = new Dictionary<string, int>();
 
-            //step 1  build the symbol  table
-            while ((line= sr.ReadLine()) != null)
+
+
+            //step 1  build the symbol  table(first parse of the file)
+            StreamReader sr;
+            using (sr = new StreamReader(fileName))
             {
-                names = line.Split(separator.ToCharArray(),StringSplitOptions.None);
+                st = new Dictionary<string, int>();
 
-                for(int i=0;i<names.Length;i++)
+                while ((line = sr.ReadLine()) != null)
                 {
-                    string name = names[i];
-                    if (!st.ContainsKey(name))
-                        st.Add(name, st.Count);
-                    //vertexNum++;
-                }
+                    names = line.Split(separator.ToCharArray(), StringSplitOptions.None);
 
-                //vertexNum--;//remove the first source;
+                    for (int i = 0; i < names.Length; i++)
+                    {
+                        string name = names[i];
+                        if (!st.ContainsKey(name))
+                            st.Add(name, st.Count);
+                        //vertexNum++;
+                    }
+
+                    //vertexNum--;//remove the first source;
+                }
             }
-            
+
+            //step 2 populate the index-name array
             int index;
             keys = new string[st.Count];
-            //step 2 populate the index-name array
             foreach(string name in st.Keys)
             {
                 index = st[name];
@@ -49,27 +56,33 @@ namespace ALGRKC.Source.Graphs
             string source, destination;
             int sourceIndex, destinationIndex;
             
-            //step 3 build graph
+            //step 3 build graph(2nd parse of the file)
             vertexNum = st.Count();
             g = new Graph(vertexNum);
-            while((line=sr.ReadLine())!=null)
+
+
+            //sr = new StreamReader(stream);
+
+            using (sr = new StreamReader(fileName))//need to create the stream again so that we can read the file from the beginning.
             {
-                names = line.Split(separator.ToCharArray(), StringSplitOptions.None);
-                source = names[0];
-                sourceIndex = st[source];
-
-                for(int i=1;i<names.Length;i++)
+                while ((line = sr.ReadLine()) != null)
                 {
-                    destination = names[i];
-                    destinationIndex = st[destination];
-                    g.AddEdge(sourceIndex, destinationIndex);
-                }
-               
+                    names = line.Split(separator.ToCharArray(), StringSplitOptions.None);
+                    source = names[0];
+                    sourceIndex = st[source];
 
+                    for (int i = 1; i < names.Length; i++)
+                    {
+                        destination = names[i];
+                        destinationIndex = st[destination];
+                        g.AddEdge(sourceIndex, destinationIndex);
+                    }
+
+
+
+                }
 
             }
-
-
         }
 
         public Graph G()

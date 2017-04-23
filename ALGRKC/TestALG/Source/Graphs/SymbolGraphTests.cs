@@ -16,28 +16,31 @@ namespace ALGRKC.Source.Graphs.Tests
         public void SymbolGraphTest()
         {
             string sep = " ";
-            StreamReader sr;
-            using (sr = new StreamReader(@"E:\Study\ALG2017\ALGRKC\data\routes.txt"))
+            //StreamReader sr;
+           FileStream sr;
+           // using (sr = new FileStream(@"E:\Study\ALG2017\ALGRKC\data\routes.txt", FileMode.Open))
+            //{
+            string fileName = @"E:\Study\ALG2017\ALGRKC\data\routes.txt";
+
+            SymbolGraph sg = new SymbolGraph(fileName, sep);
+            Graph g = sg.G();
+
+            string source;
+
+            source = "JFK";
+
+            foreach (int v in g.AdjList(sg.Index(source)))
             {
-                SymbolGraph sg = new SymbolGraph(sr, sep);
-                Graph g = sg.G();
-
-                string source;
-
-                source = "JFK";
-
-                foreach (int v in g.AdjList(sg.Index(source)))
-                {
-                    Console.WriteLine(sg.KeyName(v));
-
-                }
-                Console.WriteLine();
-
-
-
-
+                Console.WriteLine(sg.KeyName(v));
 
             }
+            Console.WriteLine();
+
+
+
+
+
+            //}
         }
     }
 }
