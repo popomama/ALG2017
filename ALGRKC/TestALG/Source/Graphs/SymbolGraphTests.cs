@@ -35,6 +35,23 @@ namespace ALGRKC.Source.Graphs.Tests
 
             }
             Console.WriteLine();
+            Console.WriteLine();
+
+
+            fileName = @"E:\Study\ALG2017\ALGRKC\data\movies.txt";
+            sep = @"/";
+            sg = new SymbolGraph(fileName, sep);
+            g = sg.G();
+
+            source = "Bacon, Kevin";
+
+            foreach (int v in g.AdjList(sg.Index(source)))
+            {
+                Console.WriteLine(sg.KeyName(v));
+
+            }
+            Console.WriteLine();
+
 
 
 
