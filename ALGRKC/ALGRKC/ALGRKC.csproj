@@ -48,6 +48,7 @@
     <Compile Include="Source\DirectedGraph\DepthFirstOrder.cs" />
     <Compile Include="Source\DirectedGraph\Digraph.cs" />
     <Compile Include="Source\DirectedGraph\DirectedCycle.cs" />
+    <Compile Include="Source\DirectedGraph\SCC.cs" />
     <Compile Include="Source\DirectedGraph\TopologicalOrder.cs" />
     <Compile Include="Source\Graphs\BreadthFirstPaths.cs" />
     <Compile Include="Source\Graphs\CC.cs" />
