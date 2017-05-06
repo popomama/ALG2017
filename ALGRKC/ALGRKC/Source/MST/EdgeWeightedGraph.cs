@@ -67,6 +67,15 @@ namespace ALGRKC.Source.MST
             return adj[v];
         }
 
+        public int V()
+        {
+            return vertexNumer;
+        }
+
+        public int E()
+        {
+            return edgeNumber;
+        }
         public IEnumerable<Edge> Edges()
         {
             Bag<Edge> edges = new Bag<Edge>();
