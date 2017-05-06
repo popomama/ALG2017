@@ -62,7 +62,13 @@ namespace ALGRKC.Source.Basic
 
         public void ChangeKey(int i, T v)
         {
-
+            T originalValue = pq[i];
+            pq[i] = v;
+            if (originalValue.CompareTo(v)>0)
+                Swim(i);
+            else if (originalValue.CompareTo(v) < 0)
+                Sink(i);
+          
         }
 
         //bottom-up reheapify
