@@ -25,8 +25,9 @@ namespace ALGRKC.Source.Basic.Tests
                 string line = null;
                 line = sr.ReadLine(); // read V;
                 string[] pair = line.Split();
-                vNum = Int32.Parse(pair[0]);
-                edgeNum = Int32.Parse(pair[1]);
+                vNum = Int32.Parse(line);
+                line = sr.ReadLine();
+                edgeNum = Int32.Parse(line);
 
                 minQ = new MinPQ<Edge>(edgeNum);
 
