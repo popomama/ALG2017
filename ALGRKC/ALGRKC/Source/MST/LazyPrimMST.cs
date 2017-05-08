@@ -9,9 +9,8 @@ namespace ALGRKC.Source.MST
 {
     public class LazyPrimMST
     {
-        double mstValue;
         EdgeWeightedGraph g;
-        Edge[] mstEdges;
+        Queue<Edge> mstEdges;
         bool[] isVisited;
         MinPQ<Edge> minQueue;
 
@@ -22,17 +21,26 @@ namespace ALGRKC.Source.MST
             int edgeNum = g.E();
             isVisited = new bool[vertexNum];
             minQueue = new MinPQ<Edge>(edgeNum);
+            mstEdges = new Queue<Edge>();
 
             Visit(0);
 
             Edge eCurrent;
+            int either, other;
 
             while (!minQueue.IsEmpty())
             {
                 eCurrent = minQueue.DelMin();
-                if (!isVisited[eCurrent.Either()] && !isVisited[eCurrent.Other()])
-
-
+                either = eCurrent.Either();
+                other = eCurrent.Other(either);
+                if (!isVisited[either] && !isVisited[other])
+                {
+                    mstEdges.Enqueue(eCurrent);
+                    if (!isVisited[either])
+                        Visit(either);
+                    else
+                        Visit(other);
+                }
             }
             //for(int i=0;i<vertexNum;i++)
             //{
@@ -47,9 +55,12 @@ namespace ALGRKC.Source.MST
         void Visit(int vertexNumber)
         {
             isVisited[vertexNumber] = true;
+            int either, other;
             foreach(Edge e in g.AdjList(vertexNumber))
             {
-                if (!isVisited[e.Either()] && !isVisited[e.Other()]) //not visited
+                either = e.Either();
+                other = e.Other(either);
+                if (!isVisited[either] && !isVisited[other]) //not visited
                     minQueue.Insert(e);
             }
 
@@ -57,7 +68,12 @@ namespace ALGRKC.Source.MST
 
         double MSTValue()
         {
+            double mstValue=0.0;
+            foreach (Edge e in mstEdges)
+                mstValue += e.Weight();
+
             return mstValue;
+
         }
 
         IEnumerable<Edge> MSTEdges()

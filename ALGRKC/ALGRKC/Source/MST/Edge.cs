@@ -22,9 +22,11 @@ namespace ALGRKC.Source.MST
             return v;
         }
 
-        public int Other()
+        public int Other(int first)
         {
-            return w;
+            if(v==first)
+                return w;
+            return v;
         }
 
         public double Weight()

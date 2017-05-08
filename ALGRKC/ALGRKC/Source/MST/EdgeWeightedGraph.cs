@@ -8,7 +8,7 @@ using System.IO;
 
 namespace ALGRKC.Source.MST
 {
-    class EdgeWeightedGraph
+    public class EdgeWeightedGraph
     {
         int vertexNumer;
         int edgeNumber;
@@ -79,12 +79,15 @@ namespace ALGRKC.Source.MST
         public IEnumerable<Edge> Edges()
         {
             Bag<Edge> edges = new Bag<Edge>();
+            int either, other;
 
             for (int i = 0; i < this.vertexNumer; i++)
             {
                 foreach (Edge e in this.adj[i])
                 {
-                    if (e.Either() < e.Other()) //only add the edge when first vertex number is smaller to avoid duplicates
+                    either = e.Either();
+                    other = e.Other(either);
+                    if (either < other) //only add the edge when first vertex number is smaller to avoid duplicates
                         edges.Add(e);
                 }
             }
