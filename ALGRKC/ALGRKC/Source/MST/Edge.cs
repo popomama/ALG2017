@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ALGRKC.Source.MST
 {
-    class Edge : IComparable<Edge>
+    public class Edge : IComparable<Edge>
     {
         int v, w;
         double weight;

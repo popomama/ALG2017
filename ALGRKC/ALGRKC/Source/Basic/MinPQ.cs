@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ALGRKC.Source.Basic
 {
     //implements min priority queue via Heap data structure
-    class MinPQ<T> where T : IComparable<T>
+    public class MinPQ<T> where T : IComparable<T>
     {
         int maxSize;
         int size; //real # of elements in the queue
@@ -60,6 +60,14 @@ namespace ALGRKC.Source.Basic
 
         }
 
+        public T Min()
+        {
+            if (size == 0)
+                throw new Exception("Empty Queue");
+
+            return pq[1];
+        }
+
         public void ChangeKey(int i, T v)
         {
             T originalValue = pq[i];
@@ -90,7 +98,7 @@ namespace ALGRKC.Source.Basic
                 int j = i * 2; //j is left child now
                 if ((j < size) && Less(j + 1, j)) //if right child is smaller than left child, set j to right child
                     j = j + 1;
-                if (Great(i, j)) //if the current is great than the 
+                if (Great(i, j)) //if the current is greater than the child 
                 {
                     exch(i, j);
                     i = j;
