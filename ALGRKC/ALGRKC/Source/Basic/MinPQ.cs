@@ -122,8 +122,8 @@ namespace ALGRKC.Source.Basic
         void exch(int i, int j)
         {
             T temp = pq[i];
+            pq[i] = pq[j];
             pq[j] = temp;
-            pq[j] = pq[i];
         }
     }
 }
