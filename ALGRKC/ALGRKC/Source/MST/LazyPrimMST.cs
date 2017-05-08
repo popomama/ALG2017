@@ -55,18 +55,18 @@ namespace ALGRKC.Source.MST
         void Visit(int vertexNumber)
         {
             isVisited[vertexNumber] = true;
-            int either, other;
+            int  other;
             foreach(Edge e in g.AdjList(vertexNumber))
             {
-                either = e.Either();
-                other = e.Other(either);
-                if (!isVisited[either] && !isVisited[other]) //not visited
+                //either = e.Either();
+                other = e.Other(vertexNumber);
+                if ( !isVisited[other]) //only add the edge into the queue when the other vertex is not visited
                     minQueue.Insert(e);
             }
 
         }
 
-        double MSTValue()
+        public double MSTValue()
         {
             double mstValue=0.0;
             foreach (Edge e in mstEdges)
@@ -76,7 +76,7 @@ namespace ALGRKC.Source.MST
 
         }
 
-        IEnumerable<Edge> MSTEdges()
+        public IEnumerable<Edge> MSTEdges()
         {
             return mstEdges;
         }

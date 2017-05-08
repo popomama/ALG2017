@@ -19,7 +19,7 @@ namespace ALGRKC.Source.MST
             Init(v);  
         }
 
-        public EdgeWeightedGraph(StringReader sr)
+        public EdgeWeightedGraph(StreamReader sr)
         {
             string line = null;
             line = sr.ReadLine();
