@@ -48,7 +48,7 @@ namespace ALGRKC.Source.Basic
             if (size > 1)
             {
                 pq[1] = pq[size];
-                //pq[size] = null;
+                pq[size] = default(T);
                 size--;
                 Sink(1);
             }

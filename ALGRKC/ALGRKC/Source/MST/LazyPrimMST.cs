@@ -33,7 +33,7 @@ namespace ALGRKC.Source.MST
                 eCurrent = minQueue.DelMin();
                 either = eCurrent.Either();
                 other = eCurrent.Other(either);
-                if (!isVisited[either] && !isVisited[other])
+                if (!isVisited[either] || !isVisited[other]) //at least one end of the edge should not be visited, otherwise we will have a loop
                 {
                     mstEdges.Enqueue(eCurrent);
                     if (!isVisited[either])
