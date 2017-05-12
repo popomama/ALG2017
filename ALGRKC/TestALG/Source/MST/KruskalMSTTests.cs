@@ -7,13 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
+
 namespace ALGRKC.Source.MST.Tests
 {
     [TestClass()]
-    public class LazyPrimMSTTests
+    public class KruskalMSTTests
     {
         [TestMethod()]
-        public void LazyPrimMSTTest()
+        public void KruskalMSTTest()
         {
             //            LazyPrimMST primMST = new LazyPrimMST()
             EdgeWeightedGraph ewg;
@@ -22,15 +23,16 @@ namespace ALGRKC.Source.MST.Tests
                 ewg = new EdgeWeightedGraph(sr);
             }
 
-            KruskalMST kruskalMST = new KruskalMST(ewg);
+            LazyPrimMST primMST = new LazyPrimMST(ewg);
 
-            IEnumerable<Edge> mstEdges = kruskalMST.MSTEdges();
+            IEnumerable<Edge> mstEdges = primMST.MSTEdges();
             foreach (Edge e in mstEdges)
             {
                 Console.WriteLine(e.ToString());
             }
 
-            Console.WriteLine(kruskalMST.MSTValue());
+            Console.WriteLine(primMST.MSTValue());
+
         }
     }
 }
