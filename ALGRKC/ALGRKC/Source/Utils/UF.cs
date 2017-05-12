@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace ALGRKC.Source.Utils
 {
     //this class implement Union Find
+    //this algorithm has O(lgN) in both Find and Union
     class UF
     {
         int count;
@@ -17,6 +18,7 @@ namespace ALGRKC.Source.Utils
         {
             this.count = count;
             id = new int[count];
+            size = new int[count];
 
             for (int i = 0; i < count; i++)
             {
@@ -25,14 +27,14 @@ namespace ALGRKC.Source.Utils
             }
         }
 
-        int Find(int a )
+        public int Find(int a )
         {
             while (id[a] != a)
                 a = id[a];
 
             return a;
         }
-        void Union(int a , int b)
+        public void Union(int a , int b)
         {
             int idA = Find(a);
             int idB = Find(b);
