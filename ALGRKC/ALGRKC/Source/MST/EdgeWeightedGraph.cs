@@ -79,15 +79,15 @@ namespace ALGRKC.Source.MST
         public IEnumerable<Edge> Edges()
         {
             Bag<Edge> edges = new Bag<Edge>();
-            int either, other;
+            int  other;
 
             for (int i = 0; i < this.vertexNumer; i++)
             {
                 foreach (Edge e in this.adj[i])
                 {
-                    either = e.Either();
-                    other = e.Other(either);
-                    if (either < other) //only add the edge when first vertex number is smaller to avoid duplicates
+                    //either = e.Either();
+                    other = e.Other(i);
+                    if (i < other) //only add the edge when current vertex number is smaller to avoid duplicates
                         edges.Add(e);
                 }
             }

@@ -20,12 +20,18 @@ namespace ALGRKC.Source.MST
             minPQ = new MinPQ<Edge>(g.E());
             mstEdges = new Queue<Edge>();
             //first we need to create a priority queue to store all Edges
-            foreach(Edge edge in ewg.Edges())
+
+            int either, other;
+
+            foreach (Edge edge in ewg.Edges())
             {
-                minPQ.Insert(edge);
+                //either = edge.Either();
+                //other = edge.Other(either);
+                //if(either<other) //insert the same edge once only when either<other;
+                    minPQ.Insert(edge);
             }
             Edge currrent;
-            int either, other;
+           
             Utils.UF uf = new Utils.UF(g.V()); //instantiate the union find variable 
 
             //second, we take min from the PQ one at a time and insert to the queue if both ends are not connected yet

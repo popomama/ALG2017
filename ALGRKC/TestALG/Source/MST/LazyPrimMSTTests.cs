@@ -17,20 +17,21 @@ namespace ALGRKC.Source.MST.Tests
         {
             //            LazyPrimMST primMST = new LazyPrimMST()
             EdgeWeightedGraph ewg;
-            using (StreamReader sr = new StreamReader(@"E:\Study\ALG2017\ALGRKC\dataSelf\tinyEWG.txt"))
+            //using (StreamReader sr = new StreamReader(@"E:\Study\ALG2017\ALGRKC\dataSelf\tinyEWG.txt"))
+            using (StreamReader sr = new StreamReader(@"C:\WBox\Study\Code\ALG2017\ALGRKC\dataSelf\tinyEWG.txt"))
             {
                 ewg = new EdgeWeightedGraph(sr);
             }
 
-            KruskalMST kruskalMST = new KruskalMST(ewg);
+            LazyPrimMST lazyPrimMST = new LazyPrimMST(ewg);
 
-            IEnumerable<Edge> mstEdges = kruskalMST.MSTEdges();
+            IEnumerable<Edge> mstEdges = lazyPrimMST.MSTEdges();
             foreach (Edge e in mstEdges)
             {
                 Console.WriteLine(e.ToString());
             }
 
-            Console.WriteLine(kruskalMST.MSTValue());
+            Console.WriteLine(lazyPrimMST.MSTValue());
         }
     }
 }

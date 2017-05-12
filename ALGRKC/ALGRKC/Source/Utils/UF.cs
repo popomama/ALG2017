@@ -36,19 +36,19 @@ namespace ALGRKC.Source.Utils
         }
         public void Union(int a , int b)
         {
-            int idA = Find(a);
-            int idB = Find(b);
-            if(idA !=idB)//if a and b are not connected yet
+            int rootA = Find(a);
+            int rootB = Find(b);
+            if(rootA != rootB)//if a and b are not connected yet
             {
-                if(size[a]>size[b]) //if the tree containing a is bigger than move the tree b under the tree contain a;
+                if(size[rootA] >size[rootB]) //if the tree containing a is bigger than move the tree b under the tree contain a;
                 {
-                    id[b] = idA;
-                    size[a] += size[b];
+                    id[rootB] = rootA;
+                    size[rootA] += size[rootB];
                 }
                 else
                 {
-                    id[a] = idB;
-                    size[b] += id[a];
+                    id[rootA] = rootB;
+                    size[rootB] += size[rootA];
                 }
 
                 count--;
