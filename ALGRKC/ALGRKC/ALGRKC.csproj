@@ -61,7 +61,9 @@
     <Compile Include="Source\Graphs\TwoColor.cs" />
     <Compile Include="Source\MST\Edge.cs" />
     <Compile Include="Source\MST\EdgeWeightedGraph.cs" />
+    <Compile Include="Source\MST\KruskalMST.cs" />
     <Compile Include="Source\MST\LazyPrimMST.cs" />
+    <Compile Include="Source\Utils\UF.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
