@@ -45,6 +45,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Basic\Bag.cs" />
+    <Compile Include="Source\Basic\IndexMinPQ.cs" />
     <Compile Include="Source\Basic\MinPQ.cs" />
     <Compile Include="Source\DirectedGraph\DepthFirstOrder.cs" />
     <Compile Include="Source\DirectedGraph\Digraph.cs" />
