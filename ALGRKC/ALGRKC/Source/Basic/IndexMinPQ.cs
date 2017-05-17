@@ -71,7 +71,7 @@ namespace ALGRKC.Source.Basic
             int indexOfMin = pq[1];
             if (size > 1)
             {
-                exch(1, size);
+                Exch(1, size);
                 size--;
                 Sink(1);
             }
@@ -87,7 +87,7 @@ namespace ALGRKC.Source.Basic
         public void Delete(int i)
         {
             int index = qp[i];
-            exch(index, size);
+            Exch(index, size);
             size--;
             Swim(index);//question : how do we do Swim and Sink together?
             Sink(index);
@@ -100,7 +100,7 @@ namespace ALGRKC.Source.Basic
         {
             while ((i > 1) && Great(i / 2, i))
             {
-                exch(i, i / 2); //exchang, the current with the parent;
+                Exch(i, i / 2); //Exchang, the current with the parent;
                 i = i / 2;  //get the parent;
             }
         }
@@ -116,7 +116,7 @@ namespace ALGRKC.Source.Basic
                     j = j + 1;
                 if (Great(i, j)) //if the current is greater than the child 
                 {
-                    exch(i, j);
+                    Exch(i, j);
                     i = j;
                 }
                 else
@@ -128,15 +128,40 @@ namespace ALGRKC.Source.Basic
 
         bool Great(int i, int j)
         {
-            return pq[i].CompareTo(pq[j]) > 0;
+            // return pq[i].CompareTo(pq[j]) > 0;
+            int indexI = pq[i];
+            int indexJ = pq[j];
+            return keys[i].CompareTo(keys[j]) > 0;
         }
         bool Less(int i, int j)
         {
-            return pq[i].CompareTo(pq[j]) < 0;
+            //            return pq[i].CompareTo(pq[j]) < 0;
+            int indexI = pq[i];
+            int indexJ = pq[j];
+            return keys[i].CompareTo(keys[j]) < 0;
+
         }
 
-        void exch(int i, int j)
+        void Exch(int i, int j)
         {
+
+            int indexI = pq[i];
+            int indexJ = pq[j];
+
+            int temp = indexI;
+          //  T tempKey = keys[indexI];
+
+            pq[i] = pq[j];
+         //   keys[indexI] = keys[indexJ];
+
+
+            qp[indexJ] = i;
+            qp[indexI] = j;
+
+
+            pq[j] = temp;
+           // keys[indexJ] = tempKey;
+
             //T temp = pq[i];
             //pq[i] = pq[j];
             //pq[j] = temp;
