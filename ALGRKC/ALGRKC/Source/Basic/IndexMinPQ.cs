@@ -37,6 +37,9 @@ namespace ALGRKC.Source.Basic
 
         public void Insert(int i , T key)
         {
+            if (size == maxSize)
+                throw new Exception("Queue is full!");
+
             size++;
             qp[i] = size;
             keys[i] = key;
@@ -44,11 +47,16 @@ namespace ALGRKC.Source.Basic
             Swim(size);
         }
 
-        public void Changekey(int i, T key)
+        //change key value of the i-th element in the original array 
+        public void ChangeKey(int i, T key)
         {
+            T originalKey = keys[i];
             keys[i] = key;
-            Swim(qp[i]);//question: how do we do Swim and Sink together?
-            Sink(qp[i]);
+
+            if(key.CompareTo(originalKey)<0)
+                Swim(qp[i]);//question: how do we do Swim and Sink together?
+            else　if (key.CompareTo(originalKey)>0)
+                Sink(qp[i]);
         }
 
         public T MinKey()
@@ -84,14 +92,17 @@ namespace ALGRKC.Source.Basic
             
         }
 
+        //delete an item with i-th index  from the original keys arrary
         public void Delete(int i)
         {
             int index = qp[i];
             Exch(index, size);
             size--;
+
             Swim(index);//question : how do we do Swim and Sink together?
-            Sink(index);
-            keys[index] = default(T);
+            Sink(index);//Either Sink or Swim will run, but not both
+
+            keys[i] = default(T);
             qp[i] = -1;
         }
 
@@ -142,6 +153,8 @@ namespace ALGRKC.Source.Basic
 
         }
 
+        //exchange both the orighnal index and inverse index
+        //we will keep the orignal keys[] array unchanged
         void Exch(int i, int j)
         {
 
