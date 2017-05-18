@@ -77,5 +77,25 @@ namespace ALGRKC.Source.SPT
         }
 
 
+        public IEnumerable<DirectedEdge> Edges()
+        {
+            Bag<DirectedEdge> edges = new Bag<DirectedEdge>();
+            //int other;
+
+            for (int i = 0; i < this.vertexNumber; i++)
+            {
+                foreach (DirectedEdge e in this.adj[i])
+                {
+                    //either = e.Either();
+                    //other = e.Other(i);
+                    //if (i < other) //only add the edge when current vertex number is smaller to avoid duplicates
+                    //    edges.Add(e);
+                    edges.Add(e);
+                }
+            }
+
+            return edges;
+        }
+
     }
 }
