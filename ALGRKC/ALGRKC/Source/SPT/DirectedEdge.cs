@@ -36,7 +36,7 @@ namespace ALGRKC.Source.SPT
 
         public override string ToString()
         {
-            return this.from + " - " + this.to + " : " + this.weight;
+            return this.from + " -> " + this.to + " : " + this.weight;
         }
     }
 }

@@ -21,6 +21,10 @@ namespace ALGRKC.Source.Basic
             pq = new int[maxSize + 1];
             qp = new int[maxSize + 1];
             keys = new T[maxSize + 1];
+
+            for (int i = 0; i < maxSize + 1; i++)
+                qp[i] = -1; //set qp[i] to -1(i.e. i-th element in the original array is not in the pq yet)
+
             size = 0;
 
         }
