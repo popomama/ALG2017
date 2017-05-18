@@ -19,7 +19,7 @@ namespace ALGRKC.Source.SPT
             vertexNumber = g.V();
             distTo = new double[vertexNumber];
             for (int i = 0; i < vertexNumber; i++)
-                distTo[i] = double.MinValue;
+                distTo[i] = double.PositiveInfinity;
             distTo[source] = 0.0;
 
             edgeTo = new DirectedEdge[vertexNumber];
@@ -52,6 +52,31 @@ namespace ALGRKC.Source.SPT
                 }
 
             }
+        }
+
+        public double DistanceTo(int dest)
+        {
+            return distTo[dest];
+        }
+
+        public bool HasPathTo(int dest)
+        {
+            return distTo[dest] < double.PositiveInfinity;
+        }
+
+        
+        public IEnumerable<DirectedEdge> PathTo(int dest)
+        {
+            Stack<DirectedEdge> stack = new Stack<DirectedEdge>();
+            DirectedEdge e;
+            while(edgeTo[dest]!=null)
+            {
+                e = edgeTo[dest];
+                stack.Push(e);
+                dest = e.From();
+            }
+
+            return stack;
         }
 
 

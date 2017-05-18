@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using ALGRKC.Source.SPT;
 
 namespace ALGRKC.Source.SPT.Tests
 {
@@ -24,7 +25,23 @@ namespace ALGRKC.Source.SPT.Tests
 
             }
 
-            DijkstraSP SP = new DijkstraSP(ewg, 0);
+            int s = 0;
+            DijkstraSP SP = new DijkstraSP(ewg, s);
+            
+
+
+            for(int dest =0;dest<ewg.V();dest++)
+            {
+                if (SP.HasPathTo(dest))
+                {
+                    Console.Write(s + " to " + dest);
+                    Console.Write(" (" + SP.DistanceTo(dest) + "):");
+                    foreach (DirectedEdge de in SP.PathTo(dest))
+                        Console.Write(de + "  ");
+                    Console.WriteLine();
+                        
+                }
+            }
             
         }
     }
