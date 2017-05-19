@@ -34,11 +34,13 @@ namespace ALGRKC.Source.Basic
             return size==0;
         }
 
+        //check if the i-th element in the original array is in the MinPQ
         public bool Contains(int i)
         {
             return qp[i] != -1;
         }
-
+        
+        //insert the i-th element from the original array into MinPQ
         public void Insert(int i , T key)
         {
             if (size == maxSize)
@@ -68,13 +70,13 @@ namespace ALGRKC.Source.Basic
             return keys[pq[1]];
         }
 
+        //return the index of the Min Key(of the original Array)
         public int MinIndex()
         {
             return pq[1];
         }
 
-        //return the index of min key in the keys[] array
-        //Question: why return the indx but not the min value?
+        //return the index of min key in the keys[] of the original array
         public int DelMin()
         {
             if (IsEmpty())
@@ -110,6 +112,8 @@ namespace ALGRKC.Source.Basic
             qp[i] = -1;
         }
 
+
+        //To all the methods below, the parameter i(j) is for the pq[], but not the original array
         //bottom-up reheapify
         void Swim(int i)
         {
