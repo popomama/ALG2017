@@ -40,5 +40,27 @@ namespace ALGRKC.Source.SPT
             }
 
         }
+
+        public double  DistTo(int v)
+        {
+            return distTo[v];
+        }
+
+        public bool HasPathTo(int v)
+        {
+            return distTo[v] < double.PositiveInfinity;
+        }
+
+        public IEnumerable<DirectedEdge> PathTo(int v)
+        {
+            if(!HasPathTo(v))
+                return null;
+
+            Stack<DirectedEdge> path = new Stack<DirectedEdge>();
+            for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.From()])
+                path.Push(e);
+
+            return path;
+        }
     }
 }

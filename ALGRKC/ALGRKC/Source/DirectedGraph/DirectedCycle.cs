@@ -79,7 +79,7 @@ namespace ALGRKC.Source.DirectedGraph
             {
                 int from = de.From(), to = de.To();
                 int v;
-                v = s == from ? to : from;
+                v = to;// s == from ? to : from;
 
                 if (hasCycle)
                     return;

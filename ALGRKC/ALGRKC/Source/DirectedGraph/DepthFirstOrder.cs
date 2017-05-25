@@ -62,7 +62,7 @@ namespace ALGRKC.Source.DirectedGraph
             {
                 int from = de.From(), to = de.To();
                 int v;
-                v = source == from ? to : from;
+                v = to;// source == from ? to : from;
 
                 if (!isMarked[v])
                 {
