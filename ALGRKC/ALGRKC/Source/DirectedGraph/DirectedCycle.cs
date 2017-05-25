@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ALGRKC.Source.SPT;
 
 namespace ALGRKC.Source.DirectedGraph
 {
@@ -25,12 +26,61 @@ namespace ALGRKC.Source.DirectedGraph
                     DFS(dg, i);
         }
 
+        //added overloaded constructor to handle EdgeWeightedDiagraph
+        public DirectedCycle(EdgeWeightedDiagraph dg)
+        {
+            marked = new bool[dg.V()];
+            onStack = new bool[dg.V()];
+            edgeTo = new int[dg.V()];
+
+            for (int i = 0; i < dg.V(); i++)
+                if (!marked[i])
+                    DFS(dg, i);
+        }
+
+
         void DFS(Digraph g, int s)
         {
             marked[s] = true;
             onStack[s] = true;
             foreach (int v in g.AdjList(s))
             {
+                if (hasCycle)
+                    return;
+                if (!marked[v])
+                {
+                    edgeTo[v] = s;
+                    DFS(g, v);
+                }
+                else
+                {
+                    if (onStack[v]) // this means, we hit v agin in a cycle
+                    {
+                        hasCycle = true;
+                        stackCycle = new Stack<int>();
+                        for (int x = s; x != v; x = edgeTo[x])//starting from the parent of the current node, until it hits the current node
+                            stackCycle.Push(x);
+                        stackCycle.Push(v);// push the current node
+                        stackCycle.Push(s);// push the parent node of the current again to for the loop
+                    }
+                }
+            }
+            onStack[s] = false;
+
+
+        }
+
+        //added overloaded DFS method to handle EdgeWeightedDiagraph, ideally we should design EdgeWeightedDiagraph to inherit from Diagraph
+        void DFS(EdgeWeightedDiagraph g, int s)
+        {
+            marked[s] = true;
+            onStack[s] = true;
+            foreach (DirectedEdge de  in g.AdjList(s))
+            {
+                int from = de.From(), to = de.To();
+                int v;
+                v = s == from ? to : from;
+
                 if (hasCycle)
                     return;
                 if (!marked[v])

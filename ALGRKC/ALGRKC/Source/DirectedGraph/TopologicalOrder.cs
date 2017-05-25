@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ALGRKC.Source.SPT;
 
 namespace ALGRKC.Source.DirectedGraph
 {
@@ -19,6 +20,17 @@ namespace ALGRKC.Source.DirectedGraph
                 DepthFirstOrder dfsOrder = new DepthFirstOrder(dg);
                 topologicalOder = dfsOrder.PostReverseOrder();
             }
+        }
+
+        public TopologicalOrder(EdgeWeightedDiagraph ewg)
+        {
+            DirectedCycle directedCycle = new DirectedCycle(ewg);
+            if (!directedCycle.HasCycle()) // if it's a DAG, then we can continue to get the Topological Order
+            {
+                DepthFirstOrder dfsOrder = new DepthFirstOrder(ewg);
+                topologicalOder = dfsOrder.PostReverseOrder();
+            }
+
         }
 
         public IEnumerable<int> Order()
