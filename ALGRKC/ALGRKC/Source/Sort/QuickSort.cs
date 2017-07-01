@@ -9,33 +9,33 @@ namespace ALGRKC.Source.Sort
     class QuickSort
     {
 
-        void QC(int[] org, int l, int r)
+        void QC(int[] org, int low, int high)
         {
-            if (l >= r)
+            if (low >= high)
                 return;
 
             //ideally, we can call the random method to randomly pick up the pivot index, and swap it to the last
-            //int p = Ramom(l,r);
-            //Swap(org, r, p);
+            //int p = Ramom(low,high);
+            //Swap(org, high, p);
 
             //find the pivot
-            int pivotIndex = Partition(org, l, r);
+            int pivotIndex = Partition(org, low, high);
 
             //recurse
-            QC(org, l, pivotIndex - 1);
-            QC(org, pivotIndex + 1, r);
+            QC(org, low, pivotIndex - 1);
+            QC(org, pivotIndex + 1, high);
         }
 
         //return the index of the pivot element
-        int Partition(int[] org, int l, int r)
+        int Partition(int[] org, int low, int high)
         {
             //a[x]<=pivot when x in [l,i]
             //a[x]>pivot, when x in [i+1,j-1]
             //a[x] un-partitioned, when x in [j,r-1], 
             //a[x]= pivot, when x = r;
-            int i = l - 1;
-            int pivot = org[r];
-            for(int j=l;j<r;j++)
+            int i = low - 1;
+            int pivot = org[high];
+            for(int j=low;j<high;j++)
             {
                 if(org[j]<pivot)
                 {
@@ -45,9 +45,42 @@ namespace ALGRKC.Source.Sort
                 
             }
 
-            Swap(org, i + 1, r);
+            Swap(org, i + 1, high);
 
             return i + 1;
+
+        }
+
+
+        //this is the overloaded Partition function used by the nuts and bolts problem.
+        //the pivot value is passed in as we don't select the last element(index) as the pivot
+        //we assume all the elements in the org array have different values
+        int Partition(int[] org, int low, int high, int pivot)
+        {
+            //a[x]<=pivot when x in [l,i]
+            //a[x]>pivot, when x in [i+1,j-1]
+            //a[x] un-partitioned, when x in [j,r-1], 
+            //a[x]= pivot, when x = r;
+            int i = low - 1;
+            //int pivot = org[r];
+            for (int j = low; j < high; j++)
+            {
+                if (org[j] < pivot)
+                {
+                    i++;
+                    Swap(org, i, j);
+                }
+                else if(org[j]==pivot)
+                {
+                    Swap(org, high, j); //swap pivot to the right
+                    j--;//move the next element to be processed 1 position back so it will be processed next time
+                }
+
+            }
+
+            Swap(org, i + 1, high); // move the pivot to the right position
+
+            return i + 1; // return the pivot index
 
         }
 
@@ -60,11 +93,20 @@ namespace ALGRKC.Source.Sort
 
         //Nuts and Bolts problem
         //it's a variation of the quick Sort
-        void Match(int[] nuts, int[] bolts)
+        void MatchPair(int[] nuts, int[] bolts, int low, int high)
         {
-            int size = nuts.Length;
-            int p = Partition(nuts, 0, size - 1);
+            if (low >= high)
+                return;
 
+            //int size = l - r + 1;
+
+            int pivot = bolts[high];
+
+            int pivotIndexNuts = Partition(nuts, low, high, pivot); // partition the nuts array and return the pivotIndex
+            int pivotIndexBolts = Partition(bolts, low, high, nuts[pivotIndexNuts]);
+
+            MatchPair(nuts, bolts, low, pivotIndexNuts - 1);
+            MatchPair(nuts, bolts, pivotIndexNuts + 1, high);
         }
 
     }
