@@ -65,6 +65,7 @@
     <Compile Include="Source\MST\KruskalMST.cs" />
     <Compile Include="Source\MST\LazyPrimMST.cs" />
     <Compile Include="Source\Sort\MiscSort.cs" />
+    <Compile Include="Source\Sort\QuickSort.cs" />
     <Compile Include="Source\SPT\AcyclicSP.cs" />
     <Compile Include="Source\SPT\BellmanFordSP.cs" />
     <Compile Include="Source\SPT\DijkstraSP.cs" />

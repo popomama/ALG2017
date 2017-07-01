@@ -34,5 +34,13 @@ namespace ALGRKC.Source.Sort
                 counts[org[i]]--;
             }
         }
+
+        static void RadixSort(int[] org, int radix)
+        {
+            for(int i=0;i<radix;i++)
+            {
+                //call the counting sort on individual digit from least significant to most significant
+            }
+        }
     }
 }
