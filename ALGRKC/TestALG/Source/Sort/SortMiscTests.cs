@@ -21,5 +21,17 @@ namespace ALGRKC.Source.Sort.Tests
             int result = SortMisc.LargestSubArraySum(arr);
             Assert.AreEqual(7, result);
         }
+
+        [TestMethod()]
+        public void LargestSubArraySum2Test()
+        {
+            int[] arr = { -2, -3, 4, -1, -2, 1, 5, -3 };
+
+            Tuple<int, int, int> result = SortMisc.LargestSubArraySum2(arr);
+            Assert.AreEqual(result.Item1,7);
+            Assert.AreEqual(result.Item2,2);
+            Assert.AreEqual(result.Item3,6);
+
+        }
     }
 }
