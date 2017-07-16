@@ -1,15 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ALGRKC.Source.Sort;
+using ALGRKC.Source.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ALGRKC.Source.Sort.Tests
+namespace ALGRKC.Source.Misc.Tests
 {
     [TestClass()]
-    public class SortMiscTests
+    public class GoogTests
     {
         [TestMethod()]
         public void LargestSubArraySumTest()
@@ -18,7 +18,7 @@ namespace ALGRKC.Source.Sort.Tests
             int[] arr = { -1, 4, -2, 5, -5, 2, -20, 6 };
 
             //SortMisc s = new SortMisc();
-            int result = SortMisc.LargestSubArraySum(arr);
+            int result = Goog.LargestSubArraySum(arr);
             Assert.AreEqual(7, result);
         }
 
@@ -27,7 +27,7 @@ namespace ALGRKC.Source.Sort.Tests
         {
             int[] arr = { -2, -3, 4, -1, -2, 1, 5, -3 };
 
-            Tuple<int, int, int> result = SortMisc.LargestSubArraySum2(arr);
+            Tuple<int, int, int> result = Goog.LargestSubArraySum2(arr);
             Assert.AreEqual(result.Item1,7);
             Assert.AreEqual(result.Item2,2);
             Assert.AreEqual(result.Item3,6);
