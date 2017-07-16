@@ -58,6 +58,7 @@
     <Compile Include="Source\Graphs\SymbolGraphTests.cs" />
     <Compile Include="Source\MST\KruskalMSTTests.cs" />
     <Compile Include="Source\MST\LazyPrimMSTTests.cs" />
+    <Compile Include="Source\Sort\SortMiscTests.cs" />
     <Compile Include="Source\SPT\DijkstraSPTests.cs" />
     <Compile Include="UnitTestBasic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

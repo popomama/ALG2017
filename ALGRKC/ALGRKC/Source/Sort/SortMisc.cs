@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ALGRKC.Source.Sort
 {
-    struct Point
+    public struct Point
     {
         int x, y;
         public Point(int x, int y)
@@ -27,7 +27,7 @@ namespace ALGRKC.Source.Sort
             set { this.y = value; }
         }
     }
-    class SortMisc
+    public class SortMisc
     {
 
         //SaddleSort
@@ -131,6 +131,35 @@ namespace ALGRKC.Source.Sort
 
             return s;
 
+        }
+
+        //Design and implement an efficient program to find a contiguous subarray within 
+        //a one-dimensional array of integers which has the largest sum.
+        //Please note that there is at least one positive integer in the input array.
+        public static int LargestSubArraySum(int[] arr)
+        {
+            int max = 0, currMax = 0;
+
+            int currIndex = 0;
+           // int temp;
+            while (currIndex < arr.Length)
+            {
+                currMax = currMax + arr[currIndex];
+                if (currMax < 0)
+                {
+                    currMax = 0;
+                }
+                else if(currMax > max)
+                {
+                    max = currMax;
+
+                }
+                currIndex++;
+
+
+            }
+
+            return max;
         }
     }
 }
