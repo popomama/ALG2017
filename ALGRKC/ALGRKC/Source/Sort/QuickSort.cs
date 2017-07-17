@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ALGRKC.Source.Sort
 {
-    class QuickSort
+    public class QuickSort
     {
 
-        void QC(int[] org, int low, int high)
+        public  void QC(int[] org, int low, int high)
         {
             if (low >= high)
                 return;
