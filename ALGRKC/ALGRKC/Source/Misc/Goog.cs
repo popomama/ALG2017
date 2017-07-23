@@ -38,6 +38,51 @@ namespace ALGRKC.Source.Misc
             return max;
         }
 
+        // Implementation of Kadane's algorithm for 1D array. The function 
+        // returns the maximum sum and stores starting and ending indexes of the 
+        // maximum sum subarray at addresses pointed by start and finish pointers 
+        // respectively.
+        public static int Kadane(int[] arr, out int start, out int finish)
+        {
+            int count = arr.Length;
+            int max = Int32.MinValue, maxCurrentRun = 0;
+            int currentStart = 0;
+            start = 0;
+            finish = 0;
+
+            for(int i=0;i<count;i++)
+            {
+                maxCurrentRun += arr[i];
+                if (maxCurrentRun < 0)
+                {
+                    maxCurrentRun = 0;
+                    currentStart = i + 1;
+                }
+                else if (max < maxCurrentRun)
+                {
+                    max = maxCurrentRun;
+                    start = currentStart;
+                    finish = i;
+                }
+
+            }
+
+            //spectial case: if all elements are negative
+            if(max<0)
+            {
+                for(int i=0;i<count;i++)
+                    if(max<arr[i])
+                    {
+                        max = arr[i];
+                        start = i;
+                        finish = i;
+                    }
+            }
+
+            return max;
+
+        }
+
 
         //Design and implement an efficient program to find a contiguous subarray within 
         //a one-dimensional array of integers which has the largest sum. It also finds the start/end index
@@ -147,6 +192,50 @@ namespace ALGRKC.Source.Misc
 
 
         }
+
+        //Given a 2D array, find the maximum sum subarray in it
+        //The main function that finds maximum sum rectangle in M[][]
+        //Solution: fix the left column and right column, calculate the sum of each row, call 1-D Kadane method.
+        //Complexity: O(N^3)
+        //The brutal force method will cost O(N^4)
+        void FindMaxSum2D(int[,] M)
+        {
+            int rowNum = M.GetLength(0);
+            int colNum = M.GetLength(1);
+            int[] rowSum = new int[rowNum];
+            int max = Int32.MinValue;
+            int currentMax;
+            int rowStart=-1, rowEnd=-1, colStart=-1, colEnd=-1, currentStart, currentEnd;
+
+            for (int leftC = 0; leftC < colNum; leftC++)
+            {
+                for (int i = 0; i < rowNum; i++)
+                    rowSum[i] = 0;
+                for (int rightC = leftC; rightC < colNum; rightC++)
+                {
+                    //to each row, calculate the rowsum bewtween the leftColumn and the rightCollumnn 
+                    for (int i = 0; i < rowNum; i++)
+                        rowSum[i] += M[i, rightC];
+
+                    currentMax = Kadane(rowSum, out currentStart, out currentEnd);
+                    if (currentMax > max)
+                    {
+                        rowStart = currentStart;
+                        rowEnd = currentEnd;
+                        colStart = leftC;
+                        colEnd = rightC;
+
+                    }
+                }
+
+            }
+
+            Console.WriteLine("Rows : " + rowStart + ", " + rowEnd);
+            Console.WriteLine("Columns : " + colStart + ", " + colEnd);
+            Console.WriteLine("Sum : " + max);
+        }
+
+
     }
 
 }
