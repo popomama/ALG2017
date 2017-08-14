@@ -236,6 +236,44 @@ namespace ALGRKC.Source.Misc
         }
 
 
+        //find all permutaions of a string, assuming there is no dup in the original strings.
+        public static void GetPerms(string org)
+        {
+            int length = org.Length;
+            char[] result = new char[length];
+            char[] orgArr= org.ToCharArray();
+            GetPerms(orgArr, 0, length - 1, result);
+        }
+
+        static void GetPerms(char[] orgString, int start, int end, char[] result)
+        {
+            if (start == end) //last element of the string
+            {
+                //print;
+                result[start] = orgString[start];
+                Console.WriteLine(result);
+                return;
+            }
+
+
+            for (int i = start; i <= end; i++)
+            {
+                swap(orgString, start, i);//swap the current with the ones right one by one
+                result[start] = orgString[start];
+                GetPerms(orgString, start + 1, end, result);
+                swap(orgString, start, i);// swap it back
+            }
+
+            
+
+        }
+        static void swap(char[] arr, int i, int j)
+        {
+            char temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+
     }
 
 }

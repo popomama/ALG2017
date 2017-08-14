@@ -28,10 +28,18 @@ namespace ALGRKC.Source.Misc.Tests
             int[] arr = { -2, -3, 4, -1, -2, 1, 5, -3 };
 
             Tuple<int, int, int> result = Goog.LargestSubArraySum2(arr);
-            Assert.AreEqual(result.Item1,7);
-            Assert.AreEqual(result.Item2,2);
-            Assert.AreEqual(result.Item3,6);
+            Assert.AreEqual(result.Item1, 7);
+            Assert.AreEqual(result.Item2, 2);
+            Assert.AreEqual(result.Item3, 6);
 
+        }
+
+        [TestMethod()]
+        public void GetPermsTest()
+        {
+            string s = "1234";
+            Goog.GetPerms(s);
+            
         }
     }
 }
