@@ -237,6 +237,7 @@ namespace ALGRKC.Source.Misc
 
 
         //find all permutaions of a string, assuming there is no dup in the original strings.
+        //assuming there is no duplicates
         public static void GetPerms(string org)
         {
             int length = org.Length;
@@ -245,6 +246,7 @@ namespace ALGRKC.Source.Misc
             GetPerms(orgArr, 0, length - 1, result);
         }
 
+        //assuming there is no duplicate.
         static void GetPerms(char[] orgString, int start, int end, char[] result)
         {
             if (start == end) //last element of the string
@@ -258,15 +260,62 @@ namespace ALGRKC.Source.Misc
 
             for (int i = start; i <= end; i++)
             {
+                //if (!(orgString[start] == orgString[i] && i != start))//only process when the two elements are not equal. this eliminates the duplicates
+                //{
+
                 swap(orgString, start, i);//swap the current with the ones right one by one
+                //the basic idea is to fix the ith element, and recursively call to permutate (ith+1,end)
                 result[start] = orgString[start];
                 GetPerms(orgString, start + 1, end, result);
                 swap(orgString, start, i);// swap it back
+                //}
+
+
             }
 
             
 
         }
+
+
+        //we now address the string that has duplicates and find all the permutations.
+        static public void GetPerm(char[] org, int start, int end, char[] result)
+        {
+
+        }
+
+
+       static public void PermutateDuplicate(String prefix, String rest)
+        {
+            int N = 0;
+            if (rest != null)
+                N = rest.Length;
+            if (N == 0)
+            {
+                Console.WriteLine(prefix);
+            }
+            else
+            {
+                for (int i = 0; i < rest.Length; i++)
+                {
+
+
+                    //test if rest[i] is unique.
+                    bool found = false;
+                    for (int j = 0; j < i; j++)
+                    {
+                        if (rest[i]  == rest[j]) //rest[j]==rest[i]
+                            found = true;
+                    }
+                    if (found)
+                        continue;
+                    String newPrefix = prefix + rest[i];
+                    String newRest = rest.Substring(0, i) + rest.Substring(i + 1, N-1-rest.Substring(0,i).Length);
+                    PermutateDuplicate(newPrefix, newRest);
+                }
+            }
+        }
+
         static void swap(char[] arr, int i, int j)
         {
             char temp = arr[i];

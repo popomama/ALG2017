@@ -37,9 +37,30 @@ namespace ALGRKC.Source.Misc.Tests
         [TestMethod()]
         public void GetPermsTest()
         {
-            string s = "1234";
+            string s = "121";
             Goog.GetPerms(s);
+
+        }
+
+        [TestMethod()]
+        public void permutateHelperDuplicateTest()
+        {
+
             
+            Goog.PermutateDuplicate("", "bab");
+            Console.WriteLine();
+
+            Goog.PermutateDuplicate("", "abcb");
+            Console.WriteLine();
+            Goog.PermutateDuplicate("", "babb");
+
+            Console.WriteLine();
+            Goog.PermutateDuplicate("", "bbb");
+
+
+            Console.WriteLine();
+            Goog.PermutateDuplicate("", "baba");
+
         }
     }
 }
