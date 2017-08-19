@@ -46,7 +46,7 @@ namespace ALGRKC.Source.Misc.Tests
         public void permutateHelperDuplicateTest()
         {
 
-            
+
             Goog.PermutateDuplicate("", "bab");
             Console.WriteLine();
 
@@ -61,6 +61,24 @@ namespace ALGRKC.Source.Misc.Tests
             Console.WriteLine();
             Goog.PermutateDuplicate("", "baba");
 
+        }
+
+        [TestMethod()]
+        public void GetPermsForDupsTest()
+        {
+            Goog.GetPermsForDups("", "bab");
+            Console.WriteLine();
+
+            Goog.GetPermsForDups("", "abcb");
+            Console.WriteLine();
+            Goog.GetPermsForDups("", "babb");
+
+            Console.WriteLine();
+            Goog.GetPermsForDups("", "bbb");
+
+
+            Console.WriteLine();
+            Goog.GetPermsForDups("", "baba");
         }
     }
 }

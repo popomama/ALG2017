@@ -285,6 +285,41 @@ namespace ALGRKC.Source.Misc
         }
 
 
+        //the idea is to recursive call this method. To every call, it loop through the characters in the rest string,
+        //from index 0 to the whole lengh one by one. When picking the j(index) character in the rest, the code compares
+        //the j(index) element with those to its left(index 0 to j-1), if one of the elements(0 to j-1) is equal to j element,
+        //then we skip this element as its a duplicate
+        static public void GetPermsForDups(String prefix, String rest)
+        {
+            int nLeft = rest.Length;
+            if(nLeft == 0)// nothing is left, so prefix passed is one permutation
+            {
+                Console.WriteLine(prefix);
+                return;
+            }
+
+
+            //now go through the rest string from left to right, pick one at a time and append it to prefix
+            for(int i =0;i<rest.Length;i++ )
+            {
+                char current = rest[i];
+                bool bDuplicate = false;
+                for(int j=0;j<i;j++)
+                {
+                    if (rest[j] == current)// this means the current is a duplicate, which has appeared already at this level, we can ignore.
+                        bDuplicate = true;  
+                }
+
+                if(!bDuplicate) //continue processing only if current is NOT a duplicate at this level
+                {
+                    string newPrefix = prefix + current;//it's important to create a new variable to record both newPrefix and new Rest
+                    string newRest = rest.Remove(i, 1);// changing the value on the original variable will impact the caller!!
+                    GetPermsForDups(newPrefix, newRest);
+                    
+                }
+            }
+        }
+
        static public void PermutateDuplicate(String prefix, String rest)
         {
             int N = 0;
@@ -304,8 +339,10 @@ namespace ALGRKC.Source.Misc
                     bool found = false;
                     for (int j = 0; j < i; j++)
                     {
-                        if (rest[i]  == rest[j]) //rest[j]==rest[i]
+                        if (rest[i] == rest[j]) //rest[j]==rest[i]
+                        {
                             found = true;
+                        }
                     }
                     if (found)
                         continue;
