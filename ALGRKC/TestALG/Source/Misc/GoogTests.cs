@@ -80,5 +80,13 @@ namespace ALGRKC.Source.Misc.Tests
             Console.WriteLine();
             Goog.GetPermsForDups("", "baba");
         }
+
+        [TestMethod()]
+        public void FindNonCrooksNumberTest()
+        {
+            int[] F = { 1, 3,5, 6, 9, 11, 17, 20 };
+            int[] G = { 1, 4, 6, 8, 11, 25, 29,31 };
+            List<int>    result = Goog.FindNonCrooksNumber(F, G);
+        }
     }
 }

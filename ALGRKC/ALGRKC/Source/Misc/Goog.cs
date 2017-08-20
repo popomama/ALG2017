@@ -360,6 +360,52 @@ namespace ALGRKC.Source.Misc
             arr[j] = temp;
         }
 
+        //Array f[0..F - 1] contains the names of people who work at Cornell, in alphabetical order.
+        //Array g[0..G - 1] contains the names of people on welfare at Ithaca, in alphabetical order. 
+        //Thus, neither array contains duplicates and both arrays are monotonically increasing: 
+        //f[0] < f[1] < f[2] < … < f[F - 1]
+        //g[0] < g[1] < g[2] < … < g[G - 1]
+        //Count the number of people who are presumably not crooks: those that appear in at least one array but not in both.
+        static public List<int> FindNonCrooksNumber(int[] F, int[] G)
+        {
+            //we simply the siturmation by assuming that F and G contains integer and both are monotonically increasing.
+            int numF = F.Length;
+            int numG = G.Length;
+            //int totalNonCrooks = 0;
+            List<int> result = new List<int>();
+
+            int i = 0, j = 0;
+            while(i<numF&&j<numG)
+            {
+                if(F[i]==G[j])
+                {
+                    //found non-Crook
+                    i++;
+                    j++;
+                }
+                else if (F[i]<G[j])
+                {
+                    
+                    result.Add(F[i]);
+                    i++;
+                }
+                else
+                {
+                
+                    result.Add(G[j]);
+                    j++;
+
+                }
+
+            }
+
+            while(i<numF)
+                result.Add(F[i++]);
+            while (j < numG)
+                result.Add(G[j++]);
+
+            return result;
+        }
     }
 
 }
