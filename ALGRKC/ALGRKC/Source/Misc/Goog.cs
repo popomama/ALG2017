@@ -406,6 +406,79 @@ namespace ALGRKC.Source.Misc
 
             return result;
         }
+
+
+        //Let X[1, . . . , n] and Y[1, . . . , n] be two arrays, each containing n numbers already in sorted
+        //order.Give an O(log n)-time algorithm to find the median of all 2n elements in arrays X and Y
+        static public int FindMedianNumber(int[] X, int[] Y)
+        {
+            return 1;
+        }
+
+        //Get the Missing and Duplicate elements from an Array
+        //Given an unsorted array of size n. Array elements are in range from 1 to n. One number from set {1, 2, …n} is missing and 
+        //one number occurs twice in array. Find these two numbers.
+        //      Examples:
+        //          arr[] = {3, 1, 3}
+        //          Output: 2, 3   // 2 is missing and 3 occurs twice 
+        //          arr[] = {4, 3, 6, 2, 1, 1}
+        //          Output: 1, 5  // 5 is missing and 1 occurs twice 
+        static public void GetDupAndMissingElements(int[] arr)
+        {
+            int length = arr.Length;
+            //assuming the missing one and the duplicate one are x and y(or y and x , as we don't know which is which)
+            int result;
+            int nBits = (int)Math.Ceiling(Math.Log(2, length));
+
+            //step 1
+            //XOR each number in the array with 1-n, the result will be x ^ y as all the other numbers arr nullified
+            result = arr[0];
+            for (int i = 1; i < length; i++)
+                result = result ^ arr[i];
+
+            for (int i = 1; i <= length; i++)
+                result = result ^ i;
+
+
+            //step 2
+            //find the first bit that is 1, which means on that bit x and y has different value(one has 1 and the other has 0)
+            int j = 1;
+            while((j & result)==0 && j>0)
+            {
+                j = j << 1;
+            }
+
+            //step 3
+            //Divide the original array into two parts. One has 0 value on the j-th bit, the other has 1 value on the j-th bit 
+            int oneOnJth = 0, zeroOnJth = 0;
+
+            for(int i=0;i<length;i++)
+            {
+                if ((j & arr[i]) == 0) //arr[i] has 0 on the j-th bit
+                    oneOnJth ^= arr[i];
+                else //arr[i] has 1 on the j-th bit
+                    zeroOnJth ^= arr[i];
+            }
+
+           //step 4
+           //now we XOR oneOnJth with each element from 1-n whose j-th bit is one, the result is the missing one or the duplicate one
+           for(int i=1;i<=length;i++)
+           {
+                if ((i & j) == 1)
+                    oneOnJth ^= i;
+           }
+            //now we XOR oneOnJth with each element from 1-n whose j-th bit is zero, the result is the missing one or the duplicate one
+            for (int i = 1; i <= length; i++)
+            {
+                if ((i & j) == 0)
+                    zeroOnJth ^= i;
+            }
+
+            Console.WriteLine("dup or missing : " + zeroOnJth);
+            Console.WriteLine("dup or missing : " + oneOnJth);
+
+            return;
+        }
     }
 
 }
