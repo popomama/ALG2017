@@ -410,9 +410,44 @@ namespace ALGRKC.Source.Misc
 
         //Let X[1, . . . , n] and Y[1, . . . , n] be two arrays, each containing n numbers already in sorted
         //order.Give an O(log n)-time algorithm to find the median of all 2n elements in arrays X and Y
-        static public int FindMedianNumber(int[] X, int[] Y)
+        static public double FindMedianNumber(int[] X, int[] Y, int n)
         {
-            return 1;
+            //solution 1(straighforward):
+            //go through the two arrays until it finds the nth and n+1th element
+            //cost is O(N)
+
+            //solution2:
+            //initialize FindMedianHelp(X,0,n-1,Y,0,n-1) call FindMedianHelp(X,xStart,xEnd, Y, yStart, yEnd)
+            //find the median of both arrays m1, m2
+            //if(m1==m2) then return m1 as m1 as the median
+            //if(m1<m2) then recurse FindMedian(X,m1, xEnd, Y, yStart, m2);
+            //if(m1>m2) then resurce FindMedian(X, xStart, m1, m2, yEnd);
+            //repeat the above until both X and Y have 2 numbers left.
+            //Now it turns to FindMedian(X[xStart], X[xEnd], Y[yStart], Y[yEnd]) == (max(X[xStart], Y[yStart]) + min(X[xEnd], Y[yEnd]))/2,
+            //Cost O(lnN)
+
+            return FindMedianHelper(X, 0, n-1, Y, 0, n-1);
+
+        }
+
+        //helper function for FindMedianNumber
+        static double  FindMedianHelper(int[] X, int xStart, int xEnd, int[] Y, int yStart, int yEnd)
+        {
+            if((xEnd-xStart)==2) // each array only has 2 elements left, we come to the basic case;
+                return (Math.Max(X[xStart], Y[yStart]) + Math.Min(X[xEnd], Y[yEnd]) )/2;
+
+            int xMedianIndex =(xStart+xEnd)/2;
+            int yMedianIndex = (yStart+yEnd)/2;
+            int m1 = X[xMedianIndex], m2 = Y[yMedianIndex];
+
+            if(m1==m2)
+                return m1;
+            if(m1<m2)
+                return FindMedianHelper(X, xMedianIndex, xEnd, Y, yStart, yMedianIndex);
+            else//m1>m2
+                return FindMedianHelper(X, xStart, xMedianIndex, Y, yMedianIndex, yEnd);
+
+            
         }
 
         //Get the Missing and Duplicate elements from an Array
