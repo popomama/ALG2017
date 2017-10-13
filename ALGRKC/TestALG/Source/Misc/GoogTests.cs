@@ -92,9 +92,19 @@ namespace ALGRKC.Source.Misc.Tests
         [TestMethod()]
         public void GetDupAndMissingElementsTest()
         {
-            int[] arr = { 1, 3, 4, 9, 7, 6, 2,9,5 };
+            int[] arr = { 1, 3, 4, 9, 7, 6, 2, 9, 5 };
             Goog.GetDupAndMissingElements(arr);
 
+        }
+
+        [TestMethod()]
+        public void FindMedianNumberTest()
+        {
+            int[] a = {1,12,15,26,38 };
+            int[] b = {2,13,17,30,45 };
+
+            double  median = Goog.FindMedianNumber(a, b, a.Length);
+            Assert.AreEqual(16, median);
         }
     }
 }
