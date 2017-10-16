@@ -430,6 +430,63 @@ namespace ALGRKC.Source.Misc
 
         }
 
+        //Let X[1, . . . , n] and Y[1, . . . , n] be two arrays, each containing n numbers already in sorted
+        //order.Give an O(log K)-time algorithm to find the k-the elements in combined arrays X and Y
+        static public int FindKthNumber(int[] X, int[] Y, int K)
+        {
+            //the normal way is to go through X and Y (similar to merge sort) to get the K-th element (O(K))
+            //use divide and conquer will give O(logK)
+            int nXLength = X.Length;
+            int nYLength = Y.Length;
+
+            return FindKthNumberHelper(X, 0, nXLength - 1, Y, 0, nYLength - 1, K);
+
+        }
+
+        private static int FindKthNumberHelper(int[] X, int xStart, int xEnd, int[] Y, int yStart, int yEnd, int K)
+        {
+            int xLength = xEnd - xStart + 1;
+            int yLength = yEnd - yStart + 1;
+
+            if ((K < 0) || K > (xLength + yLength)) ;
+                 throw new Exception("Wrong Data");
+
+            //first process the bordline cases.
+            if (K == 0)
+                return Math.Min(X[0], Y[0]);
+
+            if (K == 1)
+            {
+                if (X[0] < Y[0])
+                {
+                    if (xLength > 1)
+                        return Math.Min(X[1], Y[0]);
+                    else
+                        return Y[0];
+                }
+                else
+                {
+                    if (yLength > 1)
+                        return Math.Min(X[0], Y[1]);
+                    else
+                        return X[0];
+                }
+            }
+
+
+
+            
+            int nMid = K / 2;
+            int i = Math.Min(nMid, xEnd - xStart);
+            int j = Math.Min(nMid, yEnd - yStart);
+            if (X[i-1] < Y[j-1])// the 2nd half of Y is out
+                return FindKthNumberHelper(X, xStart, xEnd, Y, yStart, j, K / 2);
+            else//the 2nd half of X is out
+                return FindKthNumberHelper(X, xStart, i, Y, yStart, yEnd, K / 2);
+        }
+
+
+
         //helper function for FindMedianNumber
         static double  FindMedianHelper(int[] X, int xStart, int xEnd, int[] Y, int yStart, int yEnd)
         {
