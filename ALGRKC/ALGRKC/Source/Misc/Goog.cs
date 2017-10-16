@@ -448,11 +448,11 @@ namespace ALGRKC.Source.Misc
             int xLength = xEnd - xStart + 1;
             int yLength = yEnd - yStart + 1;
 
-            if ((K < 0) || K > (xLength + yLength)) ;
+            if ((K < 0) || K > (xLength + yLength)) 
                  throw new Exception("Wrong Data");
 
             //first process the bordline cases.
-            if (K == 0)
+            if(K == 0)
                 return Math.Min(X[0], Y[0]);
 
             if (K == 1)
@@ -474,7 +474,7 @@ namespace ALGRKC.Source.Misc
             }
 
 
-
+            //now process the normal case
             
             int nMid = K / 2;
             int i = Math.Min(nMid, xEnd - xStart);
