@@ -14,15 +14,32 @@ namespace ALGRKC.Source.Misc.Leet.Tests
         [TestMethod()]
         public void LengthOfLongestSubstringTest()
         {
-            string s ="abcddcba";
+            string s = "abcddcba";
             int len;
-            len=Batch1.LengthOfLongestSubstring(s);
+            len = Batch1.LengthOfLongestSubstring(s);
             Assert.AreEqual(4, len);
 
             s = "abcdkmcbha";
             len = Batch1.LengthOfLongestSubstring(s);
             Assert.AreEqual(7, len);
 
+        }
+
+        [TestMethod()]
+        public void LengthOfLongestSubstring2Test()
+        {
+            string s = "abcddcba";
+            int len;
+            len = Batch1.LengthOfLongestSubstring2(s);
+            Assert.AreEqual(4, len);
+
+            s = "abcdkmcbha";
+            len = Batch1.LengthOfLongestSubstring2(s);
+            Assert.AreEqual(7, len);
+
+            s = "aaa";
+            len = Batch1.LengthOfLongestSubstring2(s);
+            Assert.AreEqual(1, len);
         }
     }
 }
