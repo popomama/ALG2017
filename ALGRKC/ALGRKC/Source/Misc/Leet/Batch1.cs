@@ -133,5 +133,62 @@ namespace ALGRKC.Source.Misc.Leet
             return maxLength;
 
         }
+
+        //Leetcode #5 
+        //Longest Palindromic Substring 
+        //Given a string s, find the longest palindromic substring in s.You may assume that the maximum length of s is 1000.
+        //Example: 
+        //Input: "babad"
+        //Output: "bab"
+        //Note: "aba" is also a valid answer.
+        public static string LongestPalindrome(string s)
+        {
+            //Brute force method takes O(N^3). loop through(left bound, right bound), to each it takes O(N) to scan
+            //Use dynamic programming.
+            //IsPalindrome(i,j) = s[i]==s[j] && OsPalindrome(i+1,j+1);
+            //loop through step from 2 to n-2; send loop is left from 0 to N, each takes O(1), so total cost is O(N^2)
+
+            int length = s.Length;
+            //corner case
+            if (length <= 1)
+                return s;
+            if (length == 2)
+                return s[0] == s[1] ? s : s.Substring(1);
+
+            bool[, ] isPalindrome = new bool[length, length];
+
+            int maxLengh = 1;
+            int start = 0;
+
+            //initialize the basic case
+            for(int i=0;i<length-1;i++)
+            {
+                isPalindrome[i, i] = true;
+                isPalindrome[i, i + 1] = s[i] == s[i + 1]?true:false;
+                if(isPalindrome[i,i+1])
+                {
+                    maxLengh = 2;
+                    start = i;
+                }
+
+            }
+            isPalindrome[length - 1, length - 1] = true;
+
+            //now handle the string with lengh of 3 or longer;
+            for(int step=2;step<length; step++)
+                for(int leftIndex=0;leftIndex<length-step;leftIndex++)
+                {
+                    isPalindrome[leftIndex, leftIndex + step] =
+                        s[leftIndex] == s[leftIndex + step] && isPalindrome[leftIndex + 1, leftIndex + step - 1];
+                    if(isPalindrome[leftIndex, leftIndex + step])
+                    {
+                        maxLengh = step + 1;
+                        start = leftIndex;
+                    }
+                }
+
+            return s.Substring(start, maxLengh);
+        }
     }
+
 }
