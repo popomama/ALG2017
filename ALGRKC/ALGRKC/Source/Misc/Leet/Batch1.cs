@@ -189,6 +189,35 @@ namespace ALGRKC.Source.Misc.Leet
 
             return s.Substring(start, maxLengh);
         }
+
+
+        //Leet code #11 -- Container With Most Water 
+        //Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate(i, ai). n vertical lines are drawn such that 
+        //the two endpoints of line i is at(i, ai) and(i, 0). Find two lines, which together with x-axis forms a container, such that the container 
+        //contains the most water. Note: You may not slant the container and n is at least 2. 
+        public static int MaxArea(int[] height)
+        {
+            int left = 0, right = height.Length - 1; // set the left and right index;
+            int maxArea = 0, currentArea = 0, currentHeight=0;
+
+            while(left<right)
+            {
+                currentHeight = height[left] > height[right] ? height[left] : height[right];
+
+                currentArea = (right - left) * currentHeight;
+
+                if (currentArea > maxArea)
+                    maxArea = currentArea;
+
+                if (height[left] > height[right])
+                    right--;
+                else
+                    left++;
+            }
+
+
+            return maxArea;
+        }
     }
 
 }
