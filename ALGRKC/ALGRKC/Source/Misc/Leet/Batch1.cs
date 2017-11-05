@@ -98,10 +98,10 @@ namespace ALGRKC.Source.Misc.Leet
 
             int currentChar = -1;
 
-            for(int i=0;i<length;i++)
+            for (int i = 0; i < length; i++)
             {
                 currentChar = s[i];
-                if( visited[currentChar]==-1 || visited[currentChar]<currentStart ) // either the currChar never hit or hit outside of the slidewindow
+                if (visited[currentChar] == -1 || visited[currentChar] < currentStart) // either the currChar never hit or hit outside of the slidewindow
                 {
                     currentEnd++;
 
@@ -155,17 +155,17 @@ namespace ALGRKC.Source.Misc.Leet
             if (length == 2)
                 return s[0] == s[1] ? s : s.Substring(1);
 
-            bool[, ] isPalindrome = new bool[length, length];
+            bool[,] isPalindrome = new bool[length, length];
 
             int maxLengh = 1;
             int start = 0;
 
             //initialize the basic case
-            for(int i=0;i<length-1;i++)
+            for (int i = 0; i < length - 1; i++)
             {
                 isPalindrome[i, i] = true;
-                isPalindrome[i, i + 1] = s[i] == s[i + 1]?true:false;
-                if(isPalindrome[i,i+1])
+                isPalindrome[i, i + 1] = s[i] == s[i + 1] ? true : false;
+                if (isPalindrome[i, i + 1])
                 {
                     maxLengh = 2;
                     start = i;
@@ -175,12 +175,12 @@ namespace ALGRKC.Source.Misc.Leet
             isPalindrome[length - 1, length - 1] = true;
 
             //now handle the string with lengh of 3 or longer;
-            for(int step=2;step<length; step++)
-                for(int leftIndex=0;leftIndex<length-step;leftIndex++)
+            for (int step = 2; step < length; step++)
+                for (int leftIndex = 0; leftIndex < length - step; leftIndex++)
                 {
                     isPalindrome[leftIndex, leftIndex + step] =
                         s[leftIndex] == s[leftIndex + step] && isPalindrome[leftIndex + 1, leftIndex + step - 1];
-                    if(isPalindrome[leftIndex, leftIndex + step])
+                    if (isPalindrome[leftIndex, leftIndex + step])
                     {
                         maxLengh = step + 1;
                         start = leftIndex;
@@ -198,9 +198,9 @@ namespace ALGRKC.Source.Misc.Leet
         public static int MaxArea(int[] height)
         {
             int left = 0, right = height.Length - 1; // set the left and right index;
-            int maxArea = 0, currentArea = 0, currentHeight=0;
+            int maxArea = 0, currentArea = 0, currentHeight = 0;
 
-            while(left<right)
+            while (left < right)
             {
                 currentHeight = height[left] > height[right] ? height[left] : height[right];
 
@@ -218,6 +218,71 @@ namespace ALGRKC.Source.Misc.Leet
 
             return maxArea;
         }
-    }
 
+
+        //Largest Rectangular Area in a Histogram
+        //Find the largest rectangular area possible in a given histogram where the largest rectangle can be made of a number 
+        //of contiguous bars.For simplicity, assume that all bars have same width and the width is 1 unit.
+        //For example, consider the following histogram with 7 bars of heights { 6, 2, 5, 4, 5, 1, 6}. The largest 
+        //possible rectangle possible is 12 (see the below figure, the max area rectangle is highlighted in red)
+        // The main function to find the maximum rectangular area under given
+        // histogram with n bars
+        public static int GetMaxArea(int[] hist)
+        {
+            int length = hist.Length;
+            Stack<int> s = new Stack<int>(length);
+
+            int currentIndex = 0;
+            int topValue;
+            int maxArea = 0, tempArea;
+
+            while(currentIndex<length)
+            {
+                if(s.Count==0)
+                {
+                    s.Push(currentIndex);
+                    currentIndex++;
+                }
+                else
+                {
+                    topValue = hist[s.Peek()];
+                    if(topValue<hist[currentIndex]) //top value < currentValue, keep pushing
+                    {
+                        s.Push(currentIndex);
+                        currentIndex++;
+                    }
+                    else //top value> current Value
+                    {
+                        s.Pop();
+                        if (s.Count == 0)
+                            tempArea = topValue * (currentIndex+1);
+                        else
+                            tempArea = topValue * (currentIndex - s.Peek() - 1);
+                        if (tempArea > maxArea)
+                            maxArea = tempArea;
+                    }
+                }
+            }
+
+            while(s.Count>0)//stack is not empty;
+            {
+                currentIndex = s.Pop();
+                if(s.Count>0)
+                {
+
+                    tempArea = hist[currentIndex] * (length - s.Peek()-1);
+                    if (maxArea < tempArea)
+                        maxArea = tempArea;
+                }
+                else
+                {
+                    tempArea = hist[currentIndex] * length;
+                }
+            }
+            return maxArea;
+
+            
+
+        }
+    }
 }

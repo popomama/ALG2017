@@ -41,5 +41,17 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             len = Batch1.LengthOfLongestSubstring2(s);
             Assert.AreEqual(1, len);
         }
+
+        [TestMethod()]
+        public void GetMaxAreaTest()
+        {
+            int[] hist = { 6, 2, 5, 4, 5, 1, 6 };
+            int maxArea= Batch1.GetMaxArea(hist);
+            Assert.AreEqual(12, maxArea);
+
+            int[] hist2 =  { 1, 2, 3, 4, 5 };
+            maxArea = Batch1.GetMaxArea(hist2);
+            Assert.AreEqual(9, maxArea);
+        }
     }
 }
