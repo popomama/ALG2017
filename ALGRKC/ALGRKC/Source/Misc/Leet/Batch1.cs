@@ -190,6 +190,25 @@ namespace ALGRKC.Source.Misc.Leet
             return s.Substring(start, maxLengh);
         }
 
+        //Leet Code #10 -- Regular Expression Matching
+        //'.' Matches any single character.
+        //'*' Matches zero or more of the preceding element.
+        //The matching should cover the entire input string (not partial).
+        //The function prototype should be:
+        //bool isMatch(const char* s, const char* p)
+        //Some examples:
+        //isMatch("aa","a") → false
+        //isMatch("aa","aa") → true
+        //isMatch("aaa","aa") → false
+        //isMatch("aa", "a*") → true
+        //isMatch("aa", ".*") → true
+        //isMatch("ab", ".*") → true
+        //isMatch("aab", "c*a*b") → true
+        public static bool IsMatch(string s, string pattern)
+        {
+            //To Be implmented
+            return false;
+        }
 
         //Leet code #11 -- Container With Most Water 
         //Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate(i, ai). n vertical lines are drawn such that 
@@ -283,6 +302,82 @@ namespace ALGRKC.Source.Misc.Leet
 
             
 
+        }
+
+        //LeetCode #19-- Remove the nth node in the list
+        //Given a linked list, remove the nth node from the end of list and return its head.
+        //For example,
+        //   Given linked list: 1->2->3->4->5, and n = 2.
+        //   After removing the second node from the end, the linked list becomes 1->2->3->5.
+        //Note:
+        //Given n will always be valid.
+        //Try to do this in one pass.
+
+       public static LinkedListNode<int> RemoveNthFromEnd(LinkedListNode<int> org, int n)
+        {
+            LinkedListNode<int> current = org;
+            LinkedListNode<int> nthApart=org;
+
+            for (int i = 0; i < n; i++)
+                nthApart = nthApart.Next;
+
+            //now current and nthApart are n-1th appart, move both until nthAppart to null
+            
+  
+            while(nthApart!=null)
+            {
+               // nParent = nParent.Next;
+                current = current.Next;
+                nthApart = nthApart.Next;
+            }
+
+            //current.Next = current.Next.Next; // C# doesn't allow to modify the next node, but it should be set to null in order to remove it.
+            return current;
+        }
+
+        //Leetcode #22 -- Generate parenthese
+        //Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+        //For example, given n = 3, a solution set is:
+        //[
+        //  "((()))",
+        //  "(()())",
+        //  "(())()",
+        //  "()(())",
+        //  "()()()"
+        //]
+        public static void GenerateParenthese(int n)
+        {
+            //idea is to use recursive call
+            //challenge is to avoid duplicates.
+        }
+
+        //Leetode #23-- Merge K Sorted array
+        //Merge k sorted linked lists and return it as one sorted list.Analyze and describe its complexity.
+        public static List<int> MergeKSortedArray(List<int>[] orgList)
+        {
+            return null;
+        }
+
+        //Leetcode #31 -- Next Permutation.
+        //Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.
+        //If such arrangement is not possible, it must rearrange it as the lowest possible order(ie, sorted in ascending order).
+        //The replacement must be in-place, do not allocate extra memory.
+        //Here are some examples.Inputs are in the left-hand column and its corresponding outputs are in the right-hand column.
+        //1,2,3 → 1,3,2
+        //3,2,1 → 1,2,3
+        //1,1,5 → 1,5,1
+        public static int[] NextPermutation(int[] org)
+        {
+            return null;
+        }
+
+        //Leetcode #32 -- Longest valid Parenthese
+        // Given a string containing just the characters '(' and ')', find the length of the longest valid(well-formed) parentheses substring.
+        //For "(()", the longest valid parentheses substring is "()", which has length = 2.
+        //Another example is ")()())", where the longest valid parentheses substring is "()()", which has length = 4.
+        public static string LongestValidPar(string orgString)
+        {
+            return "";
         }
     }
 }
