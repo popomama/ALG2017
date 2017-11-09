@@ -66,5 +66,12 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             //      ()(())
             //      ()()()
         }
+
+        [TestMethod()]
+        public void NextPermutationTest()
+        {
+            int[] org = { 5, 6, 9, 8, 5, 4, 4, 1 };
+            int[] nextArray = Batch1.NextPermutation(org);
+        }
     }
 }

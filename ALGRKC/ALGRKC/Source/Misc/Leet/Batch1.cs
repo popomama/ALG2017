@@ -392,9 +392,47 @@ namespace ALGRKC.Source.Misc.Leet
         //1,2,3 → 1,3,2
         //3,2,1 → 1,2,3
         //1,1,5 → 1,5,1
+        //We use two passes, the complexity is O(N)
         public static int[] NextPermutation(int[] org)
         {
-            return null;
+            int length = org.Length;
+            //we need 2-passes here
+            //first pass, scan from right to left, and find the first i where a[i-1]<a[i]
+            int cur = length - 1;
+            while ((cur >= 1) && (org[cur - 1] >= org[cur]))
+                cur--;
+
+            if (cur == 0) // the original array is an ascending array, so need to reverse the whole array to get the smallest
+                reverseArray(org,0, length-1);
+
+            //second pass, scan from the right to left and find the first i where a[i]>a[cur-1]
+            int i = length - 1;
+            while (org[i] <= org[cur - 1])
+                i--;
+            //now swap i and cur-1;
+            swap(org, i, cur - 1);
+
+            //last step, reverse the array from right until cur;
+            reverseArray(org, cur, length - 1);
+            return org;
+        }
+
+        private static void swap(int[] org, int i, int v)
+        {
+            int temp = org[i];
+            org[i] = org[v];
+            org[v] = temp;
+        }
+
+        private static void reverseArray(int[] org, int start, int end)
+        {
+            int i = start, j = end;
+            while(i<j)
+            {
+                swap(org, i, j);
+                i++;
+                j--;
+            }
         }
 
         //Leetcode #32 -- Longest valid Parenthese
