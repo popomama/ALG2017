@@ -349,6 +349,32 @@ namespace ALGRKC.Source.Misc.Leet
         {
             //idea is to use recursive call
             //challenge is to avoid duplicates.
+            //in order to avoid the conflict, we record the # of remaining left and right parenthesis 
+            //we append left or right, but alway make sure the ramaining left is fewer than remaining right.
+            char[] result = new char[2*n];
+            //string s = new string()
+            
+            GenerateParHelp(result,0, n, n);
+
+        }
+
+        private static void GenerateParHelp(char[] result,int currentIndex, int leftRemaning, int rightRemaining)
+        {
+            if (leftRemaning == 0 && rightRemaining == 0)
+            {
+                string r = new string(result);
+                Console.WriteLine(r);
+            }
+            if (rightRemaining < leftRemaning || leftRemaning < 0 || rightRemaining < 0 || currentIndex>result.Length-1)
+                return;
+            //first try the left
+            result[currentIndex] = '(';
+            GenerateParHelp(result, currentIndex + 1, leftRemaning - 1, rightRemaining);
+            //second try the right
+            result[currentIndex] = ')';
+            GenerateParHelp(result, currentIndex + 1, leftRemaning, rightRemaining - 1);
+
+
         }
 
         //Leetode #23-- Merge K Sorted array

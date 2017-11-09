@@ -46,12 +46,25 @@ namespace ALGRKC.Source.Misc.Leet.Tests
         public void GetMaxAreaTest()
         {
             int[] hist = { 6, 2, 5, 4, 5, 1, 6 };
-            int maxArea= Batch1.GetMaxArea(hist);
+            int maxArea = Batch1.GetMaxArea(hist);
             Assert.AreEqual(12, maxArea);
 
-            int[] hist2 =  { 1, 2, 3, 4, 5 };
+            int[] hist2 = { 1, 2, 3, 4, 5 };
             maxArea = Batch1.GetMaxArea(hist2);
             Assert.AreEqual(9, maxArea);
+        }
+
+        [TestMethod()]
+        public void GenerateParentheseTest()
+        {
+            int numPar = 3;
+            Batch1.GenerateParenthese(numPar);
+            // expected the following results
+            //      ((()))
+            //      (()())
+            //      (())()
+            //      ()(())
+            //      ()()()
         }
     }
 }
