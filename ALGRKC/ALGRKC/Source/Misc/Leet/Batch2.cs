@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ALGRKC.Source.Misc.Leet
 {
-    class Batch2
+    public class Batch2
     {
 
         //Leetcode #34 Search for a Range.
@@ -27,16 +27,16 @@ namespace ALGRKC.Source.Misc.Leet
                 midVal = org[mid];
                 if (midVal < target)
                 {
-                    right = mid;
-                    bHit = true;
+                    left = mid;
+         
                 }
                 else if (midVal > target)
                 {
-                    left = mid;
-                    bHit = true;
+                    right = mid;
+                    
                 }
                 else
-                    bHit = false;
+                    bHit = true;
             }
 
             int finalLeft=-1, finalRight=-1;
@@ -49,7 +49,12 @@ namespace ALGRKC.Source.Misc.Leet
                 {
                     midEnd = (leftEnd + rightEnd) / 2;
                     if (org[midEnd] < target)
-                        leftEnd = midEnd;
+                    {
+                        if (leftEnd != midEnd)
+                            leftEnd = midEnd;
+                        else //leftend==midend means check ends here, righEnd is the left most item equals the target
+                            leftEnd = rightEnd;
+                    }
                     else
                         rightEnd = midEnd;
                 }
@@ -62,9 +67,18 @@ namespace ALGRKC.Source.Misc.Leet
                 {
                     midEnd = (leftEnd + rightEnd) / 2;
                     if (org[midEnd] > target)
+                    {
                         rightEnd = midEnd;
+                    }
                     else
-                        leftEnd = midEnd;
+                    {
+                        if (midEnd != leftEnd)
+                            leftEnd = midEnd;
+                        else//leftend==midend means check ends here, leftEnd is the right most item equals the target
+                            rightEnd = leftEnd;
+
+                     
+                    }
                 }
                 finalRight = rightEnd;
 
