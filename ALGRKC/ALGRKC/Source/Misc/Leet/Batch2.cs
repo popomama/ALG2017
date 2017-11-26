@@ -89,6 +89,40 @@ namespace ALGRKC.Source.Misc.Leet
 
         }
 
+
+        //this is the 2nd FindRange method that is simpler
+        public static void FindRange2(int[] org, int target)
+        {
+            //leverage the helper function FindExtreme to find left/right bound
+            //we will call FindExtreme twice, each costs lgN
+
+            int leftBound = -1, rightBound = -1;
+
+            leftBound = FindExtreme(org, 0, org.Length, target, true);
+
+            if (leftBound < 0 || org[leftBound] != target)
+                throw new Exception("no hit");
+
+            rightBound = FindExtreme(org, 0, org.Length, target, false)-1;
+
+        }
+
+        private static int FindExtreme(int[] org, int low, int high, int target, bool bForLEft)
+        {
+            int mid;
+            while(low<=high)
+            {
+                mid = (low + high) / 2;
+                if ((org[mid] > target) || ((org[mid]==target) && bForLEft))
+                    high = mid ;
+                else
+                    low = mid+1;
+
+            }
+
+            return low;
+        }
+
         //#leetcode #49 Group Anagrams
         //Given an array of strings, group anagrams together.
 
