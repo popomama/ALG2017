@@ -137,6 +137,7 @@ namespace ALGRKC.Source.Misc.Leet
         {
             //assuming there is 26 characters with lower case to simplify the case.
             //if the lengh of the string is short (say <=5), we use prime number.
+            //the complexity is O(KN), k is the max lengh of string, N is the number of the strings
 
             int[] primes = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103 };
             HashSet<int> hash = new HashSet<int>();
@@ -163,5 +164,74 @@ namespace ALGRKC.Source.Misc.Leet
             return dict;
 
         }
+
+        
+        //LeetCode 56
+        //Merge Interval
+        //Given a collection of intervals, merge all overlapping intervals.
+        //For example,
+        //Given[1, 3], [2,6], [8,10], [15,18],
+        //return [1,6], [8,10], [15,18]. 
+        //Idea: sorted the intervals on the open element of each interval, then merge.
+        //Complexity O(NlgN)
+        public IList<Interval> MergeInterval(Interval[] intervals )
+        {
+            IntervalComarator IC = new IntervalComarator();
+            Array.Sort<Interval>(intervals, IC);
+
+            List<Interval> list = new List<Interval>();
+            Interval current = list[0];
+            if (intervals.Length > 1)
+            {
+                for (int i = 1; i < intervals.Length; i++)
+                {
+                    if (current.end >= intervals[i].start)//this is an overlap, we can expand the current
+                        current.end = intervals[i].end;
+                    else
+                    {
+                        list.Add(current);
+                        current = intervals[i];
+                    }
+                }
+            }
+            list.Add(current);
+
+            return list;
+
+        }
+
+       
+
+        
     }
+
+    public class IntervalComarator : IComparer<Interval>
+    {
+        public int Compare(Interval x, Interval y)
+        {
+            if ((x.start == y.start) && (x.end == y.end))
+                return 0;
+
+            if (x.start < y.start)
+                return -1;
+
+            if ((x.start > y.start) || ((x.start == y.start) && (x.end > y.end)))
+                return 1;
+            else
+                return -1;
+        }
+    }
+    public  class Interval
+    {
+        public int start, end;
+        public Interval() { start = 0; end = 0; }
+        public Interval(int s, int e)
+        {
+            start = s;
+            end = e;
+
+        }
+
+    }
+
 }
