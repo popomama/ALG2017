@@ -133,6 +133,35 @@ namespace ALGRKC.Source.Misc.Leet
         //  ["nat","tan"],
         //  ["bat"]
         //]
+        public Dictionary<int,IList<string>> GroupAnagrams(string[] strs)
+        {
+            //assuming there is 26 characters with lower case to simplify the case.
+            //if the lengh of the string is short (say <=5), we use prime number.
 
+            int[] primes = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103 };
+            HashSet<int> hash = new HashSet<int>();
+            Dictionary<int, IList<string>> dict = new Dictionary<int, IList<string>>();
+
+            int currentKey;
+            for(int i=0;i<strs.Length;i++)
+            {
+                currentKey = 1;
+                for (int j=0;j<strs[i].Length;j++)
+                {
+                    currentKey *= primes[strs[i][j] - 'a'];
+                }
+                if (!dict.ContainsKey(currentKey))
+                {
+                    IList<string> list = new List<string>();
+                    list.Add(strs[i]);
+                    dict.Add(currentKey, list);
+                }
+                else
+                    dict[currentKey].Add(strs[i]);
+                
+            }
+            return dict;
+
+        }
     }
 }
