@@ -165,7 +165,37 @@ namespace ALGRKC.Source.Misc.Leet
 
         }
 
-        
+        //LeetCode 55
+        //Jump Games
+        //Given an array of non-negative integers, you are initially positioned at the first index of the array.
+        //Each element in the array represents your maximum jump length at that position. 
+        //Determine if you are able to reach the last index. 
+        //For example:
+        //A = [2, 3, 1, 1, 4], return true. 
+        //A = [3, 2, 1, 0, 4], return false. 
+        public bool CanJump(int[] nums)
+        {
+            int length = nums.Length;
+           // bool[] bCanReach = new bool[length];
+            //bCanReach[0] = true;
+            int lastReachable = length - 1; // the key point is to record the lastreachable index at all time
+            if (length == 1)
+                return true;
+            //loop from the last to the first
+            for(int i=length-2;i>=0;i--)
+            {
+                if (nums[i] + i >=lastReachable)
+                {
+                    lastReachable = i;
+                   
+
+                }
+                    
+            }
+
+            return lastReachable == 0;
+        }
+
         //LeetCode 56
         //Merge Interval
         //Given a collection of intervals, merge all overlapping intervals.
