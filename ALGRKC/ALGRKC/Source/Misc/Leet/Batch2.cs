@@ -230,9 +230,50 @@ namespace ALGRKC.Source.Misc.Leet
 
         }
 
-       
+        //LeetCode #64: Minimum path sum
+        //Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.
+        //Note: You can only move either down or right at any point in time.
+        //Example 1:
+        //[[1,3,1],
+        // [1,5,1],
+        // [4,2,1]]
+        //Given the above grid map, return 7. Because the path 1→3→1→1→1 minimizes the sum. 
+        //Idea: Dp. from bottom-right to the upper-left
+        public int MinPathSum(int[,] grid)
+        {
+            int rowNumber = grid.GetLength(0), colNumber = grid.GetLength(1);
+            int[,] path = new int[rowNumber, colNumber];
 
-        
+            //set the lower right corner
+            path[rowNumber - 1, colNumber - 1] = grid[rowNumber - 1, colNumber - 1];
+
+            //calculate the value of the last row
+            for (int j = colNumber - 2; j >= 0; j--)
+            {
+                path[rowNumber - 1, j] = path[rowNumber - 1, j + 1] + grid[rowNumber - 1, j];
+            }
+
+            //calculate the value of the last column
+            for (int i = rowNumber - 2; i >= 0; i--)
+            {
+                path[i, colNumber - 1] = path[i + 1, colNumber - 1] + grid[i + 1, colNumber - 1];
+            }
+
+            //now, we loop through from lower to upper and right to left
+            for (int row = rowNumber - 2; row >= 0; row--)
+                for (int col = colNumber - 2; col >= 0; col--)
+                {
+                    //compare the right and lower, and pick the smaller
+                    if (path[row, col + 1] > path[row + 1, col])
+                        path[row, col] = grid[row, col] + path[row + 1, col];
+                    else
+                        path[row, col] = grid[row, col] + path[row, col + 1];
+                }
+
+            return path[0, 0];
+        }
+
+
     }
 
     public class IntervalComarator : IComparer<Interval>
@@ -264,4 +305,5 @@ namespace ALGRKC.Source.Misc.Leet
 
     }
 
+    
 }
