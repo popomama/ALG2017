@@ -288,11 +288,53 @@ namespace ALGRKC.Source.Misc.Leet
         //s2 = "dbbca",
         //When s3 = "aadbbcbcac", return true.
         //When s3 = "aadbbbaccc", return false. 
-
+        //intial thoughs: check the characters in s3 one-by-one against s1 and s2, the complexity will be O(M+N).
+        // but the it will return false when there is overlap. ex. s1=AAB, s2=AAC, s3=AACAAB . If we start matching from s1, 
+        //then s3 will not be matched when reading at 'C' as the first 2 As are from s1, the next will have to be either B or A.
+        //On the other hand, if we start from s2 then it will match. But again, if s3 = AABAAC in the latter case, it will not match.
+        //Now the idea will be DP
         public bool IsInterleave(string s1, string s2, string s3)
         {
+            int m = s1.Length, n = s2.Length;
+            //create a IL array of M+1 and N+1, IL[x,y] is true iff s3[1:x+y-1] is an interleaving of 
+            bool[,] IL = new bool[m + 1,n + 1];
 
+            IL[0, 0] = true;
+
+            //initialize the first row and column to be true;
+            for (int i = 1; i < m + 1; i++)
+            {
+                if (s3[i - 1] == s1[i - 1])
+                    IL[i, 0] = IL[i - 1, 0];
+                else
+                    IL[i, 0] = false;
+            }
+            for (int j = 1; j < n + 1; j++)
+            {
+                if (s3[j - 1] == s2[j - 1])
+                    IL[0, j] = IL[0, j - 1];
+                else
+                    IL[0, j - 1] = false;
+            }
+
+            for (int i=1;i<m+1;i++)
+                for(int j=1;j<n+1;j++)
+                {
+                    //loop through line by line
+                    if ((s3[i + j - 1] == s1[i - 1]) && (s3[i + j - 1] == s2[j - 1]))
+                        IL[i, j] = IL[i - 1, j] || IL[i, j - 1];
+                    else if (s3[i + j - 1] == s1[i - 1])
+                        IL[i, j] = IL[i - 1, j];
+                    else if (s3[i + j - 1] == s2[j - 1])
+                        IL[i, j] = IL[i, j - 1];
+                    else
+                        IL[i, j] = false;
+                }
+
+            return IL[m, n];
         }
+
+
 
 
 
