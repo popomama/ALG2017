@@ -50,5 +50,40 @@ namespace ALGRKC.Source.Graphs
 
             return false;
         }
+
+        bool HasCycle(Graph g)
+        {
+            bool bHasCycle = false;
+
+            for(int i =0;i<g.V(); i++)
+            {
+                bHasCycle= FindCycle(g, i);
+                if (bHasCycle)
+                    return true;
+            }
+
+            return false;
+
+
+        }
+
+        bool FindCycle(Graph g, int i)
+        {
+            bool bFind = false;
+            isMarked[i] = true;
+            foreach(int j in g.AdjList(i))
+            {
+                if (isMarked[j])
+                {
+                    return true;
+                    
+                }
+                else
+                    bFind= FindCycle(g, j);
+            }
+
+            isMarked[i] = false;
+            return bFind;
+        }
     }
 }

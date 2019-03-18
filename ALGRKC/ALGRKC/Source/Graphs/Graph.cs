@@ -38,9 +38,10 @@ namespace ALGRKC.Source.Graphs
             int vNum = Int32.Parse(line);
             Init(vNum);
 
+            //we may not need to know the number of edges in advance, so we only need to call while((line=sr.ReadLine())!=null)  
             line = sr.ReadLine();// read E
             int E = Int32.Parse(line);
-
+            
             //while((line=sr.ReadLine())!=null)   //each line is an edge
             for(int i=0;i<E;i++)
             {

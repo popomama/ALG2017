@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ALGRKC.Source.Basic;
 
 
+
 namespace TestALG
 {
     [TestClass]
@@ -27,5 +28,7 @@ namespace TestALG
             Console.WriteLine();
 
         }
+
+        
     }
 }

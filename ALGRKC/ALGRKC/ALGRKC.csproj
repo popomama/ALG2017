@@ -60,6 +60,7 @@
     <Compile Include="Source\Graphs\Search.cs" />
     <Compile Include="Source\Graphs\SymbolGraph.cs" />
     <Compile Include="Source\Graphs\TwoColor.cs" />
+    <Compile Include="Source\Graphs\WeightedQuickUF.cs" />
     <Compile Include="Source\Misc\Goog.cs" />
     <Compile Include="Source\Misc\Leet\Batch1.cs" />
     <Compile Include="Source\Misc\Leet\Batch2.cs" />

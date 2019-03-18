@@ -16,7 +16,7 @@ namespace ALGRKC.Source.Graphs
             source = s;
             edgeTo = new int[g.V()];
             isMarked = new bool[g.V()];
-
+            bfs(g, s);
         }
 
         public void bfs(Graph g, int s)
