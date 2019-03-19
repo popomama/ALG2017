@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,43 @@ namespace ALGRKC.Source.Misc.Leet
 {
     public class Batch1
     {
+        //Leet Code #1
+        //Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+        //You may assume that each input would have exactly one solution, and you may not use the same element twice.
+        //Example:
 
-        //Leetcode #3
-        //Given a string, find the length of the longest substring without repeating characters.
-        //Examples:
-        //Given "abcabcbb", the answer is "abc", which the length is 3.
-        //Given "bbbbb", the answer is "b", with the length of 1.
-        //Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
-        public static int LengthOfLongestSubstring(string s)
+        //Given nums = [2, 7, 11, 15], target = 9,
+        //Because nums[0] + nums[1] = 2 + 7 = 9,
+        //return [0, 1].
+        public int[] TwoSum(int[] nums, int target)
+        {
+            int size = nums.Length;
+            Hashtable ht = new Hashtable(size);
+            
+            
+            for (int i = 0; i < size; i++)
+                ht[nums[i]] = i; // in case there are duplicates, the 2nd will replace the 1st, so the index will be that of the 2nd
+            int leftValue;
+            for(int i=0;i<size;i++)
+            {
+                leftValue = target - nums[i];
+                if (ht.ContainsKey(leftValue) && ((int)ht[leftValue] != i))
+                    return new int[] { i, (int)ht[leftValue] };
+                    
+            }
+
+            return null;
+        }
+    
+
+
+    //Leetcode #3
+    //Given a string, find the length of the longest substring without repeating characters.
+    //Examples:
+    //Given "abcabcbb", the answer is "abc", which the length is 3.
+    //Given "bbbbb", the answer is "b", with the length of 1.
+    //Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
+    public static int LengthOfLongestSubstring(string s)
         {
             int length = s.Length;
 
