@@ -166,33 +166,117 @@ namespace ALGRKC.Source.Misc.Leet
         {
             int rowNumber = dungeon.GetLength(0);
             int columnNumber = dungeon[0].Length;
+
+
+            //method 1: add one more row and one more column to process uniformly
+            //int[][] target = new int[rowNumber+1][];
+
+            //for (int i = 0; i <= rowNumber; i++)
+            //{
+            //    target[i] = new int[columnNumber+1];
+
+            //}
+
+            //for (int i = 0; i <= rowNumber; i++)
+            //    for (int j = 0; j <= columnNumber; j++)
+            //        target[i][j] = Int32.MaxValue;
+            //target[rowNumber][columnNumber - 1] = 0;
+            //target[rowNumber - 1][columnNumber] = 0;
+
+            //for (int i = rowNumber - 1; i >= 0; i--)
+            //    for (int j = columnNumber - 1; j >= 0; j--)
+            //    {
+            //        target[i][j] = Math.Max(0, Math.Min(target[i + 1][j], target[i][j + 1]) - dungeon[i][j]);
+            //    }
+
+            //method 2: keep te original dimision, but process last row and last column as special case.
             int[][] target = new int[rowNumber][];
 
-            for(int i=0;i<rowNumber;i++)
+            for (int i = 0; i < rowNumber; i++)
             {
                 target[i] = new int[columnNumber];
 
             }
 
-            target[rowNumber-1][columnNumber-1] =Math.Max(0, -dungeon[rowNumber-1][columnNumber-1]);
 
-            for (int i = rowNumber-2; i>=0; i--)
+            target[rowNumber - 1][columnNumber - 1] = Math.Max(0, -dungeon[rowNumber - 1][columnNumber - 1]);
+
+            for (int i = rowNumber - 2; i >= 0; i--)
             {
-                target[i][columnNumber-1] =Math.Max(0, target[i+1][columnNumber-1]-dungeon[i][columnNumber-1]);
+                target[i][columnNumber - 1] = Math.Max(0, target[i + 1][columnNumber - 1] - dungeon[i][columnNumber - 1]);
 
             }
 
-            for (int j = columnNumber-2; j >=0; j--)
-                target[rowNumber-1][j] = Math.Max(0, target[rowNumber-1][j +1] - dungeon[rowNumber-1][j]);
+            for (int j = columnNumber - 2; j >= 0; j--)
+                target[rowNumber - 1][j] = Math.Max(0, target[rowNumber - 1][j + 1] - dungeon[rowNumber - 1][j]);
 
 
-            for(int i=rowNumber-2;i>=0;i--)
-                for(int j=columnNumber-2;j>=0;j--)
+            for (int i = rowNumber - 2; i >= 0; i--)
+                for (int j = columnNumber - 2; j >= 0; j--)
                 {
-                    target[i][j] = Math.Max(0, Math.Min(target[i +1][j], target[i][j + 1]) - dungeon[i][j]);
+                    target[i][j] = Math.Max(0, Math.Min(target[i + 1][j], target[i][j + 1]) - dungeon[i][j]);
                 }
 
             return Math.Max(0, target[0][0])+1;
+        }
+
+        //Leet 561 Array Partition
+        // Given an array of 2n integers, your task is to group these integers into n pairs of integer, say(a1, b1), (a2, b2), ..., (an, bn) which makes sum of min(ai, bi) for all i from 1 to n as large as possible.
+
+        //Example 1:
+
+        //Input: [1,4,3,2]
+
+        //        Output: 4
+        //Explanation: n is 2, and the maximum sum of pairs is 4 = min(1, 2) + min(3, 4).
+        //Note:
+        //    n is a positive integer, which is in the range of[1, 10000].
+        //    All the integers in the array will be in the range of[-10000, 10000].
+        public int ArrayPairSum(int[] nums)
+        {
+            //Solution 1: sorting, and add up the 1,3,5,7...
+            //Array.Sort(nums);
+            //int sum = 0;
+            //for(int i=0;i<nums.Length;i+=2)
+            //{
+            //    sum += nums[i];
+
+            //}
+
+            //solution2: use hashtable like look up to avoid sorting
+            //this only shows the advantage if the n is bigger/close to 10000
+            int nMax = 10000;
+            int[] newArray = new int[nMax * 2 + 1];
+            int sum = 0;
+            for (int i = 0; i < newArray.Length; i++)
+                newArray[i] = 0;
+
+            for (int i = 0; i < nums.Length; i++)
+                newArray[nums[i] + nMax]++;
+
+            bool bFirst = true;
+            for (int i = 0; i < newArray.Length; i++)
+            {
+                while(newArray[i]!=0)
+                {
+                    newArray[i]--;
+                    if(bFirst)
+                    {
+                        sum += i - nMax;
+                        bFirst = false;
+                    }
+                    else
+                    {
+                        //just skip since it's the send element of the pair
+                        // we only set the bFirst to true;
+                        bFirst = true;
+                    }
+                }
+            }
+
+
+                return sum;
+
         }
     }
 }
