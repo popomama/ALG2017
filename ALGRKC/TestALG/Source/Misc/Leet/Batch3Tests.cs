@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ALGRKC.Source.Basic;
 
 namespace ALGRKC.Source.Misc.Leet.Tests
 {
@@ -31,9 +32,22 @@ namespace ALGRKC.Source.Misc.Leet.Tests
         [TestMethod()]
         public void CalculateMinimumHPTest()
         {
-            int[][] d = new int[][] {new int[] { -2, -3, 3 }, new int[] { -5, -10, 1 }, new int[] { 10, 30, -5 } };
+            int[][] d = new int[][] { new int[] { -2, -3, 3 }, new int[] { -5, -10, 1 }, new int[] { 10, 30, -5 } };
             Batch3 b3 = new Batch3();
             int result = b3.CalculateMinimumHP(d);
+        }
+
+        [TestMethod()]
+        public void PrintTreeTest()
+        {
+            TreeNode nd = new TreeNode(1);
+            TreeNode nd2 = new TreeNode(2), nd3 = new TreeNode(3);
+            nd.left = nd2;nd.right = nd3;
+            TreeNode nd4 = new TreeNode(4);
+            nd2.right = nd4;
+
+            Batch3 b3 = new Batch3();
+            IList<IList<string>> PrintTreeResult = b3.PrintTree(nd);
         }
     }
 }

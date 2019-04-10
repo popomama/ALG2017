@@ -278,5 +278,60 @@ namespace ALGRKC.Source.Misc.Leet
                 return sum;
 
         }
+
+
+        //Leet 655 Print Binary Tree
+        //Print a binary tree in an m*n 2D string array following these rules:
+
+        //The row number m should be equal to the height of the given binary tree.
+        //The column number n should always be an odd number.
+        //The root node's value (in string format) should be put in the exactly middle of the first row it can be put. The column and the row where the root node belongs will separate the rest space into two parts (left-bottom part and right-bottom part). You should print the left subtree in the left-bottom part and print the right subtree in the right-bottom part. The left-bottom part and the right-bottom part should have the same size. Even if one subtree is none while the other is not, you don't need to print anything for the none subtree but still need to leave the space as large as that for the other subtree.However, if two subtrees are none, then you don't need to leave space for both of them.
+        //Each unused space should contain an empty string "".
+        //Print the subtrees following the same rules.
+        public IList<IList<string>> PrintTree(TreeNode root)
+        {
+            int nHeight = TreeHeight(root);
+            int nColumn =(int)Math.Pow(2,nHeight)-1;
+
+            //initialize the result matrix
+            string[][] result = new string[nHeight][]  ;
+            for(int i=0;i<nHeight;i++)
+            {
+                result[i] = new string[nColumn];
+                for (int j = 0; j < nColumn; j++)
+                    result[i][j] = "";
+            }
+
+            PrintTree(root, 0, 0, nColumn - 1, result);
+
+            return result;
+
+
+        }
+
+        //helper function
+        void PrintTree(TreeNode root, int level, int leftColumn, int rightColumn, string[][] result)
+        {
+            if (root == null)
+                return;
+            int mid = (leftColumn + rightColumn) / 2;
+            result[level][mid] = root.val.ToString(); 
+
+            //divide and conquer
+            PrintTree(root.left, level + 1, leftColumn, mid - 1, result);
+            PrintTree(root.right, level + 1, mid + 1, rightColumn, result);
+
+        }
+
+        int TreeHeight(TreeNode nd)
+        {
+            if(nd==null)
+                return 0;
+
+            else
+            {
+                return Math.Max(TreeHeight(nd.left), TreeHeight(nd.right)) + 1;
+            }
+        }
     }
 }
