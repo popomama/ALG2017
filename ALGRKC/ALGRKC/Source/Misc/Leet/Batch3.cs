@@ -333,5 +333,80 @@ namespace ALGRKC.Source.Misc.Leet
                 return Math.Max(TreeHeight(nd.left), TreeHeight(nd.right)) + 1;
             }
         }
+
+        //Leet Code 463: Island Perimeter
+        //You are given a map in form of a two-dimensional integer grid where 1 represents land and 0 represents water.
+        //Grid cells are connected horizontally/vertically (not diagonally). The grid is completely surrounded by water, and there is exactly one island (i.e., one or more connected land cells).
+        //The island doesn't have "lakes" (water inside that isn't connected to the water around the island). One cell is a square with side length 1. The grid is rectangular, width and height don't exceed 100. Determine the perimeter of the island.
+        //Example:
+
+        //Input:
+        //[[0,1,0,0],
+        // [1,1,1,0],
+        // [0,1,0,0],
+        // [1,1,0,0]]
+
+        //Output: 16
+        public int IslandPerimeter(int[][] grid)
+        {
+            return 0;
+
+        }
+
+        //Leetcode: 637 Average of Levels in Binary Tree
+        //Given a non-empty binary tree, return the average value of the nodes on each level in the form of an array.
+        //Input:
+        //    3
+        //   / \
+        //  9  20
+        //    /  \
+        //   15   7
+        //Output: [3, 14.5, 11]
+        //        Explanation:
+        //The average value of nodes on level 0 is 3,  on level 1 is 14.5, and on level 2 is 11. Hence return [3, 14.5, 11].
+
+        public IList<double> AverageOfLevels(TreeNode root)
+        {
+            if (root == null)
+                return null;
+            List<double> list = new List<double>();
+
+            Queue<TreeNode> q = new Queue<TreeNode>();
+            q.Enqueue(root);
+            TreeNode currentNode;
+            int  currentNodeValue = 0, currentLevelNodeNumber = 1;
+            while(q.Count>0)
+            {
+                double currentSum = 0;
+                int tempNodeNumber = currentLevelNodeNumber;
+                int nextLevelNodeNumber = 0;
+                while (tempNodeNumber > 0)
+                {
+                    currentNode = q.Dequeue();
+                    currentNodeValue = currentNode.val;
+                    currentSum += currentNodeValue;
+                    tempNodeNumber--;
+                    if(currentNode.left!=null)
+                    {
+                        q.Enqueue(currentNode.left);
+                        nextLevelNodeNumber++;
+                    }
+                    if (currentNode.right != null)
+                    {
+                        q.Enqueue(currentNode.right);
+                        nextLevelNodeNumber++;
+                    }
+
+
+                }
+                double currentAvg = currentSum / currentLevelNodeNumber;
+                list.Add(currentAvg);
+                currentLevelNodeNumber = nextLevelNodeNumber;
+               
+            }
+
+            return list;
+        }
+
     }
 }
