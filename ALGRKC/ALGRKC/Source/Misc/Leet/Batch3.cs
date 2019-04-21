@@ -364,7 +364,7 @@ namespace ALGRKC.Source.Misc.Leet
         //Output: [3, 14.5, 11]
         //        Explanation:
         //The average value of nodes on level 0 is 3,  on level 1 is 14.5, and on level 2 is 11. Hence return [3, 14.5, 11].
-
+        //We use BFS here, but can also use DFS to implment it via PreOrder/InOrder 
         public IList<double> AverageOfLevels(TreeNode root)
         {
             if (root == null)
@@ -406,6 +406,54 @@ namespace ALGRKC.Source.Misc.Leet
             }
 
             return list;
+        }
+
+
+        public class ListNode
+        {
+            public int val;
+            public ListNode next;
+            public ListNode(int x)
+            {
+                val = x;
+                next = null;
+            }
+        }
+        //Leetcode 141 Linked List Cycle
+        public bool HasCycle(ListNode head)
+        {
+            if (head == null || head.next == null)
+                return false;
+            ListNode slow = head, fast = head.next;
+
+            while (fast != slow)
+            {
+                if (fast.next == null || fast.next.next == null)
+                    return false;
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+            return true;
+
+            //if (head == null || head.next == null)
+            //    return false;
+            //ListNode slow = head, fast = head;
+
+            //while (fast != null)
+            //{
+            //    slow = slow.next;
+            //    fast = fast.next;
+            //    if (fast != null)
+            //    {
+            //        fast = fast.next;
+            //    }
+            //    else
+            //        return true;
+
+            //    if (slow == fast)
+            //        return true;
+            //}
+            //return false;
         }
 
     }
