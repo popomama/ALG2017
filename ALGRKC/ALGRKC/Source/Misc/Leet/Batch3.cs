@@ -456,5 +456,76 @@ namespace ALGRKC.Source.Misc.Leet
             //return false;
         }
 
+        //Leetcode 113 Path Sum II
+        //Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
+        //Note: A leaf is a node with no children.
+
+        //Example:
+
+        //Given the below binary tree and sum = 22,
+
+        //      5
+        //     / \
+        //    4   8
+        //   /   / \
+        //  11  13  4
+        // /  \    / \
+        //7    2  5   1
+
+        //Return:
+
+        //[
+        //   [5,4,11,2],
+        //   [5,8,4,5]
+        //]
+        public IList<IList<int>> PathSum(TreeNode root, int sum)
+        {
+            List<int> current = new List<int>();
+            List<List<int>> lists = new List<List<int>>();
+            if (root == null)
+                return lists.ToList<IList<int>>();
+            current.Add(root.val);
+            PathSumHelper(root, sum-root.val, lists, current);
+
+            return lists.ToList<IList<int>>();
+
+        }
+
+        private void PathSumHelper(TreeNode root, int sum, List<List<int>> lists, List<int> current)
+        {
+            if (root == null)
+                return;
+
+            if (root.left == null && root.right == null)
+            {
+                if (sum == 0)//we found one
+                {
+                    //current.Add(root.val);
+                    lists.Add(current.ToList());
+                    //current.RemoveAt(current.Count - 1);
+
+                }
+                else//go back
+                    return;
+            }
+
+            if (root.left!=null)
+            {
+                current.Add(root.left.val);
+                PathSumHelper(root.left, sum - root.left.val, lists,current );
+                current.RemoveAt(current.Count - 1);
+                //current.RemoveAt(current.Remove(current.Count-1));
+                
+            }
+
+            if (root.right != null)
+            {
+                current.Add(root.right.val);
+                PathSumHelper(root.right, sum - root.right.val, lists, current);
+                //current.RemoveAt(current.LastIndexOf(root.right.val));
+                current.RemoveAt(current.Count - 1);
+            }
+
+        }
     }
 }
