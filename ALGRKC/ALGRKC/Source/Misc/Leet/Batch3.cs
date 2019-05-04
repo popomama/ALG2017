@@ -456,6 +456,34 @@ namespace ALGRKC.Source.Misc.Leet
             //return false;
         }
 
+        //Leet code 112 Path Sum
+        //Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.
+
+        //Note: A leaf is a node with no children.
+
+        //Example:
+
+        //Given the below binary tree and sum = 22,
+
+        //      5
+        //     / \
+        //    4   8
+        //   /   / \
+        //  11  13  4
+        // /  \      \
+        //7    2      1
+
+        //return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
+
+        public bool HasPathSum(TreeNode root, int sum)
+        {
+            if (root == null)
+                return false;
+            if (root.val == sum && root.left == null && root.right == null)
+                return true;
+            return (HasPathSum(root.left, sum - root.val) || HasPathSum(root.right, sum - root.val));
+        }
+
         //Leetcode 113 Path Sum II
         //Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
         //Note: A leaf is a node with no children.
@@ -527,5 +555,182 @@ namespace ALGRKC.Source.Misc.Leet
             }
 
         }
+
+        //Leetcode 120: Triangle
+        //Given a triangle, find the minimum path sum from top to bottom.Each step you may move to adjacent numbers on the row below.
+
+        //For example, given the following triangle
+        //[
+        //     [2],
+        //   [3,4],
+        //  [6,5,7],
+        // [4,1,8,3]
+        //]
+
+        //The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
+        public int MinimumTotal(IList<IList<int>> triangle)
+        {
+            int level = triangle.Count;
+            int[] currentSum = new int[level];
+            if (level == 1)
+                return triangle[0][0];
+            for (int i = 0; i < level; i++)
+                currentSum[i] = triangle[level-1][i];
+            for(int i=level-2;i>=0;i--)
+            {
+                for (int j = 0; j <= i; j++)
+                    currentSum[j] = Math.Min(currentSum[j], currentSum[j + 1])+triangle[i][j];
+            }
+
+            return currentSum[0];
+        }
+
+        //Leetcode 53: Maximum subarray
+        //Given an integer array nums, find the contiguous subarray(containing at least one number) which has the largest sum and return its sum.
+
+        //Example:
+        //Input: [-2,1,-3,4,-1,2,1,-5,4],
+        //Output: 6
+        //Explanation: [4,-1,2,1] has the largest sum = 6.
+        public int MaxSubArray(int[] nums)
+        {
+            int size = nums.Length;
+            if (size == 1)
+                return nums[0];
+
+            int maxSum=nums[0];
+            
+            int currentSum = nums[0] > 0 ? nums[0] : 0; ;
+            for(int i=1;i<size;i++)
+            {
+                if (currentSum + nums[i] <= 0)
+                {
+                    currentSum = nums[i] > 0 ? nums[i] : 0;
+                    if (maxSum < nums[i])
+                        maxSum = nums[i];
+                }
+                else
+                {
+                    currentSum += nums[i];
+
+                    if (currentSum > maxSum)
+                        maxSum = currentSum;
+                }
+
+                
+            }
+            return maxSum;
+
+        }
+
+        public int MaxSubArray2(int[] nums)
+        {
+            int size = nums.Length;
+            if (size == 1)
+                return nums[0];
+
+            int maxSum = nums[0];
+            int currentSum = nums[0];
+
+            //f[i] -- maxSubArray(0:i), f[i] is using i;
+            //f[i]=f[i-1]>0?nums[i]+f[i-1]:nums[i]
+            for(int i=1;i<size;i++)
+            {
+                currentSum = currentSum > 0 ? currentSum + nums[i] : nums[i];
+                if (currentSum > maxSum)
+                    maxSum = currentSum;
+            }
+
+            return maxSum;
+
+        }
+
+        //Leetcode # 139 Word Break
+        //Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, determine if s can be segmented into a space-separated sequence of one or more dictionary words.
+
+        //Note:
+        //    The same word in the dictionary may be reused multiple times in the segmentation.
+        //    You may assume the dictionary does not contain duplicate words.
+        //Example 1:
+        //Input: s = "leetcode", wordDict = ["leet", "code"]
+        //Output: true
+        //Explanation: Return true because "leetcode" can be segmented as "leet code".
+
+        //Example 2:
+        //Input: s = "applepenapple", wordDict = ["apple", "pen"]
+        //Output: true
+        //Explanation: Return true because "applepenapple" can be segmented as "apple pen apple".
+        //             Note that you are allowed to reuse a dictionary word.
+
+        //Example 3:
+        //Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
+        //Output: false
+
+        public bool WordBreak(string sIn, IList<string> wordDict)
+        {
+            
+
+            Dictionary<string, bool> hs = new Dictionary<string, bool>();
+            //HashSet<string> hs = new HashSet<string>(wordDict); // create an hash table
+            hs.Add("", true);//add the empty string here
+
+
+            return WordBreak(sIn, hs, wordDict);
+            
+        }
+
+        public bool WordBreak(string sIn, Dictionary<string, bool> hs, IList<string> wordDict)
+        {
+            string stToBeProcessed, stLeft;
+
+
+            if (hs.ContainsKey(sIn))
+                return hs[sIn];
+
+            if (wordDict.Contains(sIn))
+            {
+                hs.Add(sIn, true);
+                return true;
+            }
+           
+         
+
+            for (int i = 0; i < sIn.Length; i++)
+            {
+                stToBeProcessed = sIn.Substring(0, i);
+                stLeft = sIn.Substring(i);
+                if (wordDict.Contains(stLeft) && WordBreak(stToBeProcessed, hs, wordDict)) // check the dictionary first to shortcircuit the logic and speed up the process
+                {
+                    hs.Add(sIn, true); //sIn is breakable and is added into the hash table
+                    return true;
+                }
+            }
+
+            hs.Add(sIn, false);
+            return false;
+
+        }
+
+        //the following implemntation will run out of the space, see comments below.
+        //public bool WordBreak(string sIn, IList<string> wordDict)
+        //{
+
+        //    string s = sIn;
+        //    bool bContained = false;
+        //    if (s.Length == 0)
+        //        return true;
+        //    for(int i=0;i<wordDict.Count;i++)
+        //    {
+        //        if (s.StartsWith(wordDict[i]))
+        //            //this recurisve calls will run out of space if the string is ('a', 500) while dict contains 'a' only. 
+        //            bContained = WordBreak(s.Substring(wordDict[i].Length), wordDict);
+        //        if (bContained)
+        //            return true;
+
+        //    }
+
+        //    return false;
+
+        //}
     }
 }

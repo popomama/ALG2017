@@ -42,12 +42,32 @@ namespace ALGRKC.Source.Misc.Leet.Tests
         {
             TreeNode nd = new TreeNode(1);
             TreeNode nd2 = new TreeNode(2), nd3 = new TreeNode(3);
-            nd.left = nd2;nd.right = nd3;
+            nd.left = nd2; nd.right = nd3;
             TreeNode nd4 = new TreeNode(4);
             nd2.right = nd4;
 
             Batch3 b3 = new Batch3();
             IList<IList<string>> PrintTreeResult = b3.PrintTree(nd);
+        }
+
+        [TestMethod()]
+        public void MaxSubArrayTest()
+        {
+            int[] a = { -2, 3, 1, 3 };
+            Batch3 b = new Batch3();
+            int max = b.MaxSubArray(a);
+        }
+
+        [TestMethod()]
+        public void WordBreakTest()
+        {
+            IList<string> dic = new List<string>();
+            dic.Add("leet");
+            dic.Add("code");
+            string sIn = "leetcode";
+            Batch3 b = new Batch3();
+            bool breakable = b.WordBreak(sIn, dic);
+
         }
     }
 }
