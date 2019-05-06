@@ -732,5 +732,127 @@ namespace ALGRKC.Source.Misc.Leet
         //    return false;
 
         //}
+
+
+        //Leetcode 140: WordBreak II
+        //Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, add spaces in s to construct a sentence where each word is a valid dictionary word.Return all such possible sentences.
+
+        //Note:
+        //    The same word in the dictionary may be reused multiple times in the segmentation.
+        //    You may assume the dictionary does not contain duplicate words.
+
+        //Example 1:
+        //Input:
+        //s = "catsanddog"
+        //wordDict = ["cat", "cats", "and", "sand", "dog"]
+        //Output:
+        //[
+        //  "cats and dog",
+        //  "cat sand dog"
+        //]
+
+        //Example 2:
+        //Input:
+        //s = "pineapplepenapple"
+        //wordDict = ["apple", "pen", "applepen", "pine", "pineapple"]
+        //Output:
+        //[
+        //  "pine apple pen apple",
+        //  "pineapple pen apple",
+        //  "pine applepen apple"
+        //]
+        //Explanation: Note that you are allowed to reuse a dictionary word.
+        public IList<string> WordBreak2(string sIn, IList<string> wordDict)
+        {
+            Dictionary<string, bool> hs = new Dictionary<string, bool>();
+            //HashSet<string> hs = new HashSet<string>(wordDict); // create an hash table
+            hs.Add("", true);//add the empty string here
+
+
+            return null;// WordBreak2(sIn, hs, wordDict);
+        }
+
+        public bool WordBreak2(string sIn, Dictionary<string, bool> hs, IList<string> wordDict)
+        {
+            string stToBeProcessed, stLeft;
+
+
+            if (hs.ContainsKey(sIn))
+                return hs[sIn];
+
+            if (wordDict.Contains(sIn))
+            {
+                hs.Add(sIn, true);
+                return true;
+            }
+
+
+
+            for (int i = 0; i < sIn.Length; i++)
+            {
+                stToBeProcessed = sIn.Substring(0, i);
+                stLeft = sIn.Substring(i);
+                if (wordDict.Contains(stLeft) && WordBreak(stToBeProcessed, hs, wordDict)) // check the dictionary first to shortcircuit the logic and speed up the process
+                {
+                    hs.Add(sIn, true); //sIn is breakable and is added into the hash table
+                    return true;
+                }
+            }
+
+            hs.Add(sIn, false);
+            return false;
+
+        }
+
+        //LeetCode 110:Balance Binary Tree
+        //Given a binary tree, determine if it is height-balanced.
+        //For this problem, a height-balanced binary tree is defined as:
+        //    a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
+        public bool IsBalanced(TreeNode root)
+        {
+            if (root == null)
+                return true;
+
+            if ((Math.Abs(TreeHeight(root.left) - TreeHeight(root.right)) <= 1) && IsBalanced(root.left) && IsBalanced(root.right))
+                return true;
+
+            return false;
+        }
+
+        //this second method to avoid the duplicate calls to the heigh function by pass a reference so that we can both the height and bBalanced value in one call.
+        //Complexity O(N)
+        public bool IsBalanced2(TreeNode root)
+        {
+            if (root == null)
+                return true;
+
+            bool bBalanced = true;   
+            int height = TreeHeightB(root, ref bBalanced);
+
+            return bBalanced;
+            //if ((Math.Abs(TreeHeight(root.left) - TreeHeight(root.right)) <= 1) && IsBalanced(root.left) && IsBalanced(root.right))
+            //    return true;
+
+            //return false;
+        }
+
+        int TreeHeightB(TreeNode nd, ref bool bBalanced)
+        {
+            if ((nd == null) || !bBalanced)
+                return 0;
+
+            int lHeight = TreeHeightB(nd.left, ref bBalanced);
+            int rHeight = TreeHeightB(nd.right, ref bBalanced);
+
+            if (Math.Abs(lHeight - rHeight) > 1)
+                bBalanced = false;
+
+            return Math.Max(lHeight, rHeight) + 1;
+
+        }
     }
-}
+
+
+
+
+    }
