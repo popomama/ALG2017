@@ -39,7 +39,7 @@ namespace ALGRKC.Source.Misc.Leet
             BuildTree(tList, root, ndLeft, nodeLeft - 1);
 
             TreeNode ndRight = new TreeNode(0);
-            if(nodeLeft>1)
+            if (nodeLeft > 1)
             {
                 parentNode.right = ndRight;
                 BuildTree(tList, root, ndLeft, nodeLeft - 2);
@@ -73,16 +73,16 @@ namespace ALGRKC.Source.Misc.Leet
             int diff = x ^ y;
             //int bit = 1;
             int result = 0;
-            while(diff!=0)
+            while (diff != 0)
             {
                 if ((diff & 1) != 0)
                     result++;
-                diff =diff >> 1;
+                diff = diff >> 1;
             }
             return result;
 
 
-           
+
         }
 
         //Leet 455
@@ -119,9 +119,9 @@ namespace ALGRKC.Source.Misc.Leet
             int curChild = 0;
             int curCookie = 0;
             int numFound = 0;
-            while(curChild<g.Length && curCookie<s.Length)
+            while (curChild < g.Length && curCookie < s.Length)
             {
-                while ((curCookie < s.Length) &&(g[curChild] > s[curCookie]) )
+                while ((curCookie < s.Length) && (g[curChild] > s[curCookie]))
                     curCookie++;
 
                 if (curCookie < s.Length)//we found one
@@ -129,7 +129,7 @@ namespace ALGRKC.Source.Misc.Leet
                     numFound++;
                     curChild++;
                 }
-                
+
 
                 curCookie++;
             }
@@ -217,7 +217,7 @@ namespace ALGRKC.Source.Misc.Leet
                     target[i][j] = Math.Max(0, Math.Min(target[i + 1][j], target[i][j + 1]) - dungeon[i][j]);
                 }
 
-            return Math.Max(0, target[0][0])+1;
+            return Math.Max(0, target[0][0]) + 1;
         }
 
         //Leet 561 Array Partition
@@ -257,10 +257,10 @@ namespace ALGRKC.Source.Misc.Leet
             bool bFirst = true;
             for (int i = 0; i < newArray.Length; i++)
             {
-                while(newArray[i]!=0)
+                while (newArray[i] != 0)
                 {
                     newArray[i]--;
-                    if(bFirst)
+                    if (bFirst)
                     {
                         sum += i - nMax;
                         bFirst = false;
@@ -275,7 +275,7 @@ namespace ALGRKC.Source.Misc.Leet
             }
 
 
-                return sum;
+            return sum;
 
         }
 
@@ -291,11 +291,11 @@ namespace ALGRKC.Source.Misc.Leet
         public IList<IList<string>> PrintTree(TreeNode root)
         {
             int nHeight = TreeHeight(root);
-            int nColumn =(int)Math.Pow(2,nHeight)-1;
+            int nColumn = (int)Math.Pow(2, nHeight) - 1;
 
             //initialize the result matrix
-            string[][] result = new string[nHeight][]  ;
-            for(int i=0;i<nHeight;i++)
+            string[][] result = new string[nHeight][];
+            for (int i = 0; i < nHeight; i++)
             {
                 result[i] = new string[nColumn];
                 for (int j = 0; j < nColumn; j++)
@@ -315,7 +315,7 @@ namespace ALGRKC.Source.Misc.Leet
             if (root == null)
                 return;
             int mid = (leftColumn + rightColumn) / 2;
-            result[level][mid] = root.val.ToString(); 
+            result[level][mid] = root.val.ToString();
 
             //divide and conquer
             PrintTree(root.left, level + 1, leftColumn, mid - 1, result);
@@ -325,7 +325,7 @@ namespace ALGRKC.Source.Misc.Leet
 
         int TreeHeight(TreeNode nd)
         {
-            if(nd==null)
+            if (nd == null)
                 return 0;
 
             else
@@ -374,8 +374,8 @@ namespace ALGRKC.Source.Misc.Leet
             Queue<TreeNode> q = new Queue<TreeNode>();
             q.Enqueue(root);
             TreeNode currentNode;
-            int  currentNodeValue = 0, currentLevelNodeNumber = 1;
-            while(q.Count>0)
+            int currentNodeValue = 0, currentLevelNodeNumber = 1;
+            while (q.Count > 0)
             {
                 double currentSum = 0;
                 int tempNodeNumber = currentLevelNodeNumber;
@@ -386,7 +386,7 @@ namespace ALGRKC.Source.Misc.Leet
                     currentNodeValue = currentNode.val;
                     currentSum += currentNodeValue;
                     tempNodeNumber--;
-                    if(currentNode.left!=null)
+                    if (currentNode.left != null)
                     {
                         q.Enqueue(currentNode.left);
                         nextLevelNodeNumber++;
@@ -402,7 +402,7 @@ namespace ALGRKC.Source.Misc.Leet
                 double currentAvg = currentSum / currentLevelNodeNumber;
                 list.Add(currentAvg);
                 currentLevelNodeNumber = nextLevelNodeNumber;
-               
+
             }
 
             return list;
@@ -513,7 +513,7 @@ namespace ALGRKC.Source.Misc.Leet
             if (root == null)
                 return lists.ToList<IList<int>>();
             current.Add(root.val);
-            PathSumHelper(root, sum-root.val, lists, current);
+            PathSumHelper(root, sum - root.val, lists, current);
 
             return lists.ToList<IList<int>>();
 
@@ -537,13 +537,13 @@ namespace ALGRKC.Source.Misc.Leet
                     return;
             }
 
-            if (root.left!=null)
+            if (root.left != null)
             {
                 current.Add(root.left.val);
-                PathSumHelper(root.left, sum - root.left.val, lists,current );
+                PathSumHelper(root.left, sum - root.left.val, lists, current);
                 current.RemoveAt(current.Count - 1);
                 //current.RemoveAt(current.Remove(current.Count-1));
-                
+
             }
 
             if (root.right != null)
@@ -575,11 +575,11 @@ namespace ALGRKC.Source.Misc.Leet
             if (level == 1)
                 return triangle[0][0];
             for (int i = 0; i < level; i++)
-                currentSum[i] = triangle[level-1][i];
-            for(int i=level-2;i>=0;i--)
+                currentSum[i] = triangle[level - 1][i];
+            for (int i = level - 2; i >= 0; i--)
             {
                 for (int j = 0; j <= i; j++)
-                    currentSum[j] = Math.Min(currentSum[j], currentSum[j + 1])+triangle[i][j];
+                    currentSum[j] = Math.Min(currentSum[j], currentSum[j + 1]) + triangle[i][j];
             }
 
             return currentSum[0];
@@ -598,10 +598,10 @@ namespace ALGRKC.Source.Misc.Leet
             if (size == 1)
                 return nums[0];
 
-            int maxSum=nums[0];
-            
+            int maxSum = nums[0];
+
             int currentSum = nums[0] > 0 ? nums[0] : 0; ;
-            for(int i=1;i<size;i++)
+            for (int i = 1; i < size; i++)
             {
                 if (currentSum + nums[i] <= 0)
                 {
@@ -617,7 +617,7 @@ namespace ALGRKC.Source.Misc.Leet
                         maxSum = currentSum;
                 }
 
-                
+
             }
             return maxSum;
 
@@ -634,7 +634,7 @@ namespace ALGRKC.Source.Misc.Leet
 
             //f[i] -- maxSubArray(0:i), f[i] is using i;
             //f[i]=f[i-1]>0?nums[i]+f[i-1]:nums[i]
-            for(int i=1;i<size;i++)
+            for (int i = 1; i < size; i++)
             {
                 currentSum = currentSum > 0 ? currentSum + nums[i] : nums[i];
                 if (currentSum > maxSum)
@@ -668,7 +668,7 @@ namespace ALGRKC.Source.Misc.Leet
 
         public bool WordBreak(string sIn, IList<string> wordDict)
         {
-            
+
 
             Dictionary<string, bool> hs = new Dictionary<string, bool>();
             //HashSet<string> hs = new HashSet<string>(wordDict); // create an hash table
@@ -676,7 +676,7 @@ namespace ALGRKC.Source.Misc.Leet
 
 
             return WordBreak(sIn, hs, wordDict);
-            
+
         }
 
         public bool WordBreak(string sIn, Dictionary<string, bool> hs, IList<string> wordDict)
@@ -692,8 +692,8 @@ namespace ALGRKC.Source.Misc.Leet
                 hs.Add(sIn, true);
                 return true;
             }
-           
-         
+
+
 
             for (int i = 0; i < sIn.Length; i++)
             {
@@ -826,7 +826,7 @@ namespace ALGRKC.Source.Misc.Leet
             if (root == null)
                 return true;
 
-            bool bBalanced = true;   
+            bool bBalanced = true;
             int height = TreeHeightB(root, ref bBalanced);
 
             return bBalanced;
@@ -850,9 +850,128 @@ namespace ALGRKC.Source.Misc.Leet
             return Math.Max(lHeight, rHeight) + 1;
 
         }
-    }
+
+        //LeetCode 241: Different Ways to Add Parentheses
+        //Given a string of numbers and operators, return all possible results from computing all the different possible ways to group numbers and operators.The valid operators are +, - and*.
+
+        //Example 1:
+        //Input: "2-1-1"
+        //Output: [0, 2]
+        //        Explanation: 
+        //((2-1)-1) = 0 
+        //(2-(1-1)) = 2
+
+        //Example 2:
+        //Input: "2*3-4*5"
+        //Output: [-34, -14, -10, -10, 10]
+        //        Explanation: 
+        //(2*(3-(4*5))) = -34 
+        //((2*3)-(4*5)) = -14 
+        //((2*(3-4))*5) = -10 
+        //(2*((3-4)*5)) = -10 
+        //(((2*3)-4)*5) = 10
+        Dictionary<string, IList<int>> memResult = new Dictionary<string, IList<int>>();
+        public IList<int> DiffWaysToCompute(string input)
+        {
+            if (memResult.ContainsKey(input))
+                return memResult[input];
+            List<int> result = new List<int>();
+            int len = input.Length;
+            string first, second;
+            for (int i = 0; i < len; i++)
+            {
+                if (input[i] == '+' || input[i] == '-' || input[i] == '*')
+                {
+                    first = input.Substring(0, i);
+                    second = input.Substring(i + 1);
+                    IList<int> firstResult= DiffWaysToCompute(first);
+                    IList<int> secondResult = DiffWaysToCompute(second);
+
+                    // IList<int> result;
+                    Opera op = null ;
+
+                    if (input[i] == '+')
+                    {
+                        op = Add;
+                    }
+                    if (input[i] == '-')
+                    {
+                        op = Sub;
+                    }
+                    if (input[i] == '*')
+                    {
+                        op = Mult;
+                    }
+
+
+                   
+                    for (int k = 0; k < firstResult.Count; k++)
+                        for (int j = 0; j < secondResult.Count; j++)
+                        {
+                            int temp = op(firstResult[k], secondResult[j]);
+                            result.Add(temp);
+                        }
+
+                   // return result;
+
+                }
+            }
+            if(result.Count==0)
+                result.Add(Int32.Parse(input));
+            memResult.Add(input, result);
+            return result;
+
+
+        }
+
+        delegate int Opera(int a, int b);
+        int Add(int a, int b)
+        {
+            return a + b;
+
+        }
+        int Sub(int a, int b)
+        {
+            return a - b;
+
+        }
+        int Mult(int a, int b)
+        {
+            return a * b;
+
+        }
+
+
+        //delegate IList<int> CartiOpera(IList<int> first, IList<int> second);
+        //IList<int> CartiAdd(IList<int> first, IList<int> second)
+        //{
+        //    List<int> result = new List<int>();
+        //    for(int i = 0;i<first.Count;i++)
+        //        for(int j=0;j<second.Count;j++)
+        //        {
+        //            int temp = first[i] + second[j];
+        //            result.Add(temp);
+        //        }
+
+        //    return result;
+        //}
+        //IList<int> CartiSub(IList<int> first, IList<int> second)
+        //{
+
+        //}
+        //IList<int> CartiMulti(IList<int> first, IList<int> second)
+        //{
+
+        //}
 
 
 
 
     }
+
+    
+
+
+
+
+}
