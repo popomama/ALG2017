@@ -294,6 +294,8 @@ namespace ALGRKC.Source.Misc.Leet
         {
             bool bExist = false;   
             bool[][] bChosen = new bool[board.Length][];
+            for (int i = 0; i < board.Length; i++)
+                bChosen[i] = new bool[board[0].Length];
             for(int i=0;i<board.Length;i++)
                 for(int j=0;j<board[0].Length;j++)
                 {
