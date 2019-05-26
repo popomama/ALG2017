@@ -165,5 +165,201 @@ namespace ALGRKC.Source.Misc.Leet
            
 
         }
+
+        //Leetcode 669 Trim Binary Search tree
+        //Given a binary search tree and the lowest and highest boundaries as L and R, trim the tree so that all its elements lies in [L, R] (R >= L). You might need to change the root of the tree, so the result should return the new root of the trimmed binary search tree.
+        //Example 1:
+        //Input: 
+        //    1
+        //   / \
+        //  0   2
+        //  L = 1
+        //  R = 2
+
+        //Output: 
+        //    1
+        //      \
+        //       2
+
+        //        Example 2:
+        //Input: 
+        //    3
+        //   / \
+        //  0   4
+        //   \
+        //    2
+        //   /
+        //  1
+
+        //  L = 1
+        //  R = 3
+        //Output: 
+        //      3
+        //     / 
+        //   2   
+        //  /
+        // 1
+
+        public TreeNode TrimBST(TreeNode root, int L, int R)
+        {
+            if (root == null)
+                return null;
+
+            if(root.val <L)
+            {
+                return TrimBST(root.right, L, R);
+            }
+
+            if(root.val>R)
+            {
+                return TrimBST(root.left, L, R);
+            }
+
+            root.left = TrimBST(root.left, L, R);
+            root.right = TrimBST(root.right, L, R);
+
+            return root;    
+           
+
+        }
+
+
+        //Leetcode 654 Maximum Binary Tree
+        // Given an integer array with no duplicates. A maximum tree building on this array is defined as follow:
+
+        // 1. The root is the maximum number in the array.
+        // 2. The left subtree is the maximum tree constructed from left part subarray divided by the maximum number.
+        // 3. The right subtree is the maximum tree constructed from right part subarray divided by the maximum number.
+
+        //    Construct the maximum tree by the given array and output the root node of this tree.
+
+        //    Example 1:
+
+        //    Input: [3,2,1,6,0,5]
+        //Output: return the tree root node representing the following tree:
+
+        //      6
+        //    /   \
+        //   3     5
+        //    \    / 
+        //     2  0   
+        //       \
+        //        1
+
+        //    Note: The size of the given array will be in the range [1,1000].
+        public TreeNode ConstructMaximumBinaryTree(int[] nums)
+        {
+            TreeNode root = ConstructMaximumBinaryTreeHelper(nums, 0, nums.Length - 1);
+            return root;
+        }
+
+        private TreeNode ConstructMaximumBinaryTreeHelper(int[] nums, int leftIndex, int rightIndex)
+        {
+            if (leftIndex > rightIndex)
+                return null;
+            if (leftIndex == rightIndex)
+                return new TreeNode(nums[leftIndex]);
+
+            int tempMaxIndex=leftIndex;
+            //find the max, O(N)
+            for (int i = leftIndex + 1; i <= rightIndex; i++)
+                if (nums[tempMaxIndex] < nums[i])
+                    tempMaxIndex = i;
+
+            TreeNode nd = new TreeNode(nums[tempMaxIndex]);
+            nd.left = ConstructMaximumBinaryTreeHelper(nums, leftIndex, tempMaxIndex - 1);
+            nd.right = ConstructMaximumBinaryTreeHelper(nums, tempMaxIndex + 1, rightIndex);
+            return nd;
+        }
+
+        //LeetCode 79: Word Search
+        //Given a 2D board and a word, find if the word exists in the grid.
+
+        //The word can be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring.The same letter cell may not be used more than once.
+
+        //Example:
+
+        //board =
+        //[
+        //  ['A','B','C','E'],
+        //  ['S','F','C','S'],
+        //  ['A','D','E','E']
+        //]
+
+        //Given word = "ABCCED", return true.
+        //Given word = "SEE", return true.
+        //Given word = "ABCB", return false.
+
+        public bool Exist(char[][] board, string word)
+        {
+            bool bExist = false;   
+            bool[][] bChosen = new bool[board.Length][];
+            for(int i=0;i<board.Length;i++)
+                for(int j=0;j<board[0].Length;j++)
+                {
+                    bExist = FindWord(board, word, bChosen, i, j, 0);
+                    if (bExist)
+                        return true;
+                }
+
+            return false;
+        }
+
+        private bool FindWord(char[][] board, string word, bool[][] bChosen, int row, int col, int startIndex)
+        {
+            bool bExist = false;
+            if(board[row][col]==word[startIndex]) // find a match at this location
+            {
+                bChosen[row][col] = true;
+                if (startIndex == word.Length - 1)// we find match of the whole word
+                    return true;    
+                else //search the neighbor
+                {
+                    //startIndex++;
+
+                    //1. left
+                    if (col > 0 && bChosen[row][col - 1] == false)
+                    {
+                        bExist = FindWord(board, word, bChosen, row, col - 1, startIndex + 1);
+                        if (bExist)
+                            return true;
+                    }
+                    //2. right
+                    if (col < board[0].Length-1 && bChosen[row][col+1] == false)
+                    {
+                        bExist = FindWord(board, word, bChosen, row, col + 1, startIndex + 1);
+                        if (bExist)
+                            return true;
+                    }
+                    //3. UP
+                    if (row > 0 && bChosen[row-1][col] == false)
+                    {
+                        bExist = FindWord(board, word, bChosen, row-1, col, startIndex + 1);
+                        if (bExist)
+                            return true;
+                    }
+
+                    //4. DOWN
+                    if (row < board.Length-1 && bChosen[row +1][col] == false)
+                    {
+                        bExist = FindWord(board, word, bChosen, row + 1, col, startIndex + 1);
+                        if (bExist)
+                            return true;
+                    }
+
+
+
+                }
+
+
+
+                bChosen[row][col] = false;
+                //startIndex--;
+            }
+
+            return false;
+            
+
+        }
     }
 }
