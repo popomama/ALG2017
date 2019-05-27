@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ALGRKC.Source.Misc.Leet
 {
-    class Batch4
+    public class Batch4
     {
         //Leetcode 102: Binary Tree Level Order Traversal
         //Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
@@ -406,6 +406,66 @@ namespace ALGRKC.Source.Misc.Leet
                 return Math.Min(nums[left], nums[right]);
         }
 
-       
+        //Leetcode 154: Find Minimum in Rotated Sorted Array II
+        //Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+
+        //        (i.e.,  [0, 1, 2, 4, 5, 6, 7] might become[4, 5, 6, 7, 0, 1, 2]).
+
+        //Find the minimum element.
+
+        //The array may contain duplicates.
+
+        //Example 1:
+
+        //Input: [1,3,5]
+        //Output: 1
+
+        //Example 2:
+
+        //Input: [2,2,2,0,1]
+        //Output: 0
+        public int FindMin2(int[] nums)
+        {
+            int min = FindMinBinary(nums, 0, nums.Length - 1);
+            return min;
+        }
+
+        private int FindMinBinary(int[] nums, int left, int right)
+        {
+            int mid;
+            while (left < right - 1)
+            {
+                 mid = (left + right) / 2;
+                if (nums[left] < nums[right])//non-descending
+                    return nums[left];
+                else if(nums[left]>nums[right])
+                {
+                    if (nums[mid] < nums[right])
+                        right = mid;
+                    else if (nums[mid] > nums[right])
+                        left = mid + 1;
+                    else //left>mid=right
+                        right = mid;
+                    
+
+                }
+                else//nums[left]==nums[right]
+                {
+                    if (nums[mid] < nums[right])
+                        right = mid;
+                    else if (nums[mid] > nums[right])
+                        left = mid + 1;
+                    else //left=mid=right
+                    {
+                        int leftMin = FindMinBinary(nums, left, mid - 1);
+                        int rightMin = FindMinBinary(nums, mid + 1, right);
+
+                        return Math.Min(leftMin, rightMin);
+                    }
+                }
+            }
+
+            return Math.Min(nums[left], nums[right]);
+        }
     }
 }
