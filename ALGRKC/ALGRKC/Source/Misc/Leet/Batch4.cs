@@ -438,34 +438,91 @@ namespace ALGRKC.Source.Misc.Leet
                  mid = (left + right) / 2;
                 if (nums[left] < nums[right])//non-descending
                     return nums[left];
-                else if(nums[left]>nums[right])
-                {
-                    if (nums[mid] < nums[right])
-                        right = mid;
-                    else if (nums[mid] > nums[right])
-                        left = mid + 1;
-                    else //left>mid=right
-                        right = mid;
-                    
 
-                }
-                else//nums[left]==nums[right]
-                {
-                    if (nums[mid] < nums[right])
-                        right = mid;
-                    else if (nums[mid] > nums[right])
-                        left = mid + 1;
-                    else //left=mid=right
-                    {
-                        int leftMin = FindMinBinary(nums, left, mid - 1);
-                        int rightMin = FindMinBinary(nums, mid + 1, right);
+                int leftMin = FindMinBinary(nums, left, mid );
+                int rightMin = FindMinBinary(nums, mid + 1, right);
 
-                        return Math.Min(leftMin, rightMin);
-                    }
-                }
+                return Math.Min(leftMin, rightMin);
+                //else if(nums[left]>nums[right])
+                //{
+                //    if (nums[mid] < nums[right])
+                //        right = mid;
+                //    else if (nums[mid] > nums[right])
+                //        left = mid + 1;
+                //    else //left>mid=right
+                //        right = mid;
+
+
+                //}
+                //else//nums[left]==nums[right]
+                //{
+                //    if (nums[mid] < nums[right])
+                //        right = mid;
+                //    else if (nums[mid] > nums[right])
+                //        left = mid + 1;
+                //    else //left=mid=right
+                //    {
+                //        int leftMin = FindMinBinary(nums, left, mid - 1);
+                //        int rightMin = FindMinBinary(nums, mid + 1, right);
+
+                //        return Math.Min(leftMin, rightMin);
+                //    }
+                //}
             }
 
             return Math.Min(nums[left], nums[right]);
         }
+
+
+        //Leetcode 145: Binary Tree PostOrder Traversal
+        //Given a binary tree, return the postorder traversal of its nodes' values.
+
+        //        Example:
+
+        //Input: [1,null,2,3]
+        //   1
+        //    \
+        //     2
+        //    /
+        //   3
+
+        //Output: [3,2,1]
+
+        public IList<int> PostorderTraversal(TreeNode root)
+        {
+            TreeNode curr, ndLastAdded=null;// = root;
+            List<int> list = new List<int>();
+            if (root == null)
+                return list;
+            Stack<TreeNode> st = new Stack<TreeNode>();
+            st.Push(root);
+            while(st.Count!=0)
+            {
+                curr = st.Peek();
+                if (curr.left == null && curr.right == null)
+                {
+                    list.Add(curr.val);
+                    ndLastAdded = curr;
+                    st.Pop();
+                }
+                //st.Push(curr);
+                else if ((ndLastAdded != null) && (ndLastAdded == curr.left || ndLastAdded == curr.right))
+                {
+                    list.Add(curr.val);
+                    ndLastAdded = curr;
+                    st.Pop();
+                }
+                else
+                {
+                    if (curr.right != null)
+                        st.Push(curr.right);
+                    if (curr.left != null)
+                        st.Push(curr.left);
+                }
+            }
+
+            return list;
+        }
+
     }
 }
