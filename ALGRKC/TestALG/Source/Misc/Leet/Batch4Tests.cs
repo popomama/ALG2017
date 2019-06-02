@@ -18,8 +18,16 @@ namespace ALGRKC.Source.Misc.Leet.Tests
         public void FindMin2Test()
         {
             Batch4 b4 = new Batch4();
-            int[] nums ={2, 0, 1, 1, 1};
+            int[] nums = { 2, 0, 1, 1, 1 };
             int min = b4.FindMin2(nums);
+        }
+
+        [TestMethod()]
+        public void SolveNQueensTest()
+        {
+            Batch4 b4 = new Batch4();
+            IList<IList<string>> result=    b4.SolveNQueens(4);
+
         }
     }
 }

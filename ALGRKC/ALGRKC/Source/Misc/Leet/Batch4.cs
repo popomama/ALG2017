@@ -524,5 +524,86 @@ namespace ALGRKC.Source.Misc.Leet
             return list;
         }
 
+        //LeetCode 51: N-Queens
+        //Given an integer n, return all distinct solutions to the n-queens puzzle.
+
+        //        Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space respectively.
+
+        //Example:
+
+        //Input: 4
+        //Output: [
+        // [".Q..",  // Solution 1
+        //  "...Q",
+        //  "Q...",
+        //  "..Q."],
+
+        // ["..Q.",  // Solution 2
+        //  "Q...",
+        //  "...Q",
+        //  ".Q.."]
+        //]
+        //Explanation: There exist two distinct solutions to the 4-queens puzzle as shown above
+        public IList<IList<string>> SolveNQueens(int n)
+        {
+            List<IList<string>> result = new List<IList<string>>();
+
+            bool[] RowCheck = new bool[n];
+            bool[] ColCheck = new bool[n];
+            bool[] UpDiagCheck = new bool[2 * n + 1];
+            bool[] DowndiagCheck = new bool[2 * n + 1];
+            int[] solution = new int[n];
+            NQueen(result,solution, 0, n, RowCheck, ColCheck, UpDiagCheck, DowndiagCheck);
+
+            return result;
+
+
+
+        }
+
+        
+        private void NQueen(List<IList<string>> result, int[] solution, int currentRow, int dim, bool[] rowCheck, bool[] colCheck, bool[] upDiagCheck, bool[] downdiagCheck)
+        {
+            if (currentRow == dim)//we found a solution, insert the current solution to the final result
+            {
+                //
+                string temp = new string('.', dim);
+                List<string> list = new List<string>(dim);
+                for(int i=0;i<dim;i++)
+                {
+                    StringBuilder sb = new StringBuilder( temp);
+                    sb[solution[i]] = 'Q';
+                    list.Add(sb.ToString());
+
+                }
+
+                result.Add(list);
+                return;
+            }
+
+            for (int currentCol = 0; currentCol < dim; currentCol++)
+            {
+                if (!rowCheck[currentRow] && !colCheck[currentCol] && !upDiagCheck[currentCol + currentRow] && !downdiagCheck[currentRow - currentCol + dim - 1])
+                {
+                    solution[currentRow] = currentCol;
+                    rowCheck[currentRow] = true;
+                    colCheck[currentCol] = true;
+                    upDiagCheck[currentCol + currentRow] = true;
+                    downdiagCheck[currentRow - currentCol + dim - 1] = true;
+
+                    NQueen(result, solution, currentRow + 1, dim, rowCheck, colCheck, upDiagCheck, downdiagCheck);
+
+                    rowCheck[currentRow] = false;
+                    colCheck[currentCol] = false;
+                    upDiagCheck[currentCol + currentRow] = false;
+                    downdiagCheck[currentRow - currentCol + dim - 1] = false;
+                }
+
+            }
+
+
+
+        }
+
     }
 }
