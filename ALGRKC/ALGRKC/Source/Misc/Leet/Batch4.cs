@@ -711,6 +711,56 @@ namespace ALGRKC.Source.Misc.Leet
             return maxLen*2;// < maxLen2 ? maxLen * 2 : maxLen2 * 2;
         }
 
+        //use DP to solve the issue
+        public int LongestValidParenthesesDP(string s)
+        {
+            //status transfer equation
+            //assuming LP[N]= LongestValid substring that ends N and S[N] is used in the LP[N] otherwise we leave LP[N]=0
+            //if(s[N]=='(') then Lp[N]=0
+            //if(s[N]==')') then 
+            //      if(S[N-1]=='(') then LP[N]=LP[N-2]+2
+            //      else if(S[N-1]==')')
+            //                  if(S[N-LP[N-1]-1] =='(') then LP[N]=LP[N-1]+2+ LP[N-LP[N-1]-1];
+            //                  
+            int len = s.Length;
+            int[] LP = new int[len];
+            for (int i = 0; i < len; i++)
+                LP[i] = 0;
+            int maxLP = 0;
 
+            for(int i=1;i<len;i++)
+            {
+                if(s[i]==')')
+                {
+                    if(s[i-1]=='(') // i-1,i pairs '()'
+                    {
+                        if (i > 1)
+                            LP[i] = LP[i - 2] + 2;
+                    }
+                    else //s[i-1]=')', so i-1,i pairs '))'
+                    {
+                        if(i-1-LP[i-1]>=0)
+                        {
+                            if(LP[i - 1 - LP[i - 1]]=='(')
+                            {
+                                if (i - 1 - LP[i - 1] - 1 >= 0)
+                                    LP[i] = LP[i - 1] + 2 + LP[i - 1 - LP[i - 1] - 1];
+                                else
+                                    LP[i] = LP[i - 1] + 2;
+                            }
+                        }
+                    }
+
+                    if (LP[i] > maxLP)
+                        maxLP = LP[i];
+
+
+                }
+
+                //else if s[i]=='(', the substring ending i can't be a valid one 
+            }
+            return maxLP;
+
+
+        }
     }
-}
