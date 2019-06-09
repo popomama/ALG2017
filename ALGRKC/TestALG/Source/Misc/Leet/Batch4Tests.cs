@@ -26,8 +26,15 @@ namespace ALGRKC.Source.Misc.Leet.Tests
         public void SolveNQueensTest()
         {
             Batch4 b4 = new Batch4();
-            IList<IList<string>> result=    b4.SolveNQueens(4);
+            IList<IList<string>> result = b4.SolveNQueens(4);
 
+        }
+
+        [TestMethod()]
+        public void LongestValidParenthesesTest()
+        {
+            Batch4 b4 = new Batch4();
+            int l=b4.LongestValidParentheses("()(())");
         }
     }
 }

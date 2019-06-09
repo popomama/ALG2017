@@ -605,5 +605,112 @@ namespace ALGRKC.Source.Misc.Leet
 
         }
 
+        //LeetCode 611: Valid Triangle Number
+        //Given an array consists of non-negative integers, your task is to count the number of triplets chosen from the array that can make triangles if we take them as side lengths of a triangle.
+
+        //        Example 1:
+
+        //Input: [2,2,3,4]
+        //        Output: 3
+        //Explanation:
+        //Valid combinations are: 
+        //2,3,4 (using the first 2)
+        //2,3,4 (using the second 2)
+        //2,2,3
+
+        //Note:
+
+        //    The length of the given array won't exceed 1000.
+        //    The integers in the given array are in the range of[0, 1000].
+        public int TriangleNumber(int[] nums)
+        {
+            return 1;
+        }
+
+        //LeetCode 32 Longest Valid Parentheses
+        //        Given a string containing just the characters '(' and ')', find the length of the longest valid(well-formed) parentheses substring.
+
+        //Example 1:
+
+        //Input: "(()"
+        //Output: 2
+        //Explanation: The longest valid parentheses substring is "()"
+
+
+        //Example 2:
+
+
+        //Input: ")()())"
+        //Output: 4
+        //Explanation: The longest valid parentheses substring is "()()"
+        public int LongestValidParentheses(string s)
+        {
+            //idea: two parses
+            int len = s.Length;
+            int leftCount=0, rightCount = 0;
+            int maxLen = 0, currentLen = 0;
+
+            for(int i=0;i<len;i++) //loop through from left to right
+            {
+                if(s[i]==')')
+                {
+                    if (leftCount<=rightCount)//INVALID now. reset everything 
+                    {
+                        currentLen = 0;
+                        leftCount = 0;
+                        rightCount = 0;
+                    }
+                    else
+                    {
+                        rightCount++;
+                        if (leftCount == rightCount)
+                        {
+                            currentLen = leftCount;
+                            if (currentLen > maxLen)
+                                maxLen = currentLen;
+                        }
+                    }
+                }
+                else if(s[i]=='(')
+                {
+                    leftCount++;
+
+                }
+                
+            }
+            leftCount = 0; rightCount = 0; currentLen = 0; ;
+            //int maxLen2 = 0;
+            for(int i=len-1;i>=0;i--) //loop through right to left
+            {
+                if(s[i]==')')
+                {
+                    rightCount++;
+                }
+                else if(s[i]=='(')
+                {
+                    if(rightCount==leftCount)//invalid case, reset
+                    {
+                        currentLen = 0;
+                        leftCount = 0;
+                        rightCount = 0;
+                    }
+                    else
+                    {
+                        leftCount++;
+                        if (leftCount == rightCount)
+                        {
+                            currentLen = leftCount;
+                            if (currentLen > maxLen)
+                                maxLen = currentLen;
+                        }
+                    }
+
+                }
+            }
+
+            return maxLen*2;// < maxLen2 ? maxLen * 2 : maxLen2 * 2;
+        }
+
+
     }
 }
