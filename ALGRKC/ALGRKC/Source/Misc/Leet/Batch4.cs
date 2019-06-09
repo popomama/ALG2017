@@ -33,7 +33,7 @@ namespace ALGRKC.Source.Misc.Leet
             List<IList<int>> list = new List<IList<int>>();
             LevelOrder(root, list, 0);
 
-            return (IList <IList<int>>)list;
+            return (IList<IList<int>>)list;
 
 
 
@@ -41,12 +41,12 @@ namespace ALGRKC.Source.Misc.Leet
 
         private void LevelOrder(TreeNode nd, List<IList<int>> list, int level)
         {
-            if(nd!=null)
+            if (nd != null)
             {
                 if (list.Count <= level)
                 {
                     list.Add(new List<int>());
-//                    list[level] = new List<int>();
+                    //                    list[level] = new List<int>();
                 }
                 list[level].Add(nd.val);
                 if (nd.left != null)
@@ -137,11 +137,11 @@ namespace ALGRKC.Source.Misc.Leet
             DFSS(root);
             if (secondMin == rootVal)
                 return -1;
-            else if(root.left==null && root.right==null)
+            else if (root.left == null && root.right == null)
             {
                 return -1;
             }
-            else if(root.left.val==root.right.val && root.left.val==rootVal) //check if the 3 values are the same
+            else if (root.left.val == root.right.val && root.left.val == rootVal) //check if the 3 values are the same
             {
                 return -1;
             }
@@ -154,7 +154,7 @@ namespace ALGRKC.Source.Misc.Leet
         {
             if (nd == null)
                 return;
-            if (nd.val!=rootVal && nd.val < secondMin)
+            if (nd.val != rootVal && nd.val < secondMin)
             {
                 secondMin = nd.val;
                 return;
@@ -162,7 +162,7 @@ namespace ALGRKC.Source.Misc.Leet
 
             DFSS(nd.left);
             DFSS(nd.right);
-           
+
 
         }
 
@@ -205,12 +205,12 @@ namespace ALGRKC.Source.Misc.Leet
             if (root == null)
                 return null;
 
-            if(root.val <L)
+            if (root.val < L)
             {
                 return TrimBST(root.right, L, R);
             }
 
-            if(root.val>R)
+            if (root.val > R)
             {
                 return TrimBST(root.left, L, R);
             }
@@ -218,8 +218,8 @@ namespace ALGRKC.Source.Misc.Leet
             root.left = TrimBST(root.left, L, R);
             root.right = TrimBST(root.right, L, R);
 
-            return root;    
-           
+            return root;
+
 
         }
 
@@ -260,7 +260,7 @@ namespace ALGRKC.Source.Misc.Leet
             if (leftIndex == rightIndex)
                 return new TreeNode(nums[leftIndex]);
 
-            int tempMaxIndex=leftIndex;
+            int tempMaxIndex = leftIndex;
             //find the max, O(N)
             for (int i = leftIndex + 1; i <= rightIndex; i++)
                 if (nums[tempMaxIndex] < nums[i])
@@ -292,12 +292,12 @@ namespace ALGRKC.Source.Misc.Leet
 
         public bool Exist(char[][] board, string word)
         {
-            bool bExist = false;   
+            bool bExist = false;
             bool[][] bChosen = new bool[board.Length][];
             for (int i = 0; i < board.Length; i++)
                 bChosen[i] = new bool[board[0].Length];
-            for(int i=0;i<board.Length;i++)
-                for(int j=0;j<board[0].Length;j++)
+            for (int i = 0; i < board.Length; i++)
+                for (int j = 0; j < board[0].Length; j++)
                 {
                     bExist = FindWord(board, word, bChosen, i, j, 0);
                     if (bExist)
@@ -310,11 +310,11 @@ namespace ALGRKC.Source.Misc.Leet
         private bool FindWord(char[][] board, string word, bool[][] bChosen, int row, int col, int startIndex)
         {
             bool bExist = false;
-            if(board[row][col]==word[startIndex]) // find a match at this location
+            if (board[row][col] == word[startIndex]) // find a match at this location
             {
                 bChosen[row][col] = true;
                 if (startIndex == word.Length - 1)// we find match of the whole word
-                    return true;    
+                    return true;
                 else //search the neighbor
                 {
                     //startIndex++;
@@ -327,22 +327,22 @@ namespace ALGRKC.Source.Misc.Leet
                             return true;
                     }
                     //2. right
-                    if (col < board[0].Length-1 && bChosen[row][col+1] == false)
+                    if (col < board[0].Length - 1 && bChosen[row][col + 1] == false)
                     {
                         bExist = FindWord(board, word, bChosen, row, col + 1, startIndex + 1);
                         if (bExist)
                             return true;
                     }
                     //3. UP
-                    if (row > 0 && bChosen[row-1][col] == false)
+                    if (row > 0 && bChosen[row - 1][col] == false)
                     {
-                        bExist = FindWord(board, word, bChosen, row-1, col, startIndex + 1);
+                        bExist = FindWord(board, word, bChosen, row - 1, col, startIndex + 1);
                         if (bExist)
                             return true;
                     }
 
                     //4. DOWN
-                    if (row < board.Length-1 && bChosen[row +1][col] == false)
+                    if (row < board.Length - 1 && bChosen[row + 1][col] == false)
                     {
                         bExist = FindWord(board, word, bChosen, row + 1, col, startIndex + 1);
                         if (bExist)
@@ -360,7 +360,7 @@ namespace ALGRKC.Source.Misc.Leet
             }
 
             return false;
-            
+
 
         }
 
@@ -435,11 +435,11 @@ namespace ALGRKC.Source.Misc.Leet
             int mid;
             while (left < right - 1)
             {
-                 mid = (left + right) / 2;
+                mid = (left + right) / 2;
                 if (nums[left] < nums[right])//non-descending
                     return nums[left];
 
-                int leftMin = FindMinBinary(nums, left, mid );
+                int leftMin = FindMinBinary(nums, left, mid);
                 int rightMin = FindMinBinary(nums, mid + 1, right);
 
                 return Math.Min(leftMin, rightMin);
@@ -490,13 +490,13 @@ namespace ALGRKC.Source.Misc.Leet
 
         public IList<int> PostorderTraversal(TreeNode root)
         {
-            TreeNode curr, ndLastAdded=null;// = root;
+            TreeNode curr, ndLastAdded = null;// = root;
             List<int> list = new List<int>();
             if (root == null)
                 return list;
             Stack<TreeNode> st = new Stack<TreeNode>();
             st.Push(root);
-            while(st.Count!=0)
+            while (st.Count != 0)
             {
                 curr = st.Peek();
                 if (curr.left == null && curr.right == null)
@@ -553,7 +553,7 @@ namespace ALGRKC.Source.Misc.Leet
             bool[] UpDiagCheck = new bool[2 * n + 1];
             bool[] DowndiagCheck = new bool[2 * n + 1];
             int[] solution = new int[n];
-            NQueen(result,solution, 0, n, RowCheck, ColCheck, UpDiagCheck, DowndiagCheck);
+            NQueen(result, solution, 0, n, RowCheck, ColCheck, UpDiagCheck, DowndiagCheck);
 
             return result;
 
@@ -561,7 +561,7 @@ namespace ALGRKC.Source.Misc.Leet
 
         }
 
-        
+
         private void NQueen(List<IList<string>> result, int[] solution, int currentRow, int dim, bool[] rowCheck, bool[] colCheck, bool[] upDiagCheck, bool[] downdiagCheck)
         {
             if (currentRow == dim)//we found a solution, insert the current solution to the final result
@@ -569,9 +569,9 @@ namespace ALGRKC.Source.Misc.Leet
                 //
                 string temp = new string('.', dim);
                 List<string> list = new List<string>(dim);
-                for(int i=0;i<dim;i++)
+                for (int i = 0; i < dim; i++)
                 {
-                    StringBuilder sb = new StringBuilder( temp);
+                    StringBuilder sb = new StringBuilder(temp);
                     sb[solution[i]] = 'Q';
                     list.Add(sb.ToString());
 
@@ -647,14 +647,14 @@ namespace ALGRKC.Source.Misc.Leet
         {
             //idea: two parses
             int len = s.Length;
-            int leftCount=0, rightCount = 0;
+            int leftCount = 0, rightCount = 0;
             int maxLen = 0, currentLen = 0;
 
-            for(int i=0;i<len;i++) //loop through from left to right
+            for (int i = 0; i < len; i++) //loop through from left to right
             {
-                if(s[i]==')')
+                if (s[i] == ')')
                 {
-                    if (leftCount<=rightCount)//INVALID now. reset everything 
+                    if (leftCount <= rightCount)//INVALID now. reset everything 
                     {
                         currentLen = 0;
                         leftCount = 0;
@@ -671,24 +671,24 @@ namespace ALGRKC.Source.Misc.Leet
                         }
                     }
                 }
-                else if(s[i]=='(')
+                else if (s[i] == '(')
                 {
                     leftCount++;
 
                 }
-                
+
             }
             leftCount = 0; rightCount = 0; currentLen = 0; ;
             //int maxLen2 = 0;
-            for(int i=len-1;i>=0;i--) //loop through right to left
+            for (int i = len - 1; i >= 0; i--) //loop through right to left
             {
-                if(s[i]==')')
+                if (s[i] == ')')
                 {
                     rightCount++;
                 }
-                else if(s[i]=='(')
+                else if (s[i] == '(')
                 {
-                    if(rightCount==leftCount)//invalid case, reset
+                    if (rightCount == leftCount)//invalid case, reset
                     {
                         currentLen = 0;
                         leftCount = 0;
@@ -708,7 +708,7 @@ namespace ALGRKC.Source.Misc.Leet
                 }
             }
 
-            return maxLen*2;// < maxLen2 ? maxLen * 2 : maxLen2 * 2;
+            return maxLen * 2;// < maxLen2 ? maxLen * 2 : maxLen2 * 2;
         }
 
         //use DP to solve the issue
@@ -728,20 +728,20 @@ namespace ALGRKC.Source.Misc.Leet
                 LP[i] = 0;
             int maxLP = 0;
 
-            for(int i=1;i<len;i++)
+            for (int i = 1; i < len; i++)
             {
-                if(s[i]==')')
+                if (s[i] == ')')
                 {
-                    if(s[i-1]=='(') // i-1,i pairs '()'
+                    if (s[i - 1] == '(') // i-1,i pairs '()'
                     {
                         if (i > 1)
                             LP[i] = LP[i - 2] + 2;
                     }
                     else //s[i-1]=')', so i-1,i pairs '))'
                     {
-                        if(i-1-LP[i-1]>=0)
+                        if (i - 1 - LP[i - 1] >= 0)
                         {
-                            if(LP[i - 1 - LP[i - 1]]=='(')
+                            if (LP[i - 1 - LP[i - 1]] == '(')
                             {
                                 if (i - 1 - LP[i - 1] - 1 >= 0)
                                     LP[i] = LP[i - 1] + 2 + LP[i - 1 - LP[i - 1] - 1];
@@ -760,7 +760,6 @@ namespace ALGRKC.Source.Misc.Leet
                 //else if s[i]=='(', the substring ending i can't be a valid one 
             }
             return maxLP;
-
-
         }
     }
+}
