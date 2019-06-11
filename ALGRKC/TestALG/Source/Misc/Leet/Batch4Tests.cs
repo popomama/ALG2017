@@ -34,7 +34,22 @@ namespace ALGRKC.Source.Misc.Leet.Tests
         public void LongestValidParenthesesTest()
         {
             Batch4 b4 = new Batch4();
-            int l=b4.LongestValidParentheses("()(())");
+            int l = b4.LongestValidParentheses("()(())");
+        }
+
+        [TestMethod()]
+        public void FindLongestChainTest()
+        {
+            Batch4 b4 = new Batch4();
+            int[][] pairs = new int[][]
+                    {
+                        new int[] { 1, 3 },
+                        new int[] { 6, 2 },
+                        new int[] {  4,3},
+                        new int[] {2,7},
+                        new int [] {4,1}
+                    };
+            b4.FindLongestChain(pairs);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ALGRKC.Source.Basic;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -761,5 +762,193 @@ namespace ALGRKC.Source.Misc.Leet
             }
             return maxLP;
         }
+
+        //LeetCode 268: Mising #
+        //Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
+
+        //        Example 1:
+
+        //Input: [3,0,1]
+        //        Output: 2
+
+        //Example 2:
+
+        //Input: [9,6,4,2,3,5,7,0,1]
+        //        Output: 8
+
+        //    
+        public int MissingNumber(int[] nums)
+        {
+            //idea use XOR
+            int result=0;
+            int len = nums.Length;
+            for(int i=0;i<len;i++)
+            {
+                result ^= i;
+                result ^= nums[i];
+            }
+
+            result ^= len;
+            return result;
+        }
+
+        //#LeetCode 62: Unique Path
+        //A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
+
+        //        The robot can only move either down or right at any point in time.The robot is trying to reach the bottom-right corner of the grid(marked 'Finish' in the diagram below).
+
+        //How many possible unique paths are there?
+
+
+        //Above is a 7 x 3 grid.How many possible unique paths are there?
+
+        //Note: m and n will be at most 100.
+
+        //Example 1:
+
+        //Input: m = 3, n = 2
+        //Output: 3
+        //Explanation:
+        //From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:
+        //1. Right -> Right -> Down
+        //2. Right -> Down -> Right
+        //3. Down -> Right -> Right
+
+        //Example 2:
+
+        //Input: m = 7, n = 3
+        //Output: 28
+        public int UniquePaths(int m, int n)
+        {
+            int[,] result = new int[m,n];
+            for (int i = 0; i < n ; i++)
+                result[0, i] = 1;
+            for (int i = 0; i < m ; i++)
+                result[i, 0] = 1;
+
+            for(int i=1;i<m;i++)
+                for(int j=1;j<n;j++)
+                {
+                    result[i, j] = result[i - 1, j] + result[i, j - 1];
+                }
+
+            return result[m-1, n-1];
+        }
+
+        //Leet Code 121: Best time to buy and sell stock
+        //Say you have an array for which the ith element is the price of a given stock on day i.
+
+        //        If you were only permitted to complete at most one transaction(i.e., buy one and sell one share of the stock), design an algorithm to find the maximum profit.
+
+        //       Note that you cannot sell a stock before you buy one.
+
+
+        //       Example 1:
+
+
+        //       Input: [7,1,5,3,6,4]
+        //Output: 5
+        //Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+        //             Not 7-1 = 6, as selling price needs to be larger than buying price.
+
+        //Example 2:
+
+        //Input: [7,6,4,3,1]
+        //        Output: 0
+        //Explanation: In this case, no transaction is done, i.e.max profit = 0
+        public int MaxProfit(int[] prices)
+        {
+            if (prices.Length < 2)
+                return 0;
+
+            int profit = 0;
+            int currProfit;
+            int currMin = prices[0];
+           
+            for(int i=1;i<prices.Length;i++)
+            {
+                if (currMin > prices[i])
+                    currMin = prices[i];
+                else
+                {
+                    currProfit = (prices[i] - currMin);
+                    if (currProfit > profit)
+                        profit = currProfit;
+                }
+               
+
+            }
+
+            return profit;
+        }
+
+        //Leet Code 309: Best time to buy stock with Cool Down.
+        //Say you have an array for which the ith element is the price of a given stock on day i.
+        //        Design an algorithm to find the maximum profit.You may complete as many transactions as you like (ie, buy one and sell one share of the stock multiple times) with the following restrictions:
+
+        //    You may not engage in multiple transactions at the same time(ie, you must sell the stock before you buy again).
+        //    After you sell your stock, you cannot buy stock on next day. (ie, cooldown 1 day)
+
+        //Example:
+
+        //Input: [1,2,3,0,2]
+        //        Output: 3 
+        //Explanation: transactions = [buy, sell, cooldown, buy, sell]
+        public int MaxProfitCD(int[] prices)
+        {
+            return 1;
+        }
+
+
+        //LeetCode :646. Maximum Length of Pair Chain
+        // You are given n pairs of numbers. In every pair, the first number is always smaller than the second number.
+        //        Now, we define a pair(c, d) can follow another pair(a, b) if and only if b<c.Chain of pairs can be formed in this fashion.
+        //      Given a set of pairs, find the length longest chain which can be formed.You needn't use up all the given pairs. You can select pairs in any order.
+        //      Example 1:
+        //      Input: [[1, 2], [2,3], [3,4]]
+        //Output: 2
+        //Explanation: The longest chain is [1,2] -> [3,4]
+        //        Note:
+        //    The number of given pairs will be in the range[1, 1000].
+        public int FindLongestChain(int[][] pairs)
+        {
+            int pairNumber = pairs.Length;
+            Tuple<int, int>[] p = new Tuple<int, int>[pairNumber];
+            for (int i = 0; i < pairNumber; i++)
+                p[i] = new Tuple<int, int>(pairs[i][0], pairs[i][1]);
+            IComparer< Tuple<int, int>> comp = new TupleComparer();
+            Array.Sort(p, comp);
+
+//            int maxChain = 1;
+            int[] dp = new int[pairNumber];
+            dp[0] = 1;
+
+            for(int i=1;i< pairNumber; i++)
+                for(int j=0;j<i;j++)
+                {
+                    if (p[i].Item1 > p[j].Item2)
+                        dp[i] = Math.Max(dp[i], dp[j] + 1);
+                }
+            return dp[pairNumber - 1];
+        }
     }
+
+    public class TupleComparer : IComparer<Tuple<int,int>>
+    {
+        // Call CaseInsensitiveComparer.Compare with the parameters reversed.
+        public int Compare(Tuple<int,int> x, Tuple<int,int> y)
+        {
+            if (x.Item1 == y.Item1)
+            {
+                if (x.Item2 == y.Item2)
+                    return 0;
+                else
+                    return x.Item2 > y.Item2 ? 1 : -1;
+            }
+            else
+                return x.Item1 > y.Item1 ? 1 : -1;
+
+        }
+    }
+
 }
