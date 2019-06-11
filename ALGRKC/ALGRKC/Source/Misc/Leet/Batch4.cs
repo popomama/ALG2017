@@ -917,18 +917,25 @@ namespace ALGRKC.Source.Misc.Leet
             for (int i = 0; i < pairNumber; i++)
                 p[i] = new Tuple<int, int>(pairs[i][0], pairs[i][1]);
             IComparer< Tuple<int, int>> comp = new TupleComparer();
-            Array.Sort(p, comp);
+            Array.Sort(p, comp); // sort the pair by first dimension
 
 //            int maxChain = 1;
             int[] dp = new int[pairNumber];
             dp[0] = 1;
 
-            for(int i=1;i< pairNumber; i++)
-                for(int j=0;j<i;j++)
+            for (int i = 1; i < pairNumber; i++)
+            {
+                dp[i] = dp[i-1];  // we guarantee that dp[i] is non-decreasing
+
+                for (int j = i - 1; j >= 0; j--)
                 {
                     if (p[i].Item1 > p[j].Item2)
+                    {
                         dp[i] = Math.Max(dp[i], dp[j] + 1);
+                        j = -1;
+                    }
                 }
+            }
             return dp[pairNumber - 1];
         }
     }

@@ -40,14 +40,22 @@ namespace ALGRKC.Source.Misc.Leet.Tests
         [TestMethod()]
         public void FindLongestChainTest()
         {
+
+            //[[-6,9],[1,6],[8,10],[-1,4],[-6,-2],[-9,8],[-5,3],[0,3]]
             Batch4 b4 = new Batch4();
             int[][] pairs = new int[][]
                     {
-                        new int[] { 1, 3 },
-                        new int[] { 6, 2 },
-                        new int[] {  4,3},
-                        new int[] {2,7},
-                        new int [] {4,1}
+                        new int[] { -6, 9 },
+                        new int[] { 1, 6 },
+                        new int[] {  8,10},
+                        new int[] {-1,4},
+                        new int [] {-6,-2},
+                        new int [] {-9,8},
+                        new int [] {-5,3},
+                        new int [] {0,3}
+
+
+
                     };
             b4.FindLongestChain(pairs);
         }
