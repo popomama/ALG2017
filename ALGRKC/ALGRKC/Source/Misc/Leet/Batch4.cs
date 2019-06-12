@@ -938,6 +938,28 @@ namespace ALGRKC.Source.Misc.Leet
             }
             return dp[pairNumber - 1];
         }
+        public int FindLongestChainGreedy(int[][] pairs)
+        {
+            int pairNumber = pairs.Length;
+            Tuple<int, int>[] p = new Tuple<int, int>[pairNumber];
+            for (int i = 0; i < pairNumber; i++)
+                p[i] = new Tuple<int, int>(pairs[i][0], pairs[i][1]);
+            IComparer<Tuple<int, int>> comp = new TupleComparer2();
+            Array.Sort(p, comp); // sort the pair by 2nd dimension
+            int maxNum = 1;
+            int last = p[0].Item2;
+
+            for (int i = 1; i < pairNumber; i++)
+            {
+                if (p[i].Item1 > last)
+                {
+                    maxNum++;
+                    last = p[i].Item2;
+                }
+            }
+            return maxNum;
+        }
+
     }
 
     public class TupleComparer : IComparer<Tuple<int,int>>
@@ -954,6 +976,31 @@ namespace ALGRKC.Source.Misc.Leet
             }
             else
                 return x.Item1 > y.Item1 ? 1 : -1;
+
+        }
+    }
+
+    public class TupleComparer2 : IComparer<Tuple<int, int>>
+    {
+        // Call CaseInsensitiveComparer.Compare with the parameters reversed.
+        public int Compare(Tuple<int, int> x, Tuple<int, int> y)
+        {
+
+            if (x.Item2 > y.Item2)
+                return 1;
+            else if (x.Item2 < y.Item2)
+                return -1;
+            else
+                return 0;
+            //if (x.Item1 == y.Item1)
+            //{
+            //    if (x.Item2 == y.Item2)
+            //        return 0;
+            //    else
+            //        return x.Item2 > y.Item2 ? 1 : -1;
+            //}
+            //else
+            //    return x.Item1 > y.Item1 ? 1 : -1;
 
         }
     }
