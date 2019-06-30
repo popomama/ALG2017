@@ -59,5 +59,16 @@ namespace ALGRKC.Source.Misc.Leet.Tests
                     };
             b4.FindLongestChain(pairs);
         }
+
+        [TestMethod()]
+        public void KnapsackTest()
+        {
+            int[] weight = { 5, 4, 6, 7 };
+            int[] value = { 10, 40, 30, 70 };
+
+            Batch4 b4 = new Batch4();
+            int max = b4.Knapsack(weight.Length, 9, weight, value);
+
+        }
     }
 }

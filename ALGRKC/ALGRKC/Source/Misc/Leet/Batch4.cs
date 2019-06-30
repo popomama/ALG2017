@@ -894,6 +894,10 @@ namespace ALGRKC.Source.Misc.Leet
         //Input: [1,2,3,0,2]
         //        Output: 3 
         //Explanation: transactions = [buy, sell, cooldown, buy, sell]
+        //Idea: use DP. Create 3 states for a state machine. Rest, Bought,Sold
+        //      Rest[i]=max{Rest[i-1], Sold[i-1]}
+        //      Bought[i]= max{Rest[i-1]-Price[i], Bought[i-1]}
+        //      Sold[i]= max{Bought[i-1]+Price[i], Sold[i-1]
         public int MaxProfitCD(int[] prices)
         {
             return 1;
@@ -959,7 +963,35 @@ namespace ALGRKC.Source.Misc.Leet
             }
             return maxNum;
         }
+        
+        //Knapsack problem:
+        //A set of n items, where item i has weight w[i] and value[i], and a knapsack with capacity W.
+        //Suppose to pick a few elements from the ne elements such that their weight is <= W  but the summed value is maximized
+        public int Knapsack(int n, int capacity, int[] weight, int[] value)
+        {
+            //use DP
+            int[,] R = new int[n + 1, capacity + 1];
+            //initialization to 0
+            for (int i = 0; i <= n; i++)
+                for (int j = 0; j <= capacity; j++)
+                    R[i, j] = 0;
 
+            for(int i=1;i<=n;i++)
+                for(int j=1;j<=capacity;j++)
+                {
+                    if ((j - weight[i - 1]) < 0)
+                        R[i, j] = R[i - 1, j];
+                    else
+                    {
+                        if ((value[i - 1] + R[i - 1, j - weight[i - 1]]) > R[i - 1, j]) //take item i
+                            R[i, j] = value[i - 1] + R[i - 1, j - weight[i - 1]];
+                        else
+                            R[i, j] = R[i - 1, j]; // don't take item i
+                    }
+                }
+
+            return R[n, capacity];
+        }
     }
 
     public class TupleComparer : IComparer<Tuple<int,int>>
@@ -1004,5 +1036,6 @@ namespace ALGRKC.Source.Misc.Leet
 
         }
     }
+
 
 }
