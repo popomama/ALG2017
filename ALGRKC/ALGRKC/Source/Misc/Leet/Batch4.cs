@@ -780,9 +780,9 @@ namespace ALGRKC.Source.Misc.Leet
         public int MissingNumber(int[] nums)
         {
             //idea use XOR
-            int result=0;
+            int result = 0;
             int len = nums.Length;
-            for(int i=0;i<len;i++)
+            for (int i = 0; i < len; i++)
             {
                 result ^= i;
                 result ^= nums[i];
@@ -820,19 +820,19 @@ namespace ALGRKC.Source.Misc.Leet
         //Output: 28
         public int UniquePaths(int m, int n)
         {
-            int[,] result = new int[m,n];
-            for (int i = 0; i < n ; i++)
+            int[,] result = new int[m, n];
+            for (int i = 0; i < n; i++)
                 result[0, i] = 1;
-            for (int i = 0; i < m ; i++)
+            for (int i = 0; i < m; i++)
                 result[i, 0] = 1;
 
-            for(int i=1;i<m;i++)
-                for(int j=1;j<n;j++)
+            for (int i = 1; i < m; i++)
+                for (int j = 1; j < n; j++)
                 {
                     result[i, j] = result[i - 1, j] + result[i, j - 1];
                 }
 
-            return result[m-1, n-1];
+            return result[m - 1, n - 1];
         }
 
         //Leet Code 121: Best time to buy and sell stock
@@ -864,8 +864,8 @@ namespace ALGRKC.Source.Misc.Leet
             int profit = 0;
             int currProfit;
             int currMin = prices[0];
-           
-            for(int i=1;i<prices.Length;i++)
+
+            for (int i = 1; i < prices.Length; i++)
             {
                 if (currMin > prices[i])
                     currMin = prices[i];
@@ -875,7 +875,7 @@ namespace ALGRKC.Source.Misc.Leet
                     if (currProfit > profit)
                         profit = currProfit;
                 }
-               
+
 
             }
 
@@ -920,16 +920,16 @@ namespace ALGRKC.Source.Misc.Leet
             Tuple<int, int>[] p = new Tuple<int, int>[pairNumber];
             for (int i = 0; i < pairNumber; i++)
                 p[i] = new Tuple<int, int>(pairs[i][0], pairs[i][1]);
-            IComparer< Tuple<int, int>> comp = new TupleComparer();
+            IComparer<Tuple<int, int>> comp = new TupleComparer();
             Array.Sort(p, comp); // sort the pair by first dimension
 
-//            int maxChain = 1;
+            //            int maxChain = 1;
             int[] dp = new int[pairNumber];
             dp[0] = 1;
 
             for (int i = 1; i < pairNumber; i++)
             {
-                dp[i] = dp[i-1];  // we guarantee that dp[i] is non-decreasing
+                dp[i] = dp[i - 1];  // we guarantee that dp[i] is non-decreasing
 
                 for (int j = i - 1; j >= 0; j--)
                 {
@@ -963,7 +963,7 @@ namespace ALGRKC.Source.Misc.Leet
             }
             return maxNum;
         }
-        
+
         //Knapsack problem:
         //A set of n items, where item i has weight w[i] and value[i], and a knapsack with capacity W.
         //Suppose to pick a few elements from the ne elements such that their weight is <= W  but the summed value is maximized
@@ -976,8 +976,8 @@ namespace ALGRKC.Source.Misc.Leet
                 for (int j = 0; j <= capacity; j++)
                     R[i, j] = 0;
 
-            for(int i=1;i<=n;i++)
-                for(int j=1;j<=capacity;j++)
+            for (int i = 1; i <= n; i++)
+                for (int j = 1; j <= capacity; j++)
                 {
                     if ((j - weight[i - 1]) < 0)
                         R[i, j] = R[i - 1, j];
@@ -992,7 +992,161 @@ namespace ALGRKC.Source.Misc.Leet
 
             return R[n, capacity];
         }
+
+        //find the longest common substring of two strings a and b
+        //complextity O(mn)
+        public int LongestCommonString(string a, string b)
+        {
+            int lenA = a.Length;
+            int lenB = b.Length;
+            int[,] comm = new int[lenA + 1, lenB + 1];
+            int maxLen = 0;
+            for (int i = 0; i < lenB + 1; i++)
+                comm[0, i] = 0;
+            for (int j = 0; j < lenA + 1; j++)
+                comm[j, 0] = 1;
+
+            for (int i = 0; i < lenA; i++)
+                for (int j = 0; j < lenB; j++)
+                {
+                    if (a[i] == b[j])
+                    {
+                        comm[i + 1, j + 1] = comm[i, j] + 1;
+                        if (comm[i + 1, j + 1] > maxLen)
+                            maxLen = comm[i + 1, j + 1];
+                    }
+                    else
+                        comm[i + 1, j + 1] = 0;
+
+                }
+
+            return maxLen;
+
+        }
+
+        //find the longest common subsequence
+        int LongestCommonSubsequence(string a, string b)
+        {
+            int lenA = a.Length;
+            int lenB = b.Length;
+            int[,] comm = new int[lenA + 1, lenB + 1];
+            // int maxLen = 0;
+            for (int i = 0; i < lenB + 1; i++)
+                comm[0, i] = 0;
+            for (int j = 0; j < lenA + 1; j++)
+                comm[j, 0] = 1;
+
+            for (int i = 0; i < lenA; i++)
+                for (int j = 0; j < lenB; j++)
+                {
+                    if (a[i] == b[j])
+                    {
+                        comm[i + 1, j + 1] = comm[i, j] + 1;// Math.Max( comm[i, j] + 1, Math.Max(comm[i+1,j],comm[i,j+1]));
+
+                    }
+                    else
+                    {
+                        comm[i + 1, j + 1] = Math.Max(comm[i + 1, j], comm[i, j + 1]);
+                    }
+                }
+
+            return comm[lenA, lenB];
+        }
+
+        //Leetcode 300: LongestIncreasingsubsequence
+        //Given an unsorted array of integers, find the length of longest increasing subsequence.
+
+        //Example:
+
+        //Input: [10,9,2,5,3,7,101,18]
+        //Output: 4 
+        //Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4. 
+
+        //Note:
+
+        //    There may be more than one LIS combination, it is only necessary for you to return the length.
+        //    Your algorithm should run in O(n2) complexity.
+
+        //Follow up: Could you improve it to O(n log n) time complexity?
+
+        public int LengthOfLIS(int[] nums)
+        {
+            int maxLen = 1;
+            if (nums.Length <= 1)
+                return nums.Length;
+            //int currentMax = 1;
+            int[] incNums = new int[nums.Length];
+            for (int i = 0; i < nums.Length; i++)
+                incNums[i] = 1;
+
+            for (int i = 1; i < nums.Length; i++)
+            {
+                //currentMax = 1;
+                for (int j = 0; j < i; j++)
+                {
+                    if (nums[i] > nums[j])
+                    {
+                        incNums[i] = Math.Max(incNums[j] + 1, incNums[i]);
+                    }
+                }
+            }
+
+            for (int i = 0; i < nums.Length; i++)
+                maxLen = Math.Max(incNums[i], maxLen);
+
+            return maxLen;
+        }
+
+        //O(NlgN) 
+        public int LengthOfLIS2(int[] nums)
+        {
+            int arrLen = nums.Length;
+            if (arrLen <= 1)
+                return arrLen;
+
+            int[] arr = new int[arrLen];
+
+            arr[0] = nums[0];
+            int currentLen = 1;
+            for(int i=1;i<arrLen;i++)
+            {
+
+                if(nums[i]>arr[currentLen-1])
+                {
+                    //append the current item to the last of the arr
+                    arr[currentLen] = nums[i];
+                    currentLen++;
+                    
+                }
+                else
+                {
+                    //need to find the replacement position
+                    //BinarySearch:
+                    //The index of the specified value in the specified array, if value is found; 
+                    //otherwise, a negative number.If value is not found and value is less than one or more elements in array, 
+                    //the negative number returned is the bitwise complement(-(index+1)) of the index of the first element that is larger than 
+                    //value.If value is not found and value is greater than all elements in array, the negative number returned 
+                    //is the bitwise complement of(the index of the last element plus 1). 
+                    int index = Array.BinarySearch(arr, 0, currentLen, nums[i]);
+                    if(index<0)
+                        arr[-(index+1)] = nums[i];
+                   // else
+
+                }
+
+
+
+            }
+
+            return currentLen;
+
+
+        }
+
+
     }
+
+    
 
     public class TupleComparer : IComparer<Tuple<int,int>>
     {

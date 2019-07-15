@@ -70,5 +70,22 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             int max = b4.Knapsack(weight.Length, 9, weight, value);
 
         }
+
+        [TestMethod()]
+        public void LongestCommonStringTest()
+        {
+            string a = "zxabcdezy", b = "yzabcdezx";
+
+            Batch4 b4 = new Batch4();
+        int len=            b4.LongestCommonString(a, b);
+        }
+
+
+        [TestMethod()]
+        public void Test()
+        {
+            int[] arr = { 2, 4, 5, 6,7 };
+           int a = Array.BinarySearch(arr, 0,5, 3);
+        }
     }
 }
