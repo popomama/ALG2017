@@ -1143,10 +1143,147 @@ namespace ALGRKC.Source.Misc.Leet
 
         }
 
-
+        
     }
 
-    
+    //676. Implement Magic Dictionary
+    //        Implement a magic directory with buildDict, and search methods.
+    //For the method buildDict, you'll be given a list of non-repetitive words to build a dictionary.
+    //For the method search, you'll be given a word, and judge whether if you modify exactly one character 
+    //into another character in this word, the modified word is in the dictionary you just built.
+    //Example 1:
+    //Input: buildDict(["hello", "leetcode"]), Output: Null
+    //Input: search("hello"), Output: False
+    //Input: search("hhllo"), Output: True
+    //Input: search("hell"), Output: False
+    //Input: search("leetcoded"), Output: False
+
+    //Note:
+
+    //    You may assume that all the inputs are consist of lowercase letters a-z.
+    //    For contest purpose, the test data is rather small by now.You could think about highly efficient algorithm after 
+    //    the contest.
+    //    Please remember to RESET your class variables declared in class MagicDictionary, as static/class variables are 
+    //    persisted across multiple test cases.Please see here for more details.
+    public class MagicDictionary
+    {
+        
+        /** Initialize your data structure here. */
+        public MagicDictionary()
+        {
+
+        }
+
+        /** Build a dictionary through a list of words */
+        public void BuildDict(string[] dict)
+        {
+
+        }
+
+        /** Returns if there is any word in the trie that equals to the given word after modifying exactly one character */
+        public bool Search(string word)
+        {
+            return true;
+        }
+    }
+
+
+    //Leetcode 146 LRU Cache
+
+    //    Design and implement a data structure for Least Recently Used(LRU) cache.It should support the following operations: get and put.
+
+    //get(key) - Get the value(will always be positive) of the key if the key exists in the cache, otherwise return -1.
+    //put(key, value) - Set or insert the value if the key is not already present.When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
+
+    //The cache is initialized with a positive capacity.
+
+    //Follow up:
+    //Could you do both operations in O(1) time complexity?
+
+    //Example:
+
+    //LRUCache cache = new LRUCache(2 /* capacity */ );
+
+    //    cache.put(1, 1);
+    //cache.put(2, 2);
+    //cache.get(1);       // returns 1
+    //cache.put(3, 3);    // evicts key 2
+    //cache.get(2);       // returns -1 (not found)
+    //cache.put(4, 4);    // evicts key 1
+    //cache.get(1);       // returns -1 (not found)
+    //cache.get(3);       // returns 3
+    //cache.get(4);       // returns 4
+
+    public class LRUCache
+    {
+        
+        LinkedList<KeyValuePair<int,int>> list; // each node is a keyvalue pair consisting key value, and a linkedlistnode that has value
+        Dictionary<int,LinkedListNode<KeyValuePair<int,int>>> cache;
+        int capacity;
+        public LRUCache(int capacity)
+        {
+            this.capacity = capacity;
+            cache = new Dictionary<int, LinkedListNode<KeyValuePair<int, int>>>(capacity);
+            list = new LinkedList<KeyValuePair<int, int>>();
+        }
+
+        public int Get(int key)
+        {
+            if (cache.ContainsKey(key))
+            {
+                //need to move the current key to the front of the linked list to mark it as the latest visited key
+                LinkedListNode<KeyValuePair<int, int>> current = cache[key];
+                list.Remove(current);
+                list.AddFirst(current);
+                return cache[key].Value.Value;
+            }
+            else
+                return -1;
+        }
+
+        public void Put(int key, int value)
+        {
+            
+
+            if (cache.ContainsKey(key))
+            {
+                LinkedListNode<KeyValuePair<int, int>> currentNode = cache[key];
+                currentNode.Value = new KeyValuePair<int, int>(key, value); //reset the value
+                list.Remove(currentNode);
+                list.AddFirst(currentNode);
+//                cache[key].Value = value;
+            }
+            else
+            {
+                if (cache.Count >= capacity) // the capacity is reached.
+                {
+                    //we need to remove the least used key from the linkedlist first
+                    LinkedListNode<KeyValuePair<int, int>> lastNode = list.Last;
+                    cache.Remove(lastNode.Value.Key); // remove the key from the list
+                    list.RemoveLast();
+
+                    KeyValuePair<int, int> keypair = new KeyValuePair<int, int>(key, value);   //new KeyValuePair<int, int>(key, value);
+                    LinkedListNode<KeyValuePair<int, int>> newNode = new LinkedListNode<KeyValuePair<int, int>>(keypair);  // create the new node
+                    //                        new LinkedListNode<int, KeyValuePair<int, int>>(key, keypair);
+                    list.AddFirst(newNode); //add it to the front of the list, which means it is the latest visited key
+                    cache.Add(key, newNode ); //add the key to the cache
+
+                }
+                else //it's still under capactiy, we can add the new values right away
+                {
+                    KeyValuePair<int, int> keypair = new KeyValuePair<int, int>(key, value);   //new KeyValuePair<int, int>(key, value);
+                    LinkedListNode<KeyValuePair<int, int>> newNode = new LinkedListNode<KeyValuePair<int, int>>(keypair);  // create the new node
+                    //                        new LinkedListNode<int, KeyValuePair<int, int>>(key, keypair);
+                    list.AddFirst(newNode); //add it to the front of the list, which means it is the latest visited key
+                    cache.Add(key, newNode); //add the key to the cache
+
+
+                }
+
+            }
+        }
+    }
+
 
     public class TupleComparer : IComparer<Tuple<int,int>>
     {

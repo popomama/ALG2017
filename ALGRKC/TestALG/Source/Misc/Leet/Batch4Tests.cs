@@ -87,5 +87,28 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             int[] arr = { 2, 4, 5, 6,7 };
            int a = Array.BinarySearch(arr, 0,5, 3);
         }
+
+
+
+        [TestMethod()]
+        public void LRUTest()
+        {
+            int i;
+            LRUCache cache = new LRUCache(2);
+            cache.Put(2, 1);
+            cache.Put(1,1);
+            cache.Put(2, 3);
+            cache.Put(4, 1);
+
+           i=  cache.Get(1);       // returns 1
+            
+          i=  cache.Get(2);       // returns -1 (not found)
+          //  cache.Put(4, 4);    // evicts key 1
+          //i=  cache.Get(1);       // returns -1 (not found)
+          //i=  cache.Get(3);       // returns 3
+          //i=  cache.Get(4);       // returns 4
+
+
+        }
     }
 }
