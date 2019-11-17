@@ -77,15 +77,15 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             string a = "zxabcdezy", b = "yzabcdezx";
 
             Batch4 b4 = new Batch4();
-        int len=            b4.LongestCommonString(a, b);
+            int len = b4.LongestCommonString(a, b);
         }
 
 
         [TestMethod()]
         public void Test()
         {
-            int[] arr = { 2, 4, 5, 6,7 };
-           int a = Array.BinarySearch(arr, 0,5, 3);
+            int[] arr = { 2, 4, 5, 6, 7 };
+            int a = Array.BinarySearch(arr, 0, 5, 3);
         }
 
 
@@ -96,19 +96,51 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             int i;
             LRUCache cache = new LRUCache(2);
             cache.Put(2, 1);
-            cache.Put(1,1);
+            cache.Put(1, 1);
             cache.Put(2, 3);
             cache.Put(4, 1);
 
-           i=  cache.Get(1);       // returns 1
+            i = cache.Get(1);       // returns 1
+
+            i = cache.Get(2);       // returns -1 (not found)
+                                    //  cache.Put(4, 4);    // evicts key 1
+                                    //i=  cache.Get(1);       // returns -1 (not found)
+                                    //i=  cache.Get(3);       // returns 3
+                                    //i=  cache.Get(4);       // returns 4
+
+
+        }
+
+        [TestMethod()]
+        public void FindItineraryTest()
+        {
+            Batch4 b4 = new Batch4();
+
+            //[["MUC","LHR"],["JFK","MUC"],["SFO","SJC"],["LHR","SFO"]]
+            IList<IList<string>> tickets = new List<IList<string>>();
+            List<string> tempList;
+            tempList = new List<string>();
+            tempList.Add("MUC");
+            tempList.Add("LHR");
+            tickets.Add ( tempList);
+
+            tempList = new List<string>();
+            tempList.Add("JFK");
+            tempList.Add("MUC");
+            tickets.Add(tempList);
+
+            tempList = new List<string>();
+            tempList.Add("SFO");
+            tempList.Add("SJC");
+            tickets.Add(tempList);
+
+            tempList = new List<string>();
+            tempList.Add("LHR");
+            tempList.Add("SFO");
+            tickets.Add(tempList);
+
+            IList<string> routes =  b4.FindItinerary(tickets);
             
-          i=  cache.Get(2);       // returns -1 (not found)
-          //  cache.Put(4, 4);    // evicts key 1
-          //i=  cache.Get(1);       // returns -1 (not found)
-          //i=  cache.Get(3);       // returns 3
-          //i=  cache.Get(4);       // returns 4
-
-
         }
     }
 }

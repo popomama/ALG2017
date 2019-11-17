@@ -1108,15 +1108,15 @@ namespace ALGRKC.Source.Misc.Leet
 
             arr[0] = nums[0];
             int currentLen = 1;
-            for(int i=1;i<arrLen;i++)
+            for (int i = 1; i < arrLen; i++)
             {
 
-                if(nums[i]>arr[currentLen-1])
+                if (nums[i] > arr[currentLen - 1])
                 {
                     //append the current item to the last of the arr
                     arr[currentLen] = nums[i];
                     currentLen++;
-                    
+
                 }
                 else
                 {
@@ -1128,9 +1128,9 @@ namespace ALGRKC.Source.Misc.Leet
                     //value.If value is not found and value is greater than all elements in array, the negative number returned 
                     //is the bitwise complement of(the index of the last element plus 1). 
                     int index = Array.BinarySearch(arr, 0, currentLen, nums[i]);
-                    if(index<0)
-                        arr[-(index+1)] = nums[i];
-                   // else
+                    if (index < 0)
+                        arr[-(index + 1)] = nums[i];
+                    // else
 
                 }
 
@@ -1143,8 +1143,134 @@ namespace ALGRKC.Source.Misc.Leet
 
         }
 
+
+        //332 Reconstruct Itinerary
+        //Given a list of airline tickets represented by pairs of departure and arrival airports [from, to], reconstruct the itinerary in order. All of the tickets belong to a man who departs from JFK. Thus, the itinerary must begin with JFK.
+
+        //    Note:
+
+        //    If there are multiple valid itineraries, you should return the itinerary that has the smallest lexical order when read as a single string. For example, the itinerary["JFK", "LGA"] has a smaller lexical order than["JFK", "LGB"].
+        //    All airports are represented by three capital letters(IATA code).
+        //    You may assume all tickets form at least one valid itinerary.
+
+        //Example 1:
+
+        //Input: [["MUC", "LHR"], ["JFK", "MUC"], ["SFO", "SJC"], ["LHR", "SFO"]]
+        //Output: ["JFK", "MUC", "LHR", "SFO", "SJC"]
+
+        //    Example 2:
+
+        //Input: [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
+        //Output: ["JFK","ATL","JFK","SFO","ATL","SFO"]
+        //    Explanation: Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","SFO"].
+        //             But it is larger in lexical order.
+        public IList<string> FindItinerary(IList<IList<string>> tickets)
+        {
+
+            if (tickets == null || tickets.Count == 0)
+                return null; // there is no tickets
+
+            Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>();
+
+
+            List<string> routes = new List<string>(tickets.Count); //record the routes
+
+            for (int i = 0; i < tickets.Count; i++)
+            {
+                IList<string> pair = tickets[i];
+
+                string source = pair[0];
+                string dest = pair[1];
+
+                if (!dict.ContainsKey(source))
+                {
+                    List<string> list = new List<string>();
+                    list.Add(dest);
+                    dict.Add(source, list);
+                }
+                else
+                {
+                    dict[source].Add(dest);
+                }
+
+            }
+
+            //now sort the lists for each source
+            foreach (List<string> list in dict.Values)
+            {
+                list.Sort();
+            }
+
+
+            string start = "JFK";
+
+            DFSIter(start, dict, ref routes);
+
+            routes.Reverse();
+
+            return routes;
+        }
+
+        void DFSIter(string start, Dictionary<string, List<string>> dict, ref List<string> routes)
+        {
+            
+            if(dict.ContainsKey(start))// if the tickets don't include this start, it means it's a destination only, so it has to be the last in the route
+            {  
+            List<string> destList = dict[start];
+
+            string dest;
+
+                while (destList.Count > 0)
+                {
+                    dest = destList[0];
+                    destList.RemoveAt(0);
+
+                    DFSIter(dest, dict, ref routes);
+
+                }
+            }
+
+            routes.Add(start);
+
+
+
+        }
+
+
+        //Leetcode 451. sort Characters by frequency
+        //Given a string, sort it in decreasing order based on the frequency of characters.
+
+        //        Example 1:
+
+        //Input:
+        //"tree"
+
+        //Output:
+        //"eert"
+
+        //Explanation:
+        //'e' appears twice while 'r' and 't' both appear once.
+        //So 'e' must appear before both 'r' and 't'. Therefore "eetr" is also a valid answer.
+        public string FrequencySort(string s)
+        {
+            Hashtable h = new Hashtable();
+     
+            for (int i = 0; i < s.Length; i++)
+                h[s[i]] = 1;
+
         
+        }
+
+        static bool valuePairComp(KeyValuePair<char, int> p1, KeyValuePair<char, int> p2)
+        {
+            return p1.Value > p2.Value;
+        }
+
     }
+
+
+
+
 
     //676. Implement Magic Dictionary
     //        Implement a magic directory with buildDict, and search methods.
@@ -1184,6 +1310,50 @@ namespace ALGRKC.Source.Misc.Leet
         public bool Search(string word)
         {
             return true;
+        }
+    }
+
+
+    //leetcode 460: LFU Cache
+    //    Design and implement a data structure for Least Frequently Used(LFU) cache.It should support the following operations: get and put.
+
+    //get(key) - Get the value(will always be positive) of the key if the key exists in the cache, otherwise return -1.
+    //put(key, value) - Set or insert the value if the key is not already present.When the cache reaches its capacity, it should invalidate the least frequently used item before inserting a new item.For the purpose of this problem, when there is a tie (i.e., two or more keys that have the same frequency), the least recently used key would be evicted.
+
+    //Follow up:
+    //Could you do both operations in O(1) time complexity?
+
+    //Example:
+
+    //LFUCache cache = new LFUCache( 2 /* capacity */ );
+
+    //    cache.put(1, 1);
+    //cache.put(2, 2);
+    //cache.get(1);       // returns 1
+    //cache.put(3, 3);    // evicts key 2
+    //cache.get(2);       // returns -1 (not found)
+    //cache.get(3);       // returns 3.
+    //cache.put(4, 4);    // evicts key 1.
+    //cache.get(1);       // returns -1 (not found)
+    //cache.get(3);       // returns 3
+    //cache.get(4);       // returns 4
+    public class LFUCache
+    {
+
+        public LFUCache(int capacity)
+        {
+
+        }
+
+        public int Get(int key)
+        {
+            return 0;
+        }
+//        return 0;
+
+        public void Put(int key, int value)
+        {
+
         }
     }
 
