@@ -122,7 +122,7 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             tempList = new List<string>();
             tempList.Add("MUC");
             tempList.Add("LHR");
-            tickets.Add ( tempList);
+            tickets.Add(tempList);
 
             tempList = new List<string>();
             tempList.Add("JFK");
@@ -139,8 +139,62 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             tempList.Add("SFO");
             tickets.Add(tempList);
 
-            IList<string> routes =  b4.FindItinerary(tickets);
-            
+            IList<string> routes = b4.FindItinerary(tickets);
+
         }
+
+        [TestMethod()]
+        public void FrequencySortTest()
+        {
+            Batch4 b4 = new Batch4();
+
+            string result =b4.FrequencySort("aDDbbbcAc");
+
+
+
+        }
+
+        [TestMethod()]
+        public void LFUCacheTest()
+        {
+            //    ["LFUCache","put","put","get","put","get","get","put","get","get","get"]
+            //      [[2],[1,1],[2,2],[1],[3,3],[2],[3],[4,4],[1],[3],[4]]
+
+            int result;
+
+            LFUCache lfuCache = new LFUCache(2);
+            
+            lfuCache.Put(1, 1);
+            lfuCache.Put(2, 2);
+
+            result = lfuCache.Get(1);
+
+            lfuCache.Put(3, 3);
+            result = lfuCache.Get(2);
+            result = lfuCache.Get(3);
+
+            lfuCache.Put(4, 4);
+
+            result = lfuCache.Get(1);
+            result = lfuCache.Get(3);
+            result = lfuCache.Get(4);
+            //result = lfuCache.Get(3);
+
+            //    Test case 2:
+
+            //    ["LFUCache","put","put","put","put","get"]
+            //[[2],[3,1],[2,1],[2,2],[4,4],[2]]
+            lfuCache = new LFUCache(2);
+
+            lfuCache.Put(3, 1);
+            lfuCache.Put(2, 1);
+            lfuCache.Put(2, 2);
+            lfuCache.Put(2, 4);
+
+            result = lfuCache.Get(2);
+
+
+        }
+
     }
 }

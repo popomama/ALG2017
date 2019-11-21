@@ -1253,17 +1253,48 @@ namespace ALGRKC.Source.Misc.Leet
         //So 'e' must appear before both 'r' and 't'. Therefore "eetr" is also a valid answer.
         public string FrequencySort(string s)
         {
-            Hashtable h = new Hashtable();
-     
+            Dictionary<char,int> dict = new Dictionary<char, int>();
+
+
             for (int i = 0; i < s.Length; i++)
-                h[s[i]] = 1;
+            {
+                if (dict.ContainsKey(s[i]))
+                    dict[s[i]]++;
+                else
+                    dict.Add(s[i], 1);
+            }
+
+            List<KeyValuePair<char, int>> l = new List<KeyValuePair<char, int>>();
+
+           foreach(char key in dict.Keys)
+            {
+                l.Add(new KeyValuePair<char, int>(key, dict[key]));
+
+            }
+
+           //sort the pair
+            l.Sort(valuePairComp);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < l.Count; i++)
+                sb.Append(l[i].Key, l[i].Value);
+
+            return sb.ToString();
+
 
         
         }
 
-        static bool valuePairComp(KeyValuePair<char, int> p1, KeyValuePair<char, int> p2)
+        static int valuePairComp(KeyValuePair<char, int> p1, KeyValuePair<char, int> p2)
         {
-            return p1.Value > p2.Value;
+            if (p1.Value < p2.Value)
+            {
+                return 1;
+            }
+            if (p1.Value > p2.Value)
+                return -1;
+
+            return 0;
         }
 
     }
@@ -1315,10 +1346,13 @@ namespace ALGRKC.Source.Misc.Leet
 
 
     //leetcode 460: LFU Cache
-    //    Design and implement a data structure for Least Frequently Used(LFU) cache.It should support the following operations: get and put.
+    //    Design and implement a data structure for Least Frequently Used(LFU) cache.It should support the 
+    //    following operations: get and put.
 
     //get(key) - Get the value(will always be positive) of the key if the key exists in the cache, otherwise return -1.
-    //put(key, value) - Set or insert the value if the key is not already present.When the cache reaches its capacity, it should invalidate the least frequently used item before inserting a new item.For the purpose of this problem, when there is a tie (i.e., two or more keys that have the same frequency), the least recently used key would be evicted.
+    //put(key, value) - Set or insert the value if the key is not already present. When the cache reaches its capacity, 
+    //it should invalidate the least frequently used item before inserting a new item.For the purpose of this problem, 
+    //when there is a tie (i.e., two or more keys that have the same frequency), the least recently used key would be evicted.
 
     //Follow up:
     //Could you do both operations in O(1) time complexity?
@@ -1327,7 +1361,7 @@ namespace ALGRKC.Source.Misc.Leet
 
     //LFUCache cache = new LFUCache( 2 /* capacity */ );
 
-    //    cache.put(1, 1);
+    //cache.put(1, 1);
     //cache.put(2, 2);
     //cache.get(1);       // returns 1
     //cache.put(3, 3);    // evicts key 2
@@ -1337,33 +1371,151 @@ namespace ALGRKC.Source.Misc.Leet
     //cache.get(1);       // returns -1 (not found)
     //cache.get(3);       // returns 3
     //cache.get(4);       // returns 4
-    public class LFUCache
+    public class LFUCache  //O(1) implementation
     {
+        int capacity, minFrequency;
+        Dictionary<int, CacheNode> dicKeyNode; //maps key and the value/frequency/location in the freqlist
+
+        Dictionary<int, LinkedList<int>> dicKeyFrequencyList;  //maps frequency and the node(with key) in the corresponding frequency list
 
         public LFUCache(int capacity)
         {
-
+            this.capacity = capacity ;
+            dicKeyFrequencyList = new Dictionary<int, LinkedList<int>>();
+            dicKeyNode = new Dictionary<int, CacheNode>();
         }
 
         public int Get(int key)
         {
-            return 0;
+            if(!dicKeyNode.ContainsKey(key)) //key doesn't exist
+            {
+                return -1;
+            }
+
+            CacheNode nd = dicKeyNode[key];
+            int value = nd.value;
+            int currFrequency = nd.frequency;
+            LinkedList<int> orgFreqList = dicKeyFrequencyList[currFrequency];
+            LinkedListNode<int> orgndInFrequencyList = nd.ndInFrequencyList;
+
+            //remove from the original frequency list
+            orgFreqList.Remove(orgndInFrequencyList);
+
+            //adjust the minimum frequency if the orgFreqList becomes empty
+            if ((currFrequency == minFrequency) && (orgFreqList.Count<1))
+                minFrequency++;
+
+
+            //increment frequency
+            nd.frequency++;
+
+            if (!dicKeyFrequencyList.ContainsKey(nd.frequency)) // if the new frequency list doesn't exist before, create a new list first
+                dicKeyFrequencyList[nd.frequency] = new LinkedList<int>();
+
+            //add the key into the new frequency list and get the node back(position for future removal purpose)
+            LinkedListNode<int> ndFrequency =dicKeyFrequencyList[nd.frequency].AddFirst(key); 
+            nd.ndInFrequencyList = ndFrequency;
+
+            return value;
+
+
         }
-//        return 0;
+        //        return 0;
 
         public void Put(int key, int value)
         {
+            if (capacity == 0)
+                return;
+            if(dicKeyNode.ContainsKey(key)) // key exist, so only need to update the information
+            {
+                CacheNode nd = dicKeyNode[key];
+                nd.value = value; // update the value
+               // int value = nd.value;
+                int currFrequency = nd.frequency;
+                nd.frequency++;
+                LinkedList<int> orgFreqList = dicKeyFrequencyList[currFrequency];
+                LinkedListNode<int> orgndInFrequencyList = nd.ndInFrequencyList;
+
+                //remove from the original frequency list
+                orgFreqList.Remove(orgndInFrequencyList);
+                if (orgFreqList.Count == 0)
+                    minFrequency = nd.frequency;
+                
+                if (!dicKeyFrequencyList.ContainsKey(nd.frequency))
+                    dicKeyFrequencyList[nd.frequency] = new LinkedList<int>();
+
+                LinkedListNode<int> ndInNewFrequnecyList = dicKeyFrequencyList[nd.frequency].AddFirst(key);
+                nd.ndInFrequencyList = ndInNewFrequnecyList;
+                return;
+            }
+            else//key never exists
+            { 
+                if(capacity==dicKeyNode.Count) //if we reach capacity already
+                {
+
+                    LinkedListNode<int> ndEvicted = dicKeyFrequencyList[minFrequency].Last;
+                    //remove the evicted node from the frequency list;
+                    dicKeyFrequencyList[minFrequency].RemoveLast();
+
+                    //remove the evicted key from dictionary
+                    dicKeyNode.Remove(ndEvicted.Value);
+
+                    CacheNode nd = new CacheNode(key, value, 1);
+                    LinkedListNode<int> ndInNewFrequnecyList = dicKeyFrequencyList[nd.frequency].AddFirst(key);
+                    nd.ndInFrequencyList = ndInNewFrequnecyList;
+
+                    dicKeyNode.Add(key, nd);
+                    minFrequency = 1;
+                    return;
+
+
+                }
+                else // we still have room and just add the value
+                {
+                    CacheNode nd = new CacheNode(key, value, 1);
+                    if (!dicKeyFrequencyList.ContainsKey(1)) // create a new frequency list if it doesn't exist 
+                        dicKeyFrequencyList[1] = new LinkedList<int>();
+                    LinkedListNode<int> ndInNewFrequnecyList = dicKeyFrequencyList[nd.frequency].AddFirst(key);
+                    nd.ndInFrequencyList = ndInNewFrequnecyList;
+                    
+                    //add the key, node pair to the dictionary
+                    dicKeyNode.Add(key, nd);
+
+                    minFrequency = 1;
+                    return;
+
+
+                }
+
+
+            }
 
         }
     }
 
+    public class CacheNode
+    {
+        public int key;
+        public int value;
+        public int frequency;
+        public LinkedListNode<int> ndInFrequencyList;
+       
+
+        public CacheNode(int key, int value, int frequency ) 
+        {
+            this.key = key;
+            this.value = value;
+            this.frequency = frequency;
+        }
+    }
 
     //Leetcode 146 LRU Cache
 
-    //    Design and implement a data structure for Least Recently Used(LRU) cache.It should support the following operations: get and put.
+    //Design and implement a data structure for Least Recently Used(LRU) cache.It should support the following operations: get and put.
 
     //get(key) - Get the value(will always be positive) of the key if the key exists in the cache, otherwise return -1.
-    //put(key, value) - Set or insert the value if the key is not already present.When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
+    //put(key, value) - Set or insert the value if the key is not already present.When the cache reached its capacity, 
+    //it should invalidate the least recently used item before inserting a new item.
 
     //The cache is initialized with a positive capacity.
 
@@ -1374,7 +1526,7 @@ namespace ALGRKC.Source.Misc.Leet
 
     //LRUCache cache = new LRUCache(2 /* capacity */ );
 
-    //    cache.put(1, 1);
+    //cache.put(1, 1);
     //cache.put(2, 2);
     //cache.get(1);       // returns 1
     //cache.put(3, 3);    // evicts key 2
@@ -1387,7 +1539,7 @@ namespace ALGRKC.Source.Misc.Leet
     public class LRUCache
     {
         
-        LinkedList<KeyValuePair<int,int>> list; // each node is a keyvalue pair consisting key value, and a linkedlistnode that has value
+        LinkedList<KeyValuePair<int,int>> list; // each node is a keyvalue pair consisting key value, and a linkedlist node that has value
         Dictionary<int,LinkedListNode<KeyValuePair<int,int>>> cache;
         int capacity;
         public LRUCache(int capacity)
