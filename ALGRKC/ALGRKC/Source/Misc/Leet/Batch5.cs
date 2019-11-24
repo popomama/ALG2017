@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ALGRKC.Source.Misc.Leet
 {
-    class Batch5
+    public class Batch5
     {
         // Leetcode 675. Cut off trees for golf event
         // You are asked to cut off trees in a forest for a golf event. The forest is represented as a non-negative 2D map, in this map:
@@ -48,13 +48,16 @@ namespace ALGRKC.Source.Misc.Leet
 
             int steps=0;
 
+            int sourceX=0, sourceY=0;
             for (int i = 0; i < treeList.Count; i++)
             {
-                int currSteps = BFSTree(forest, 0, 0, treeList[i].Item2, treeList[i].Item3);
+                int currSteps = BFSTree(forest, sourceX,sourceY, treeList[i].Item2, treeList[i].Item3);
                 if (currSteps == -1)
                     return -1;
                 else
                     steps += currSteps;
+                sourceX = treeList[i].Item2;
+                sourceY = treeList[i].Item3;
             }
             return steps;
 
@@ -75,41 +78,54 @@ namespace ALGRKC.Source.Misc.Leet
             Queue<Tuple<int, int>> workingQueue = new Queue<Tuple<int, int>>();
             IList<IList<bool>> isVisited = new List<IList<bool>>();
             for (int row = 0; row < forest.Count; row++)
+            {
+                isVisited.Add(new List<bool>());
                 for (int col = 0; col < forest[row].Count; col++)
                 {
-                    isVisited[row][col] = false;
 
-                }
-
-            //dx,dy denotes the destination
-            workingQueue.Enqueue(new Tuple<int, int>(sx,sy));
-            
-            while(workingQueue.Count>0)
-            {
-                Tuple<int, int> current = workingQueue.Dequeue();
-                step++;
-                if (current.Item1 == dx && current.Item2 == dy)  //we find the destinamtion;
-                    return step;
-                else
-                {
-                    if (isVisited[sx][sy] || forest[sx][sy] == 0)
-                        return -1;
-
-                    isVisited[sx][sy] = true;
-                    for (int i = 0; i < 4; i++) // loop the direction;
-                    {
-                        int newX = current.Item1 + directions[i].Item1;
-                        int newY = current.Item2 + directions[i].Item2;
-                        if (newX < 0 || newX >= forest.Count || newY < 0 || newY >= forest[0].Count || isVisited[newX][newY]) //out of the bound or already visited
-                            continue;
-
-                        workingQueue.Enqueue(new Tuple<int, int>(newX, newY));
-
-                    }
-
+                    isVisited[row].Add(false); 
 
                 }
             }
+            //dx,dy denotes the destination
+            workingQueue.Enqueue(new Tuple<int, int>(sx,sy));
+
+
+
+            while (workingQueue.Count > 0)
+            {
+                int currentLevelQueueSize = workingQueue.Count;
+                for (int num = 0; num < currentLevelQueueSize; num++)
+                {
+                    Tuple<int, int> current = workingQueue.Dequeue();
+                    //step++;
+                    if (current.Item1 == dx && current.Item2 == dy)  //we find the destinamtion;
+                        return step;
+                    else
+                    {
+                        if (isVisited[current.Item1][current.Item2])
+                            continue;
+
+                        isVisited[current.Item1][current.Item2] = true;
+                        for (int i = 0; i < 4; i++) // loop the direction;
+                        {
+                            int newX = current.Item1 + directions[i].Item1;
+                            int newY = current.Item2 + directions[i].Item2;
+                            if (newX < 0 || newX >= forest.Count || newY < 0 || newY >= forest[0].Count 
+                                || isVisited[newX][newY] || forest[newX][newY]==0) //out of the bound or already visited, pr blocked.
+                                continue;
+
+                            workingQueue.Enqueue(new Tuple<int, int>(newX, newY));
+
+
+                        }
+
+
+                    }
+                }
+                step++;
+            }
+
 
             return -1;
         }
