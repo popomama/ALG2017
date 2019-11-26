@@ -20,8 +20,8 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             Batch5 b5 = new Batch5();
             List<IList<int>> forest = new List<IList<int>>();
             forest.Add(new List<int> { 1, 2, 3 });
-            forest.Add(new List<int> { 0,0,0 });
-            forest.Add(new List<int> { 7,6,5 });
+            forest.Add(new List<int> { 0, 0, 0 });
+            forest.Add(new List<int> { 7, 6, 5 });
             //forest = {
             //    { 1,2,3},
             //    { 0,0,4},
@@ -29,13 +29,55 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             //};
 
             int steps = b5.CutOffTree(forest);
-           // [
-        // [1,2,3],
-        // [0,0,4],
-        // [7,6,5]
-        //]
-           
-            
+            // [
+            // [1,2,3],
+            // [0,0,4],
+            // [7,6,5]
+            //]
+
+
         }
-}
+
+        [TestMethod()]
+        public void RandomizedSetTest()
+        {
+            RandomizedSet rs = new RandomizedSet();
+            bool result;
+            result    =rs.Insert(1);
+            result = rs.Remove(2);
+            result = rs.Insert(2);
+            int randonValue  = rs.GetRandom();
+            result = rs.Remove(1);
+            result = rs.Insert(2);
+            randonValue = rs.GetRandom();
+
+        }
+
+
+        [TestMethod()]
+        public void RandomizedCollectionTest()
+        {
+            RandomizedCollection rs = new RandomizedCollection();
+            bool result;
+            int randonValue;// = rs.GetRandom();
+
+            result = rs.Insert(4);
+            result = rs.Insert(3);
+            result = rs.Insert(4);
+            result = rs.Insert(2);
+            result = rs.Insert(4);
+
+           // randonValue = rs.GetRandom();
+
+            result = rs.Remove(4);
+            result = rs.Remove(3);
+            result = rs.Remove(4);
+            result = rs.Remove(4);
+
+            randonValue = rs.GetRandom();
+
+//            result = rs.Remove(1);
+
+        }
+    }
 }

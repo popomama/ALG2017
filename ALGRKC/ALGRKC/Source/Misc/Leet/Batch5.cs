@@ -129,5 +129,189 @@ namespace ALGRKC.Source.Misc.Leet
 
             return -1;
         }
+
+       
+
+
     }
+
+    //leetcode 380: Insert/delete/getrandom O(1)
+    //Design a data structure that supports all following operations in average O(1) time.
+    //insert(val) : Inserts an item val to the set if not already present.
+    // remove(val): Removes an item val from the set if present.
+    // getRandom: Returns a random element from current set of elements.Each element must have the same probability of being returned.
+    public class RandomizedSet
+    {
+        Dictionary<int, int> dict; //the value  of the dict contains the index of the key in the array/list
+        List<int> list; // the value of the list contains the key that is mapped to the list
+
+        /** Initialize your data structure here. */
+        public RandomizedSet()
+        {
+            dict = new Dictionary<int, int>();
+            list = new List<int>();
+
+        }
+
+        /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+        public bool Insert(int val)
+        {
+            if(!dict.ContainsKey(val))
+            {
+                list.Add(val);
+
+                dict.Add(val, list.Count-1);
+                
+                return true;
+            }
+
+            return false;   
+
+        }
+
+        /** Removes a value from the set. Returns true if the set contained the specified element. */
+        public bool Remove(int val)
+        {
+            if(dict.ContainsKey(val))
+            {
+                int indexForDeleted = dict[val];  
+                if(indexForDeleted == list.Count-1) // the last one in the array, then we only need to remove the key from both the dictionary and array{
+                {
+                    dict.Remove(val);
+                    list.RemoveAt(list.Count - 1);
+                }
+                else //it's not the last one, we need to swap the last one and the one to be deleted in the array
+                {
+                    int keyForLast = list[list.Count - 1];
+                    dict[keyForLast] = indexForDeleted;
+                    dict.Remove(val);
+                    list.RemoveAt(list.Count - 1);
+                    list[indexForDeleted] = keyForLast;
+                }
+
+                return true;
+            }
+            return false;   
+        }
+
+        /** Get a random element from the set. */
+        public int GetRandom()
+        {
+            Random r = new Random();
+       
+            int index = r.Next() % list.Count;
+
+            return list[index];
+
+        }
+    }
+
+
+    //leetcode 381: Insert/delete/getrandom O(1) -- Duplicated allowed
+    //Note: Duplicate elements are allowed.
+    // insert(val): Inserts an item val to the collection.
+    // remove(val): Removes an item val from the collection if present.
+    // getRandom: Returns a random element from current collection of elements.The probability of each element being returned 
+    //is linearly related to the number of same value the collection contains.
+
+    public class RandomizedCollection
+    {
+        Dictionary<int, List<int>> dict; //key, index list pair(list of the index in the array/list
+        List<Tuple<int,int>> listKeyPair; //1st is the key, 2nd is the position in the list in dict
+        /** Initialize your data structure here. */
+        public RandomizedCollection()
+        {
+            dict = new Dictionary<int, List<int>>();
+            listKeyPair = new List<Tuple<int, int>>(); 
+        }
+
+        /** Inserts a value to the collection. Returns true if the collection did not already contain the specified element. */
+        public bool Insert(int val)
+        {
+            List<int> currList;
+            if (dict.ContainsKey(val))
+            {
+                currList = dict[val];
+//                int lastIndex = listKeys.Count - 1;
+                currList.Add(listKeyPair.Count);
+                listKeyPair.Add(Tuple.Create(val, currList.Count-1));
+                return false;
+            }
+            else
+            {
+                currList = new List<int>();
+                currList.Add(listKeyPair.Count);
+                dict.Add(val, currList);
+                listKeyPair.Add(Tuple.Create(val, currList.Count - 1)); //the 2nd of the Tuple is always 0 in this case
+
+                return true;
+            }
+        }
+
+        /** Removes a value from the collection. Returns true if the collection contained the specified element. */
+        public bool Remove(int val)
+        {
+            if(dict.ContainsKey(val))
+            {
+                List<int> currList = dict[val];
+                int currDeletedIndex = currList[currList.Count - 1];//get the index of the last occurrence in the array.
+                if (currList.Count == 1) //this key only contains 1 element, so the key should be removed from the dict
+                    dict.Remove(val);
+                else
+                    currList.RemoveAt(currList.Count - 1); //remove the last appearance from the list;
+
+                //now process the listKeys
+                if (listKeyPair.Count == 1) // this is the last item, we only need to remove the key in the list
+                    listKeyPair.RemoveAt(0);
+                else// there is more than 1 items in the listKey array
+                {
+                    if (currDeletedIndex != listKeyPair.Count - 1)
+                    {
+                        listKeyPair[currDeletedIndex] = listKeyPair[listKeyPair.Count - 1]; // move the last item in the list to the currentdeletedIndex;
+                        Tuple<int, int> movedItem = listKeyPair[listKeyPair.Count - 1];
+
+                        listKeyPair.RemoveAt(listKeyPair.Count - 1);
+
+                        //now update the orginal key/list information
+
+                        int updateKey = movedItem.Item1;
+                        int updateIndex = movedItem.Item2;
+                        dict[updateKey][updateIndex] = currDeletedIndex;
+                    }
+                    //else it's the last item in the array already, we dont' need to move, just remove the last one
+                    else {
+                        listKeyPair.RemoveAt(listKeyPair.Count - 1);
+                    }
+
+                }
+
+
+                return true;
+
+            }
+
+            return false;
+        }
+
+        /** Get a random element from the collection. */
+        public int GetRandom()
+        {
+            Random r = new Random();
+
+            int index = r.Next() % listKeyPair.Count;
+
+            return listKeyPair[index].Item1;
+
+        }
+    }
+
+    /**
+     * Your RandomizedCollection object will be instantiated and called as such:
+     * RandomizedCollection obj = new RandomizedCollection();
+     * bool param_1 = obj.Insert(val);
+     * bool param_2 = obj.Remove(val);
+     * int param_3 = obj.GetRandom();
+     */
+
+
 }
