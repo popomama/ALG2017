@@ -313,5 +313,103 @@ namespace ALGRKC.Source.Misc.Leet
      * int param_3 = obj.GetRandom();
      */
 
+    //leetcode 547 Friend Circles
+    // There are N students in a class. Some of them are friends, while some are not. Their friendship is transitive in nature. For example, 
+    // if A is a direct friend of B, and B is a direct friend of C, then A is an indirect friend of C. And we defined a friend circle is a group of 
+    //students who are direct or indirect friends.
 
+    //Given a N* N matrix M representing the friend relationship between students in the class. If M[i][j] = 1, then the ith and jth students are 
+    //direct friends with each other, otherwise not.And you have to output the total number of friend circles among all the students.
+
+    //Example 1:
+
+    //    Input: 
+    //[[1,1,0],
+    // [1,1,0],
+    // [0,0,1]]
+    //Output: 2
+    //Explanation:The 0th and 1st students are direct friends, so they are in a friend circle.
+    //The 2nd student himself is in a friend circle.So return 2.
+
+    public class FriendsSearch
+    {
+        int groupNumber = 0;
+        bool[] grouped;
+
+        public int FindCircleNum(int[][] M)
+        {
+            grouped = new bool[M.Length];
+
+            //use DFS to go through each person
+            for (int i = 0; i < M.Length; i++)
+            {
+                if (!grouped[i])
+                { 
+                    grouped[i] = true;
+                    groupNumber++;
+                }
+                Queue<int> q = new Queue<int>();
+                q.Enqueue(i);
+                while(q.Count>0)
+                {
+                    int current = q.Dequeue();
+                    for(int j=0;j<M[current].Length;j++)
+                    {
+                        if(j != current && M[current][j]==1 && !grouped[j])
+                        {
+                            grouped[j] = true;
+                            q.Enqueue(j);
+                        }
+                    }
+                }
+
+                 //for(int j=0;j<M[i].Length;j++)
+                 //{
+                 //    if (M[i][j] == 1) // find a new group
+                 //    {
+
+                    //        groupNumber--;
+                    //        M[i][j] = groupNumber; // mark the groupNumber
+                    //        DFSSearch2(i, j, M);
+
+                    //    }
+            }
+            return groupNumber;
+
+
+        }
+
+        void DFSSearch2(int sx, int sy, int[][] M)
+        {
+            Queue<Tuple<int,int>> q = new Queue<Tuple<int, int>>();
+            q.Enqueue(Tuple.Create<int, int>(sx, sy));
+
+        }
+        void DFSSearch(int sx, int sy, int[][] M)
+        {
+            Tuple<int,int>[] directions = 
+                { Tuple.Create<int, int>(1, 0), Tuple.Create<int, int>(-1, 0), Tuple.Create<int, int>(0, 1), Tuple.Create <int,int>(0,-1) };
+            for(int i=0;i<directions.Length;i++)
+            {
+                int curX = sx + directions[i].Item1;
+                int curY = sy + directions[i].Item2;
+
+                if (curX < 0 || curX >= M.Length || curY < 0 || curY >= M[0].Length)
+                {
+                    continue;
+                }
+                else
+                {
+                    if(M[curX][curY]==1)
+                    {
+                        M[curX][curY] = groupNumber;
+                        DFSSearch(curX, curY, M);
+                    }
+                    //we ignore the current curr point, if it has either 0 or negative#(already visited)
+                }
+
+
+            }
+        }
+    }
 }

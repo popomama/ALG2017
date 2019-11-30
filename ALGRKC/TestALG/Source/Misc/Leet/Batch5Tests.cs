@@ -79,5 +79,29 @@ namespace ALGRKC.Source.Misc.Leet.Tests
 //            result = rs.Remove(1);
 
         }
+
+        [TestMethod()]
+        public void FriendsCircleTest()
+        {
+
+            //int[][] friends = new int[3][];
+
+            //friends[0] = new int[3] { 1, 1, 0 };
+            //friends[1] = new int[3] { 1, 1, 0 };
+            //friends[2] = new int[3] { 0, 0, 1 };
+            //            friends[3] = new int[4] { 1, 0, 1, 1 };
+
+
+            int[][] friends = new int[4][];
+
+            friends[0] = new int[4] { 1, 0, 0, 1 };
+            friends[1] = new int[4] { 0, 1, 1, 0 };
+            friends[2] = new int[4] { 0, 1, 1, 1 };
+            friends[3] = new int[4] { 1, 0, 1, 1 };
+
+            FriendsSearch fs = new FriendsSearch();
+            int groups= fs.FindCircleNum(friends);
+
+        }
     }
 }
