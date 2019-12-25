@@ -33,11 +33,11 @@ namespace ALGRKC.Source.Misc.Leet
         public int CutOffTree(IList<IList<int>> forest)
         {
             //first we need to sort the tree hight for each location.
-            List<Tuple<int, int, int>> treeList = new List<Tuple<int, int, int>> ();
-            
-            
-            for(int row=0; row< forest.Count; row++)
-                for(int col=0;col< forest[row].Count; col++)
+            List<Tuple<int, int, int>> treeList = new List<Tuple<int, int, int>>();
+
+
+            for (int row = 0; row < forest.Count; row++)
+                for (int col = 0; col < forest[row].Count; col++)
                 {
                     if (forest[row][col] > 1)
                         treeList.Add(new Tuple<int, int, int>(forest[row][col], row, col));
@@ -46,12 +46,12 @@ namespace ALGRKC.Source.Misc.Leet
 
             treeList.Sort();
 
-            int steps=0;
+            int steps = 0;
 
-            int sourceX=0, sourceY=0;
+            int sourceX = 0, sourceY = 0;
             for (int i = 0; i < treeList.Count; i++)
             {
-                int currSteps = BFSTree(forest, sourceX,sourceY, treeList[i].Item2, treeList[i].Item3);
+                int currSteps = BFSTree(forest, sourceX, sourceY, treeList[i].Item2, treeList[i].Item3);
                 if (currSteps == -1)
                     return -1;
                 else
@@ -68,11 +68,11 @@ namespace ALGRKC.Source.Misc.Leet
         private int BFSTree(IList<IList<int>> forest, int sx, int sy, int dx, int dy)
         {
             int step = 0;
-           
-//            Tuple<int, int, int> dest = treeList[0];
 
-           // var add = new[] { (-1, 0), (1, 0), (0, -1), (0, 1) };
-            Tuple<int,int>[] directions =
+            //            Tuple<int, int, int> dest = treeList[0];
+
+            // var add = new[] { (-1, 0), (1, 0), (0, -1), (0, 1) };
+            Tuple<int, int>[] directions =
                 { Tuple.Create( -1, 0 ), Tuple.Create( 1, 0 ), Tuple.Create( 0, -1 ), Tuple.Create( 0, 1 ) };
 
             Queue<Tuple<int, int>> workingQueue = new Queue<Tuple<int, int>>();
@@ -83,12 +83,12 @@ namespace ALGRKC.Source.Misc.Leet
                 for (int col = 0; col < forest[row].Count; col++)
                 {
 
-                    isVisited[row].Add(false); 
+                    isVisited[row].Add(false);
 
                 }
             }
             //dx,dy denotes the destination
-            workingQueue.Enqueue(new Tuple<int, int>(sx,sy));
+            workingQueue.Enqueue(new Tuple<int, int>(sx, sy));
 
 
 
@@ -111,8 +111,8 @@ namespace ALGRKC.Source.Misc.Leet
                         {
                             int newX = current.Item1 + directions[i].Item1;
                             int newY = current.Item2 + directions[i].Item2;
-                            if (newX < 0 || newX >= forest.Count || newY < 0 || newY >= forest[0].Count 
-                                || isVisited[newX][newY] || forest[newX][newY]==0) //out of the bound or already visited, pr blocked.
+                            if (newX < 0 || newX >= forest.Count || newY < 0 || newY >= forest[0].Count
+                                || isVisited[newX][newY] || forest[newX][newY] == 0) //out of the bound or already visited, pr blocked.
                                 continue;
 
                             workingQueue.Enqueue(new Tuple<int, int>(newX, newY));
@@ -130,9 +130,194 @@ namespace ALGRKC.Source.Misc.Leet
             return -1;
         }
 
+
+        //Leetcode 127: Word Ladder
+        //Given two words (beginWord and endWord), and a dictionary's word list, find the length of shortest transformation sequence from beginWord to endWord, such that:
+        //    Only one letter can be changed at a time.
+        //    Each transformed word must exist in the word list.Note that beginWord is not a transformed word.
+
+        //Note:
+        //    Return 0 if there is no such transformation sequence.
+        //   All words have the same length.
+        //   All words contain only lowercase alphabetic characters.
+        //   You may assume no duplicates in the word list.
+        //   You may assume beginWord and endWord are non-empty and are not the same.
+
+        //Example 1:
+        //Input:
+        //beginWord = "hit",
+        //endWord = "cog",
+        //wordList = ["hot", "dot", "dog", "lot", "log", "cog"]
+        //Output: 5
+        //Explanation: As one shortest transformation is "hit" -> "hot" -> "dot" -> "dog" -> "cog",
+        //return its length 5.
+        public int LadderLength(string beginWord, string endWord, IList<string> wordList)
+        {
+
+            if (wordList.Count == 0)
+                return 0; // there is no word in the wordlist
+            Dictionary<string, List<string>> candidates = new Dictionary<string, List<string>>();
+            int wordLength = wordList[0].Length;
+            string newKey;
+            Dictionary<string, bool> isVisited = new Dictionary<string, bool>();
+           
+
+
+            //precompute what is inside the dictionary by using * as the key
+            //for example, h*t will include hat, hot, hit, etc
+            foreach (string w in wordList)
+            {
+                isVisited.Add(w, false);
+                for (int i = 0; i < wordLength; i++)
+                {
+                    newKey = w.Substring(0, i) + '*' + w.Substring(i + 1);
+                    if (!candidates.ContainsKey(newKey))
+                        candidates.Add(newKey, new List<string>());
+                    candidates[newKey].Add(w); // add the current word to the corressponding * list
+                }
+            }
+
+            //now use the BFS to search from the beginWord until it finds the endWord
+            Queue<KeyValuePair<string, int>> queue = new Queue<KeyValuePair<string, int>>();
+            queue.Enqueue(new KeyValuePair<string, int>(beginWord, 1));
+
+            KeyValuePair<string, int> currentPair;
+            int currentLevel;
+            string currentWord;
+            string currentKey;
+
+            while (queue.Count != 0)
+            {
+                currentPair = queue.Dequeue();
+                currentWord = currentPair.Key;
+                currentLevel = currentPair.Value;
+
+                if (currentWord == endWord)
+                    return currentLevel; // we find a match and return the level;
+
+                isVisited[currentWord] = true;
+                for (int i = 0; i < wordLength; i++)
+                {
+                    currentKey = currentWord.Substring(0, i) + '*' + currentWord.Substring(i + 1);
+                    if (candidates.ContainsKey(currentKey))
+                    {
+                        List<string> currentNabors = candidates[currentKey];
+                        foreach (string s in currentNabors)
+                        {
+                            if (isVisited[s] == false)
+                                queue.Enqueue(new KeyValuePair<string, int>(s, currentLevel + 1));
+                        }
+                    }
+                }
+                //we didn't find match
+            }
+
+            return 0;
+        }
+
        
+    }
+
+    public class Ladder2
+    {
+        Dictionary<string, List<string>> candidates;
+        int wordLength;
+        public Ladder2()
+        {
+            candidates = new Dictionary<string, List<string>>();
+
+        }
+ //       Dictionary<string, List<string>> candidates = new Dictionary<string, List<string>>();
+        //int wordLength = wordList[0].Length;
+
+        //this 2nd method uses Bidirectional-BFS to reduce the expansion of the child nodes search
+        public int LadderLength2(string beginWord, string endWord, IList<string> wordList)
+        {
+            if (!wordList.Contains(endWord))
+                return 0;
+           // Dictionary<string, List<string>> candidates = new Dictionary<string, List<string>>();
+             wordLength = wordList[0].Length;
+            string newKey;
+          
+            Dictionary<string, int> isVisitedBegin = new Dictionary<string, int>();
+            Dictionary<string, int> isVisitedEnd = new Dictionary<string, int>();
+
+            //precompute what is inside the dictionary by using * as the key
+            //for example, h*t will include hat, hot, hit, etc
+            foreach (string w in wordList)
+            {
+               // isVisitedBegin.Add(w, -1);
+               // isVisitedEnd.Add(w, -1);
+                for (int i = 0; i < wordLength; i++)
+                {
+                    newKey = w.Substring(0, i) + '*' + w.Substring(i + 1);
+                    if (!candidates.ContainsKey(newKey))
+                        candidates.Add(newKey, new List<string>());
+                    candidates[newKey].Add(w); // add the current word to the corressponding * list
+                }
+            }
+
+            Queue<KeyValuePair<string, int>> queueBegin = new Queue<KeyValuePair<string, int>>();
+            queueBegin.Enqueue(new KeyValuePair<string, int>(beginWord, 1));
+            
+            Queue<KeyValuePair<string, int>> queueEnd = new Queue<KeyValuePair<string, int>>();
+            queueEnd.Enqueue(new KeyValuePair<string, int>(endWord, 1));
 
 
+            isVisitedBegin.Add(beginWord, 1);
+            isVisitedEnd.Add(endWord, 1);
+
+
+            int level;
+
+            while(queueBegin.Count>0 && queueEnd.Count>0)
+            {
+                level = CheckVisited(isVisitedBegin, isVisitedEnd, queueBegin);
+                if (level > 0) // we find a match
+                    return level;
+                level = CheckVisited(isVisitedEnd, isVisitedBegin, queueEnd);
+                if (level > 0) // we find a match
+                    return level;
+            }
+
+            return 0;
+
+        }
+
+        int CheckVisited(Dictionary<string, int> beginVisited, Dictionary<string, int> endVisited, Queue<KeyValuePair<string, int>> queue )
+        {
+            KeyValuePair<string, int> current = queue.Dequeue();
+            string currentWord = current.Key;
+            int currentLevel = current.Value;
+
+            if (endVisited.ContainsKey(currentWord))//we find a match
+                return currentLevel + endVisited[currentWord]-1;
+
+            //if(beginVisited[currentWord]<=0)//not visited yet
+            //{
+                //if(!beginVisited.ContainsKey(currentWord))
+                //    beginVisited.Add(currentWord, currentLevel);
+                string currentKey;// = currentWord.Substring(0, i) + '*' + currentWord.Substring(i + 1);
+                for (int i = 0; i < wordLength; i++)
+                {
+                    currentKey = currentWord.Substring(0, i) + '*' + currentWord.Substring(i + 1);
+                    if (candidates.ContainsKey(currentKey))
+                    {
+                        List<string> currentNabors = candidates[currentKey];
+                    foreach (string s in currentNabors)
+                    {
+                        if (!beginVisited.ContainsKey(s))
+                        {
+                            beginVisited.Add(s, currentLevel + 1);
+                            queue.Enqueue(new KeyValuePair<string, int>(s, currentLevel + 1));
+                        }
+                    }
+                    }
+                }
+            //}
+
+            return -1;
+        }
     }
 
     //leetcode 380: Insert/delete/getrandom O(1)
@@ -412,4 +597,6 @@ namespace ALGRKC.Source.Misc.Leet
             }
         }
     }
+
+   
 }

@@ -43,10 +43,10 @@ namespace ALGRKC.Source.Misc.Leet.Tests
         {
             RandomizedSet rs = new RandomizedSet();
             bool result;
-            result    =rs.Insert(1);
+            result = rs.Insert(1);
             result = rs.Remove(2);
             result = rs.Insert(2);
-            int randonValue  = rs.GetRandom();
+            int randonValue = rs.GetRandom();
             result = rs.Remove(1);
             result = rs.Insert(2);
             randonValue = rs.GetRandom();
@@ -67,7 +67,7 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             result = rs.Insert(2);
             result = rs.Insert(4);
 
-           // randonValue = rs.GetRandom();
+            // randonValue = rs.GetRandom();
 
             result = rs.Remove(4);
             result = rs.Remove(3);
@@ -76,7 +76,7 @@ namespace ALGRKC.Source.Misc.Leet.Tests
 
             randonValue = rs.GetRandom();
 
-//            result = rs.Remove(1);
+            //            result = rs.Remove(1);
 
         }
 
@@ -100,7 +100,29 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             friends[3] = new int[4] { 1, 0, 1, 1 };
 
             FriendsSearch fs = new FriendsSearch();
-            int groups= fs.FindCircleNum(friends);
+            int groups = fs.FindCircleNum(friends);
+
+        }
+
+        [TestMethod()]
+        public void LadderLengthTest()
+        {
+            string begingWord = "hit", endWord = "cog";
+            string[] wordList = { "hot", "dot", "dog", "lot", "log", "cog" };
+            Batch5 b5 = new Batch5();
+            int length =b5.LadderLength(begingWord, endWord, wordList);
+
+        }
+
+
+
+        [TestMethod()]
+        public void LadderLengthTest2()
+        {
+            string begingWord = "hit", endWord = "cog";
+            string[] wordList = { "hot", "dot", "dog", "lot", "log"};
+            Ladder2 l2 = new Ladder2();
+            int length = l2.LadderLength2(begingWord, endWord, wordList);
 
         }
     }
