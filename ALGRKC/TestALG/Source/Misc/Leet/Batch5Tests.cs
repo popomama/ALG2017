@@ -110,7 +110,7 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             string begingWord = "hit", endWord = "cog";
             string[] wordList = { "hot", "dot", "dog", "lot", "log", "cog" };
             Batch5 b5 = new Batch5();
-            int length =b5.LadderLength(begingWord, endWord, wordList);
+            int length = b5.LadderLength(begingWord, endWord, wordList);
 
         }
 
@@ -120,9 +120,49 @@ namespace ALGRKC.Source.Misc.Leet.Tests
         public void LadderLengthTest2()
         {
             string begingWord = "hit", endWord = "cog";
-            string[] wordList = { "hot", "dot", "dog", "lot", "log"};
+            string[] wordList = { "hot", "dot", "dog", "lot", "log" };
             Ladder2 l2 = new Ladder2();
             int length = l2.LadderLength2(begingWord, endWord, wordList);
+
+        }
+
+        [TestMethod()]
+        public void VideoStitchingTest()
+        {
+
+            int[][] clips = new int[][]
+                //{ new int[] {0, 1},
+                //new int[] {6, 8},new int[] {0, 2},new int[] {5, 6},new int[] {0, 4},new int[] {0, 3}, new int[]{6, 7},
+                //new int[] {1, 3},new int[] {4, 7},new int[] {1, 4},new int[]{2, 5}, new int[]{2, 6},new int[] {3, 4},new int[]{4, 5},
+                //new int[] {5, 7},new int[] {6, 9}};
+                { new int[] {0, 2},
+                 new int[] {4, 8},
+                };
+
+            Batch5 b5 = new Batch5();
+            int num = b5.VideoStitching(clips, 5);
+
+
+        }
+
+        [TestMethod()]
+        public void NextLargerNodesTest()
+        {
+            Batch5 b5 = new Batch5();
+            // ListNode node;
+            int[] arr = { 2, 7, 4, 3, 5 };
+        ListNode head = new ListNode(arr[0]);
+            ListNode cur = head;
+            for (int i = 1; i < arr.Length; i++)
+            {
+                ListNode next = new ListNode(arr[i]);
+                cur.next = next;
+                cur = next;
+
+            }
+            
+            int[] res = b5.NextLargerNodes(head);
+
 
         }
     }

@@ -215,8 +215,202 @@ namespace ALGRKC.Source.Misc.Leet
             return 0;
         }
 
-       
+
+
+        //Leetcode 1024: Stiching Video
+        //You are given a series of video clips from a sporting event that lasted T seconds.  These video clips can be overlapping with each other and have varied lengths.
+
+        //        Each video clip clips[i] is an interval: it starts at time clips[i][0] and ends at time clips[i][1].  We can cut these clips into segments freely: for example, a clip[0, 7] can be cut into segments[0, 1] + [1, 3] + [3, 7].
+
+        //Return the minimum number of clips needed so that we can cut the clips into segments that cover the entire sporting event ([0, T]).  If the task is impossible, return -1.
+
+
+
+        //Example 1:
+
+        //Input: clips = [[0,2],[4,6],[8,10],[1,9],[1,5],[5,9]], T = 10
+        //Output: 3
+        //Explanation: 
+        //We take the clips [0,2], [8,10], [1,9]; a total of 3 clips.
+        //Then, we can reconstruct the sporting event as follows:
+        //We cut [1,9]
+        //        into segments [1,2] + [2,8] + [8,9].
+        //Now we have segments [0,2] + [2,8] + [8,10]
+        //        which cover the sporting event [0, 10].
+
+        //Example 2:
+
+        //Input: clips = [[0,1],[1,2]], T = 5
+        //Output: -1
+        //Explanation: 
+        //We can't cover [0,5] with only [0,1] and [0,2].
+        public int VideoStitching2(int[][] clips, int T)
+        {
+
+            if (clips.Length == 0) return -1;
+            IComparer< int[]> myComparer = new ReverseComparer(); ;
+            Array.Sort(clips, myComparer);
+            
+            int start = clips[0][0], end = clips[0][1], i = 1, count = 1;
+            if (start > 0) return -1;
+            else if (end >= T) return 1;
+            while(i<clips.Length && end<T && clips[i][0] <= end) {
+                int max = end;
+                while(i<clips.Length && clips[i][0] <= end) {
+                    max = Math.Max(max, clips[i][1]);
+                    i++;
+                }
+                end = max;
+                count++;
+            }
+            return end >= T? count : -1;
+        }
+
+        public int VideoStitching(int[][] clips, int T)
+        {
+
+            if (clips.Length == 0) return -1;
+            IComparer<int[]> myComparer = new ReverseComparer(); ;
+            Array.Sort(clips, myComparer);
+
+            int start = clips[0][0], end = clips[0][1];
+            int max=end, count = 1;
+            int current = 1; 
+            if (start > 0) return -1;
+            else if (end >= T) return 1;
+            while (current < clips.Length && max <T && clips[current][0] <= end)
+            {                
+                while(current<clips.Length &&   clips[current][0]<=end) // there is still overlap
+                {
+                    if (clips[current][1] > max)
+                        max = clips[current][1];
+                    current++;
+                }
+
+                count++;// we need another clip
+                end = max;
+
+            }
+
+            if (max >= T)
+                return count;
+            else
+                return -1;
+           
+
+            
+        }
+
+        //Leetcode 1019: Next greater Node in Linked List
+        //We are given a linked list with head as the first node.  Let's number the nodes in the list: node_1, node_2, node_3, ... etc.
+
+        //Each node may have a next larger value: for node_i, next_larger(node_i) is the node_j.val such that j > i,
+        //node_j.val > node_i.val, and j is the smallest possible choice.  If such a j does not exist, the next larger 
+        //value is 0.
+        // Return an array of integers answer, where answer[i] = next_larger(node_{ i + 1}).
+
+        //Note that in the example inputs(not outputs) below, arrays such as [2,1,5] represent the serialization of a linked list with a head node value of 2, second node value of 1, and third node value of 5.
+        //Example 1:
+
+        //Input: [2,1,5]
+        //        Output: [5,5,0]
+
+        //        Example 2:
+        //Input: [2,7,4,3,5]
+        //        Output: [7,0,5,5,0]
+
+        //        Example 3:
+        //Input: [1,7,5,1,9,2,5,1]
+        //        Output: [7,9,9,9,0,5,0,0]
+        //        Note:
+
+        //    1 <= node.val <= 10^9 for each node in the linked list.
+        //    The given list has length in the range[0, 10000].
+
+        public int[] NextLargerNodes(ListNode head)
+        {
+            int nextIndex = 1;
+
+            if (head == null)
+                return null;
+            List<KeyValuePair<int, int>> result = new List<KeyValuePair<int, int>>();
+            //key is the index and value is the value of the node
+            Stack<KeyValuePair<int, int>> s = new Stack<KeyValuePair<int, int>>();
+            s.Push(new KeyValuePair<int, int>(0, head.val));
+            ListNode nextNode = head.next;
+
+            while(s.Count !=0 && nextNode!=null)
+            {
+                KeyValuePair<int, int> currentLast = s.Peek();
+                if(nextNode.val<=currentLast.Value)
+                {
+                    s.Push(new KeyValuePair<int, int>(nextIndex, nextNode.val));
+                }
+                else
+                {
+                    result.Add(new KeyValuePair<int, int>(currentLast.Key, nextNode.val)); //add to the result
+                    s.Pop();//pop the currentLast;
+                    while(s.Count!=0)
+                    {
+                        currentLast = s.Peek();
+                        if (nextNode.val > currentLast.Value)
+                        {
+                            result.Add(new KeyValuePair<int, int>(currentLast.Key, nextNode.val)); //add to the result
+                            s.Pop();//pop the currentLast;
+                        }
+                        else
+                            break;
+                       
+                           
+
+                    }
+
+                    s.Push(new KeyValuePair<int, int>(nextIndex, nextNode.val)); 
+                }
+
+                nextIndex++;
+                nextNode = nextNode.next;
+            }
+
+            while(s.Count!=0) // all remaining ones doesn't have next bigger value, so set them to 0
+            {
+                KeyValuePair<int, int> currentPair = s.Pop();
+                result.Add(new KeyValuePair<int, int>(currentPair.Key, 0));
+            }
+
+            int[] resultArr = new int[nextIndex];
+            for(int i=0;i<nextIndex;i++)
+            {
+                resultArr[result[i].Key] = result[i].Value;
+            }
+
+            return resultArr;
+
+
+        }
+
+
     }
+
+    public class ListNode
+    {
+     public int val;
+      public ListNode next;
+      public ListNode(int x) { val = x; }
+    }
+     public class ReverseComparer : IComparer<int[]>
+    {
+        //each element in this case is 1-DIM array including 2 numbers(start, end in an interval))
+        // first compare the start position and then compare the end position
+        public int Compare(int[] a, int[] b)
+        {
+            if (a[0] != b[0]) 
+                return a[0] - b[0];
+            else 
+                return b[1] - a[1];
+        }
+    }
+
 
     public class Ladder2
     {
