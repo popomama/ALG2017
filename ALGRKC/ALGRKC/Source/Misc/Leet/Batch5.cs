@@ -130,6 +130,122 @@ namespace ALGRKC.Source.Misc.Leet
             return -1;
         }
 
+        //Leetcode  1129: Shortest path with alternating color
+        //Consider a directed graph, with nodes labelled 0, 1, ..., n-1.  In this graph, each edge is either red or blue, and there could be self-edges or parallel edges.
+
+        //Each [i, j] in red_edges denotes a red directed edge from node i to node j.  Similarly, each [i, j] in blue_edges denotes a blue directed edge from node i to node j.
+
+        //Return an array answer of length n, where each answer[X] is the length of the shortest path from node 0 to node X such that the edge colors alternate along the path (or -1 if such a path doesn’t exist).
+
+        //Example 1:
+
+        //Input: n = 3, red_edges = [[0,1],[1,2]], blue_edges = []
+        //Output: [0,1,-1]
+        //Example 2:
+
+        //Input: n = 3, red_edges = [[0,1]], blue_edges = [[2,1]]
+       // Output: [0,1,-1]
+       // Example 3:
+
+        //Input: n = 3, red_edges = [[1,0]], blue_edges = [[2,1]]
+        //Output: [0,-1,-1]
+        //Example 4:
+
+        //Input: n = 3, red_edges = [[0,1]], blue_edges = [[1,2]]
+        //Output: [0,1,2]
+        //Example 5:
+
+        //Input: n = 3, red_edges = [[0,1],[0,2]], blue_edges = [[1,0]]
+        //Output: [0,1,1]
+        //Constraints:
+
+        //1 <= n <= 100
+        //red_edges.length <= 400
+        //blue_edges.length <= 400
+        //red_edges[i].length == blue_edges[i].length == 2
+        //0 <= red_edges[i][j], blue_edges[i][j] < n
+        public int[] ShortestAlternatingPaths(int n, int[][] red_edges, int[][] blue_edges) {
+
+            //isVisitedRbool[] isVisitedR, isVisitedB;
+            int[] answer = Enumerable.Repeat(-1, n).ToArray<int>(); //initialize the answer to -1;
+            //Dictionary<int, int[]> redList, blueList;
+
+            HashSet<int>[] redList, blueList;
+            redList = new HashSet<int>[n];
+            blueList = new HashSet<int>[n];
+            for(int i=0;i<n;i++)
+            {
+                redList[i] = new HashSet<int>();
+                blueList[i] = new HashSet<int>();
+            }
+
+
+
+            for (int i =0;i<red_edges.Length;i++)
+            {
+                //if (redList[red_edges[i][0]] == null)
+                //    redList[red_edges[i][0]] = new HashSet<int>();
+                redList[red_edges[i][0]].Add(red_edges[i][1]);
+            }
+            for (int i = 0; i < blue_edges.Length; i++)
+            {
+                //if (blueList[blue_edges[i][0]] == null)
+                //    blueList[blue_edges[i][0]] = new HashSet<int>();
+                blueList[blue_edges[i][0]].Add(blue_edges[i][1]);
+            }
+
+            bool[] seen_red = Enumerable.Repeat(false,n).ToArray<bool>(), seen_blue = Enumerable.Repeat(false,n).ToArray<bool>();
+
+            //each item in the queue denotes a node, key is the node #, value denotes the color of the edge via which the node is reached
+            Queue<KeyValuePair<int, int>> queue = new Queue<KeyValuePair<int, int>>();
+
+            queue.Enqueue(new KeyValuePair<int, int>(0, 0)); // 0 denotes we get to the currentNode via red edge
+            queue.Enqueue(new KeyValuePair<int, int>(0, 1)); // 1 denotes we get to the currentNode via blue edge
+
+            KeyValuePair<int, int> current;
+            int currentNode, corlorReachedToCurrent, currentCount, colorNext;
+            int steps = 0;
+            while(queue.Count>0) // Use BFS, check if we still have node to process at current level
+            {
+                currentCount = queue.Count;
+
+                while (currentCount > 0) // loop the nodes at the current level one by one
+                {
+                    current = queue.Dequeue(); // get the current pair
+                    corlorReachedToCurrent = current.Value;
+                    currentNode = current.Key;
+
+
+                    answer[currentNode] = answer[currentNode] >= 0 ? Math.Min(answer[currentNode], steps) : steps; // if the currentNode was visited before, then it may already have a value. In this case, we takes the smaller between the last value and the current steps.
+                    colorNext = 1 - corlorReachedToCurrent;
+
+                    HashSet<int>[] nextBatch = colorNext == 0 ? redList : blueList; //
+                    bool[] seenList = colorNext == 0 ? seen_red : seen_blue;
+                    foreach (int i in nextBatch[currentNode])
+                    {
+                        if (seenList[i]) 
+                            continue;
+                        else
+                        {
+                            seenList[i] = true;
+                            queue.Enqueue(new KeyValuePair<int, int>(i, colorNext));
+                        }
+                    }
+
+                    currentCount--; // decrement of the count in the queue for current level
+
+
+
+                }
+
+                steps++; // we finish processing the current level, and will go to the next level
+
+
+            }
+
+
+            return answer;
+        }
 
         //Leetcode 127: Word Ladder
         //Given two words (beginWord and endWord), and a dictionary's word list, find the length of shortest transformation sequence from beginWord to endWord, such that:

@@ -151,7 +151,7 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             Batch5 b5 = new Batch5();
             // ListNode node;
             int[] arr = { 2, 7, 4, 3, 5 };
-        ListNode head = new ListNode(arr[0]);
+            ListNode head = new ListNode(arr[0]);
             ListNode cur = head;
             for (int i = 1; i < arr.Length; i++)
             {
@@ -160,10 +160,36 @@ namespace ALGRKC.Source.Misc.Leet.Tests
                 cur = next;
 
             }
-            
+
             int[] res = b5.NextLargerNodes(head);
 
 
         }
+
+        [TestMethod()]
+        public void ShortestAlternatingPathsTest()
+        {
+//            3
+//[[0, 1],[1,2]]
+//[]
+
+                 Batch5 b5 = new Batch5();
+            int n = 3;
+            int[][] redEdges = new int[][]
+               //{ new int[] {0, 1},
+               //new int[] {6, 8},new int[] {0, 2},new int[] {5, 6},new int[] {0, 4},new int[] {0, 3}, new int[]{6, 7},
+               //new int[] {1, 3},new int[] {4, 7},new int[] {1, 4},new int[]{2, 5}, new int[]{2, 6},new int[] {3, 4},new int[]{4, 5},
+               //new int[] {5, 7},new int[] {6, 9}};
+               { new int[] {0, 1},
+                 new int[] {0,2},
+               };
+
+            int[][] blueEdges = new int[][] { };
+
+            int[] ans = b5.ShortestAlternatingPaths(n, redEdges, blueEdges);
+
+
+        }
+    
     }
 }
