@@ -169,11 +169,11 @@ namespace ALGRKC.Source.Misc.Leet.Tests
         [TestMethod()]
         public void ShortestAlternatingPathsTest()
         {
-//            3
-//[[0, 1],[1,2]]
-//[]
+            //            3
+            //[[0, 1],[1,2]]
+            //[]
 
-                 Batch5 b5 = new Batch5();
+            Batch5 b5 = new Batch5();
             int n = 3;
             int[][] redEdges = new int[][]
                //{ new int[] {0, 1},
@@ -190,6 +190,30 @@ namespace ALGRKC.Source.Misc.Leet.Tests
 
 
         }
-    
+
+        [TestMethod()]
+        public void SmallestSufficientTeamTest()
+        {
+            //["java","nodejs","reactjs"]
+            //[["java"],["nodejs"],["nodejs","reactjs"]]
+
+            Batch5 b5 = new Batch5();
+            string[] requiredSkills = { "java", "nodejs", "reactjs" };
+            List<string>[] people = new List<string>[3];
+            for(int i=0;i<3;i++)
+                people[i] = new List<string>();
+            people[0].Add("java");
+            people[1].Add("nodejs");
+
+            people[2].Add("java");
+            people[2].Add("nodejs");
+
+
+            int[]  smallteam = b5.SmallestSufficientTeam(requiredSkills, people);
+
+
+
+
+        }
     }
 }
