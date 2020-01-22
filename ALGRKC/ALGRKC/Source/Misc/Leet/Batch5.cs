@@ -247,6 +247,27 @@ namespace ALGRKC.Source.Misc.Leet
             return answer;
         }
 
+        //Leetcode 1124. Longest Well-Performing Interval
+        //We are given hours, a list of the number of hours worked per day for a given employee.
+        //A day is considered to be a tiring day if and only if the number of hours worked is (strictly) greater than 8.
+        //A well-performing interval is an interval of days for which the number of tiring days is strictly larger than the number of non-tiring days.
+        //Return the length of the longest well-performing interval.
+
+
+        //Example 1:
+        //Input: hours = [9, 9, 6, 0, 6, 6, 9]
+        //Output: 3
+        //Explanation: The longest well-performing interval is [9,9,6].
+
+
+        //Constraints:
+        //1 <= hours.length <= 10000
+        //0 <= hours[i] <= 16
+
+        public int LongestWPI(int[] hours)
+        {
+
+        }
         //Leetcode 1125 Smallest Sufficient Team
         //In a project, you have a list of required skills req_skills, and a list of people.  The i-th person people[i] contains a list of skills that person has.
         //        Consider a sufficient team: a set of people such that for every required skill in req_skills, there is at least one person in the team who has that skill.We can represent these teams by the index of each person: for example, team = [0, 1, 3] represents the people with skills people[0], people[1], and people[3].
