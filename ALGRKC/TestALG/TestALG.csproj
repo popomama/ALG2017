@@ -62,6 +62,7 @@
     <Compile Include="Source\Misc\Leet\Batch3Tests.cs" />
     <Compile Include="Source\Misc\Leet\Batch4Tests.cs" />
     <Compile Include="Source\Misc\Leet\Batch5Tests.cs" />
+    <Compile Include="Source\Misc\Leet\Batch6Tests.cs" />
     <Compile Include="Source\MST\KruskalMSTTests.cs" />
     <Compile Include="Source\MST\LazyPrimMSTTests.cs" />
     <Compile Include="Source\Misc\GoogTests.cs" />
