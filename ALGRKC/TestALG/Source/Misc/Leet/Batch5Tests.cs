@@ -200,7 +200,7 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             Batch5 b5 = new Batch5();
             string[] requiredSkills = { "java", "nodejs", "reactjs" };
             List<string>[] people = new List<string>[3];
-            for(int i=0;i<3;i++)
+            for (int i = 0; i < 3; i++)
                 people[i] = new List<string>();
             people[0].Add("java");
             people[1].Add("nodejs");
@@ -209,11 +209,20 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             people[2].Add("nodejs");
 
 
-            int[]  smallteam = b5.SmallestSufficientTeam(requiredSkills, people);
+            int[] smallteam = b5.SmallestSufficientTeam(requiredSkills, people);
 
 
 
 
         }
+
+        [TestMethod()]
+        public void LongestWPITest()
+        {
+            int[] hours = {9,9,6,0,6,6,9 };
+
+            Batch5 b5 = new Batch5();
+            int WPI = b5.LongestWPI(hours);
+            }
     }
 }

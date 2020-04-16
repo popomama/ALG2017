@@ -835,6 +835,60 @@ namespace ALGRKC.Source.Misc.Leet
             return result[m - 1, n - 1];
         }
 
+
+        //Leetcode 63
+        //A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
+        //The robot can only move either down or right at any point in time.The robot is trying to reach the bottom-right corner of the grid(marked 'Finish' in the diagram below).
+        //Now consider if some obstacles are added to the grids.How many unique paths would there be?
+        //An obstacle and empty space is marked as 1 and 0 respectively in the grid.
+        public int UniquePathsWithObstacles(int[][] obstacleGrid)
+        {
+
+            if (obstacleGrid[0][0] == 1)
+                return 0;
+
+
+            int m = obstacleGrid.Length;
+            int n = obstacleGrid[0].Length;
+
+            
+            //int[][] result = new int[m][];
+            int[,] result = new int[m, n];
+
+            result[0, 0] = 1;
+
+            for (int i = 1; i < m; i++)
+            {
+                if (obstacleGrid[i][0] == 1 || result[i - 1, 0] == 0)
+                    result[i, 0] = 0;
+                else
+                    result[i, 0] = 1;
+            }
+
+            for (int i = 1; i < n; i++)
+            {
+                if (obstacleGrid[0][i] == 1 || result[0, i - 1] ==0)
+                    result[0, i] = 0;
+                else
+                    result[0, i] = 1;
+            }
+
+
+
+
+            for (int i=1;i<m;i++)
+                for(int j=1;j<n;j++)
+                {
+                    if ((obstacleGrid[i][j] == 1) || ((result[i - 1, j] == 0) && (result[i, j - 1] == 0)))
+                        result[i, j] = 0;
+                    else
+                        result[i, j] = result[i - 1, j] + result[i, j - 1];
+                }
+
+            return result[m - 1, n - 1];
+
+        }
+
         //Leet Code 121: Best time to buy and sell stock
         //Say you have an array for which the ith element is the price of a given stock on day i.
 

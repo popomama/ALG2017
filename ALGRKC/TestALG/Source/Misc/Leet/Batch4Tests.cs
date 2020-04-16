@@ -148,7 +148,7 @@ namespace ALGRKC.Source.Misc.Leet.Tests
         {
             Batch4 b4 = new Batch4();
 
-            string result =b4.FrequencySort("aDDbbbcAc");
+            string result = b4.FrequencySort("aDDbbbcAc");
 
 
 
@@ -163,7 +163,7 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             int result;
 
             LFUCache lfuCache = new LFUCache(2);
-            
+
             lfuCache.Put(1, 1);
             lfuCache.Put(2, 2);
 
@@ -196,5 +196,16 @@ namespace ALGRKC.Source.Misc.Leet.Tests
 
         }
 
+        [TestMethod()]
+        public void UniquePathsWithObstaclesTest()
+        {
+            //[[0,0,0],[0,1,0],[0,0,0]]
+
+            int[][] arr = new int[][] { new int[] { 0, 0, 0 }, new int[] { 0, 1, 0 }, new int[] { 0, 0, 0 } };
+
+            Batch4 b4 = new Batch4();
+            int nPaths= b4.UniquePathsWithObstacles(arr);
+
+        }
     }
 }

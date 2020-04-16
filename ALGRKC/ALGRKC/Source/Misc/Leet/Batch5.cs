@@ -262,11 +262,41 @@ namespace ALGRKC.Source.Misc.Leet
 
         //Constraints:
         //1 <= hours.length <= 10000
-        //0 <= hours[i] <= 16
+        //0 <= hours[i] <= 16 
 
         public int LongestWPI(int[] hours)
         {
-            return 100;
+            int len = hours.Length;
+            if (len == 0)
+                return 0;
+            int maxLen = 0;
+            int netDays = 0;
+            int continousDays = 0;
+  //          int start;
+
+            for(int i=0;i<len;i++)
+            {
+                if (hours[i] <=8)
+                    netDays -= 1;
+                else
+                    netDays += 1;
+
+                if (netDays == 0)
+                    continousDays++;
+                else if(netDays<0)
+                {
+//                    start = i + 1;
+                    netDays = 0;
+                    continousDays = 0;
+                }
+                else
+                {
+                    continousDays++;
+                    if (continousDays > maxLen)
+                        maxLen = continousDays;
+                }
+            }
+            return maxLen;
         }
         //Leetcode 1125 Smallest Sufficient Team
         //In a project, you have a list of required skills req_skills, and a list of people.  The i-th person people[i] contains a list of skills that person has.
