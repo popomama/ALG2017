@@ -571,18 +571,32 @@ namespace ALGRKC.Source.Misc.Leet
         public int MinimumTotal(IList<IList<int>> triangle)
         {
             int level = triangle.Count;
-            int[] currentSum = new int[level];
+
+            // use the original array and override as the result 
+            //            int[] currentSum = new int[level];
             if (level == 1)
                 return triangle[0][0];
-            for (int i = 0; i < level; i++)
-                currentSum[i] = triangle[level - 1][i];
-            for (int i = level - 2; i >= 0; i--)
-            {
-                for (int j = 0; j <= i; j++)
-                    currentSum[j] = Math.Min(currentSum[j], currentSum[j + 1]) + triangle[i][j];
-            }
 
-            return currentSum[0];
+            for (int i = 1; i < level; i++)
+            {
+                triangle[i][0] += triangle[i - 1][0];
+                for (int j = 1; j < i; j++)
+                {
+                    triangle[i][j] += Math.Min(triangle[i - 1][j - 1], triangle[i - 1][j]);
+
+                }
+                triangle[i][i] += triangle[i - 1][i - 1];
+            }
+            //for (int i = 0; i < level; i++)
+            //    currentSum[i] = triangle[level - 1][i];
+            //for (int i = level - 2; i >= 0; i--)
+            //{
+            //    for (int j = 0; j <= i; j++)
+            //        currentSum[j] = Math.Min(currentSum[j], currentSum[j + 1]) + triangle[i][j];
+            //}
+
+            //return currentSum[0];
+            return triangle[level - 1].Min();
         }
 
         //Leetcode 53: Maximum subarray
