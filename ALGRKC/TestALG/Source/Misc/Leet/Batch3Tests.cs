@@ -37,6 +37,15 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             int result = b3.CalculateMinimumHP(d);
         }
 
+
+        [TestMethod()]
+        public void CalculateMinimumHPTest2()
+        {
+            int[][] d = new int[][] { new int[] { -2, -3, 3 }, new int[] { -5, -10, 1 }, new int[] { 10, 30, -5 } };
+            Batch3 b3 = new Batch3();
+            int result = b3.CalculateMinimumHP2(d);
+        }
+
         [TestMethod()]
         public void PrintTreeTest()
         {

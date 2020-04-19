@@ -599,6 +599,71 @@ namespace ALGRKC.Source.Misc.Leet
             return triangle[level - 1].Min();
         }
 
+        //Leetcoe 174: Dungeon  Game
+        //The demons had captured the princess (P) and imprisoned her in the bottom-right corner of a dungeon. The dungeon consists of M x N rooms laid out in a 2D grid. Our valiant knight (K) was initially positioned in the top-left room and must fight his way through the dungeon to rescue the princess.
+        //The knight has an initial health point represented by a positive integer.If at any point his health point drops to 0 or below, he dies immediately.
+        //Some of the rooms are guarded by demons, so the knight loses health (negative integers) upon entering these rooms; other rooms are either empty(0's) or contain magic orbs that increase the knight's health (positive integers).
+        //In order to reach the princess as quickly as possible, the knight decides to move only rightward or downward in each step.
+        //Write a function to determine the knight's minimum initial health so that he is able to rescue the princess.
+
+        public int CalculateMinimumHP2(int[][] dungeon)
+        {
+            //state transform formula
+            //V[m][n] = min{ V[m+1,n], V[m,n+1]} - dungeon[m][n]
+            //if( V[m][n] <0) V[m][n]=1 as the health must be greater than 0 all the time
+            //return V[0][0]
+            int temp;
+            int m = dungeon.Length;
+            int n = dungeon[0].Length;
+
+            temp = 1 - dungeon[m-1][n-1];
+            if (temp <= 0)
+                temp= 1;  // minimum health needed from the last step is 1;
+
+            if (m == 1 && n == 1) //we only have 1 cell (1x1 case)
+            {
+                return temp;
+            }
+            dungeon[m - 1][n - 1] = temp;
+            //now handle the borderline case
+            for (int i=m-2;i>=0;i--)
+            {
+                temp =  dungeon[i+1][n-1]- dungeon[i][n - 1];
+                if (temp <= 0)
+                    temp = 1;  // minimum health needed from the last step is 1;
+                dungeon[i][n - 1] = temp;
+
+            }
+
+            for (int j = n - 2; j >= 0; j--)
+            {
+                temp = dungeon[m-1][j+1]- dungeon[m - 1][j];
+                if (temp <= 0)
+                    temp = 1;  // minimum health needed from the last step is 1;
+                dungeon[m-1][j] = temp;
+
+            }
+
+            //now process the gernal case
+
+            for(int i=m-2;i>=0;i--)
+                for(int j=n-2;j>=0;j--)
+                {
+
+                    temp = Math.Min(dungeon[i + 1][j], dungeon[i][j + 1])- dungeon[i][j];
+                    if (temp <= 0)
+                        temp = 1;  // minimum health needed from the last step is 1;
+                    dungeon[i][j] = temp;
+
+                }
+
+
+            return dungeon[0][0];
+
+
+        }
+
+
         //Leetcode 53: Maximum subarray
         //Given an integer array nums, find the contiguous subarray(containing at least one number) which has the largest sum and return its sum.
 
