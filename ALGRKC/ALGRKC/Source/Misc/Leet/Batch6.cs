@@ -75,7 +75,133 @@ namespace ALGRKC.Source.Misc.Leet
             return temp;
         }
 
-        
+
+
+        //leetcode 1277 Count squre submatrices with all one
+        //iven a m * n matrix of ones and zeros, return how many square submatrices have all ones.
+        //        Example 1:
+
+        //Input: matrix =
+        //[
+        //  [0,1,1,1],
+        //  [1,1,1,1],
+        //  [0,1,1,1]
+        //]
+        //Output: 15
+        //Explanation: 
+        //There are 10 squares of side 1.
+        //There are 4 squares of side 2.
+        //There is  1 square of side 3.
+        //Total number of squares = 10 + 4 + 1 = 15.
+
+        public int CountSquares(int[][] matrix)
+        {
+           
+
+            int row = matrix.Length;
+            if (row == 0)
+                return 0;
+            int col = matrix[0].Length;
+            if (col == 0)
+                return 0;
+
+            //result[i,j] denotes the largest square that has its bottom right at i,j
+            int[,] result = new int[row + 1, col + 1];
+
+            int sum = 0;
+            for(int i=1;i<=row;i++)
+                for(int j=1;j<=col;j++)
+                {
+                    if (matrix[i - 1][j - 1] == 1)
+                        result[i, j] = Math.Min(Math.Min(result[i - 1, j - 1], result[i - 1, j]), result[i, j - 1])+1;
+                    else
+                        result[i, j] = 0;
+
+                    sum += result[i, j];
+                }
+
+            return sum;
+
+
+
+
+        }
+
+        //Leetcode 213 HOuse Roberry II
+        //You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. All houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, adjacent houses have security system connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+        //        Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.
+
+        //        Example 1:
+
+        //Input: [2,3,2]
+        //        Output: 3
+        //Explanation: You cannot rob house 1 (money = 2) and then rob house 3 (money = 2),
+        //             because they are adjacent houses.
+
+        public int Rob(int[] nums)
+        {
+            int len = nums.Length;
+            if (len == 1)
+                return nums[0];
+            if (len == 0)
+                return 0;
+
+            int[] total = new int[len];
+
+            total[0] = nums[0];
+            total[1] = Math.Max(nums[0], nums[1]);
+
+            for(int i=2;i<len-1;i++) //take out the last element
+            {
+                if (total[i - 2] + nums[i] > total[i - 1])
+                    total[i] = total[i - 2] + nums[i];
+                else
+                    total[i] = total[i - 1];
+            }
+
+            int temp = total[len - 2];
+
+            total[0] = 0;
+            total[1] = nums[1];
+
+            for (int i = 2; i < len; i++) //take out the last element
+            {
+                if (total[i - 2] + nums[i] > total[i - 1])
+                    total[i] = total[i - 2] + nums[i];
+                else
+                    total[i] = total[i - 1];
+            }
+
+            return Math.Max(temp, total[len - 1]);
+
+            //if (len == 2)
+            //    return Math.Max(nums[0], nums[1]);
+
+            //bool[] usedFirst = new bool[len+1];
+            //int[] total = new int[len+1];
+            //usedFirst[1] = true;
+            //total[1] = nums[0];
+
+
+            ////loop through to the 2nd to the last 
+            //for(int i=2;i<len;i++)
+            //{
+            //    if(total[i-2]+nums[i-1]>total[i-1])
+            //    {
+            //        total[i] = total[i - 2] + nums[i - 1];
+            //        usedFirst[i] = usedFirst[i-2];
+            //    }
+            //    else
+            //    {
+            //        total[i] = total[i - 1];
+            //        usedFirst[i] = usedFirst[i-1];
+
+            //    }
+            //}
+
+
+        }
 
     }
 

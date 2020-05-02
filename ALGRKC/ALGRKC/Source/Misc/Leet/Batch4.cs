@@ -948,14 +948,88 @@ namespace ALGRKC.Source.Misc.Leet
         //Input: [1,2,3,0,2]
         //        Output: 3 
         //Explanation: transactions = [buy, sell, cooldown, buy, sell]
-        //Idea: use DP. Create 3 states for a state machine. Rest, Bought,Sold
-        //      Rest[i]=max{Rest[i-1], Sold[i-1]}
-        //      Bought[i]= max{Rest[i-1]-Price[i], Bought[i-1]}
-        //      Sold[i]= max{Bought[i-1]+Price[i], Sold[i-1]
+        // we have 3 states Wait, Bought and Sold state
+        // wait -->  wait (via cooldown), or bought(via buy)    wait[i]=max(wait[i-1], sold[i-1])
+        // Bought --> sold(via sell), or bought(via cooldown)   bought[i]= max(wait[i-1]-price[i-1], bought[i-1]) 
+        // Sold --> wait(via cool down)                         sold[i] = bought[i-1]+price[i-1]          
+
         public int MaxProfitCD(int[] prices)
         {
-            return 1;
+            int length = prices.Length;
+
+            //create 3 arrays, initialize to 0
+            int[] bought = new int[length+1];
+            int[] sold = new int[length+1];
+            int[] wait = new int[length+1];
+            wait[0] = sold[0] = 0;
+            bought[0] = int.MinValue;
+
+            for(int i=1;i<=length;i++)
+            {
+                // prices[i-1] really represents prince[i], it just shifts 1
+                wait[i] = Math.Max(wait[i - 1], sold[i - 1]);
+                bought[i] = Math.Max(wait[i - 1] - prices[i - 1], bought[i - 1]);
+                sold[i] = bought[i - 1] + prices[i-1];
+
+            }
+
+            return Math.Max(sold[length], wait[length]);
+
+
         }
+
+
+        //Leetcode 740 : Delete and Earn
+        //Given an array nums of integers, you can perform operations on the array.
+        //In each operation, you pick any nums[i] and delete it to earn nums[i] points.After, you must delete every element 
+        //equal to nums[i] - 1 or nums[i] + 1
+        //You start with 0 points.Return the maximum number of points you can earn by applying such operations.
+
+        //Example 1:
+
+        //Input: nums = [3, 4, 2]
+        //        Output: 6
+        //Explanation: 
+        //Delete 4 to earn 4 points, consequently 3 is also deleted.
+        //Then, delete 2 to earn 2 points. 6 total points are earned.
+
+        //Example 2:
+        //        Input: nums = [2, 2, 3, 3, 3, 4]
+        //        Output: 9
+        //Explanation: 
+        //Delete 3 to earn 3 points, deleting both 2's and the 4.
+        //Then, delete 3 again to earn 3 points, and 3 again to earn 3 points.
+        //9 total points are earned.
+
+        public int DeleteAndEarn(int[] nums)
+        {
+            int len = nums.Length;
+            if (len ==0)
+                return 0;
+
+            int max = nums.Max();
+            int min = nums.Min();
+
+            int[] arr = new int[max - min+1];
+
+            for (int i = 0; i < len; i++)
+                arr[nums[i] - min] += nums[i];
+
+            int dp1 = 0, dp2=arr[0];
+            int temp;
+            //now use robber skip to caculate the max points , see Leetcode 198 House Robber
+            for(int i=1;i<max-min+1;i++)
+            {
+                temp  = Math.Max(dp1 + arr[i], dp2);
+                dp1 = dp2;
+                dp2 = temp;
+            }
+
+            return dp2;
+        }
+
+        //Note: The length of nums is at most 20000.
+        //      Each element nums[i] is an integer in the range[1, 10000].
 
 
         //LeetCode :646. Maximum Length of Pair Chain
@@ -996,6 +1070,9 @@ namespace ALGRKC.Source.Misc.Leet
             }
             return dp[pairNumber - 1];
         }
+
+
+
         public int FindLongestChainGreedy(int[][] pairs)
         {
             int pairNumber = pairs.Length;
