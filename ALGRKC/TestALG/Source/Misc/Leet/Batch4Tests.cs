@@ -204,8 +204,16 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             int[][] arr = new int[][] { new int[] { 0, 0, 0 }, new int[] { 0, 1, 0 }, new int[] { 0, 0, 0 } };
 
             Batch4 b4 = new Batch4();
-            int nPaths= b4.UniquePathsWithObstacles(arr);
+            int nPaths = b4.UniquePathsWithObstacles(arr);
 
+        }
+
+        [TestMethod()]
+        public void NumTilingsTest()
+        {
+            int n = 30;
+            Batch4 b4 = new Batch4();
+            int v = b4.NumTilings(30);
         }
     }
 }
