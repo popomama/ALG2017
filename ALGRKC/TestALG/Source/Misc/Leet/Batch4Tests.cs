@@ -215,5 +215,15 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             Batch4 b4 = new Batch4();
             int v = b4.NumTilings(30);
         }
+
+        [TestMethod()]
+        public void MinSwapTest()
+        {
+            int[] A = { 1, 3, 5, 4 };
+            int[] B = { 1, 2, 3, 7 };
+            Batch4 b4 = new Batch4();
+            int num=    b4.MinSwap(A, B);
+    
+        }
     }
 }
