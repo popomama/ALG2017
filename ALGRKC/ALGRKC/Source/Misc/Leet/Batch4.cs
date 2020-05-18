@@ -2,7 +2,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -1227,7 +1230,7 @@ namespace ALGRKC.Source.Misc.Leet
             for (int i = 0; i < lenB + 1; i++)
                 comm[0, i] = 0;
             for (int j = 0; j < lenA + 1; j++)
-                comm[j, 0] = 1;
+                comm[j, 0] = 0;
 
             for (int i = 0; i < lenA; i++)
                 for (int j = 0; j < lenB; j++)
@@ -1257,7 +1260,7 @@ namespace ALGRKC.Source.Misc.Leet
             for (int i = 0; i < lenB + 1; i++)
                 comm[0, i] = 0;
             for (int j = 0; j < lenA + 1; j++)
-                comm[j, 0] = 1;
+                comm[j, 0] = 0;
 
             for (int i = 0; i < lenA; i++)
                 for (int j = 0; j < lenB; j++)
@@ -1274,6 +1277,19 @@ namespace ALGRKC.Source.Misc.Leet
                 }
 
             return comm[lenA, lenB];
+        }
+
+
+        //Leetcode 128: Longest consecutive sequence
+        //Given an unsorted array of integers, find the length of the longest consecutive elements sequence.
+        //        Your algorithm should run in O(n) complexity.
+        //        Example:
+        //Input: [100, 4, 200, 1, 3, 2]
+        //        Output: 4
+        //Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.
+        public int LongestConsecutive(int[] nums)
+        {
+            return 1;
         }
 
         //Leetcode 300: LongestIncreasingsubsequence
@@ -1350,6 +1366,15 @@ namespace ALGRKC.Source.Misc.Leet
                     //the negative number returned is the bitwise complement(-(index+1)) of the index of the first element that is larger than 
                     //value.If value is not found and value is greater than all elements in array, the negative number returned 
                     //is the bitwise complement of(the index of the last element plus 1). 
+
+                    //Sample binary search [2, 3, 5, 8, 12, 17]
+                    //如果找到关键字，则返回值为关键字在排序后的数组中的位置索引，且索引从0开始。
+                    //如果没有找到关键字，返回值为负的插入点值，所谓插入点值就是第一个比关键字大的元素在数组中的位置索引，而且这个位置索引从1开始。
+                    ////结果显示 0
+                    //System.out.println(Arrays.binarySearch(a, 2));
+                    //结果显示 -3
+                    //4在数据中没有，插入点即是3和5之间，位置索引从1开始数的话，这个位置就是3，取负即为-3
+                    //System.out.println(Arrays.binarySearch(a, 4));
                     int index = Array.BinarySearch(arr, 0, currentLen, nums[i]);
                     if (index < 0)
                         arr[-(index + 1)] = nums[i];
@@ -1366,6 +1391,71 @@ namespace ALGRKC.Source.Misc.Leet
 
         }
 
+
+        //Leetcode 673: Number of Longest Increasing  Subsequence
+        //Given an unsorted array of integers, find the number of longest increasing subsequence.
+
+        //        Example 1:
+        //Input: [1,3,5,4,7]
+        //        Output: 2
+        //Explanation: The two longest increasing subsequence are[1, 3, 4, 7] and[1, 3, 5, 7].
+        //Example 2:
+        //Input: [2,2,2,2,2]
+        //        Output: 5
+        //Explanation: The length of longest continuous increasing subsequence is 1, and there are 5 subsequences' length is 1, so output 5.
+        public int FindNumberOfLIS(int[] nums)
+        {
+            
+            int len = nums.Length;
+            if (len <= 1)
+                return len;
+
+            int[] LIS= new int[len];// = 1;
+            int[] count = new int[len];
+            int currentLongest=1;
+
+             LIS[0] = 1;
+            count[0] = 1;
+            for (int i=1;i<len;i++)
+            {
+                LIS[i] = 1;
+                count[i] = 1;
+
+                for(int j=0;j<i;j++)
+                {
+                    if (nums[i] > nums[j])
+                    {
+                        if (LIS[i] == LIS[j] + 1)
+                        {
+                            count[i] += count[j];
+                        }
+                        else if (LIS[i]< LIS[j] + 1 )
+                        {
+                            LIS[i] = LIS[j] + 1;
+                            count[i] = count[j];
+                            if (currentLongest < LIS[i])
+                                currentLongest = LIS[i];
+                           
+                        }
+
+                    }
+
+                }
+
+            }
+
+
+
+            int sum = 0;
+            for (int i = 0; i < len; i++)
+            {
+                if (LIS[i] == currentLongest)
+                    sum += count[i];
+            }
+
+            return sum;
+
+        }
 
         //332 Reconstruct Itinerary
         //Given a list of airline tickets represented by pairs of departure and arrival airports [from, to], reconstruct the itinerary in order. All of the tickets belong to a man who departs from JFK. Thus, the itinerary must begin with JFK.

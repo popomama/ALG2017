@@ -222,8 +222,16 @@ namespace ALGRKC.Source.Misc.Leet.Tests
             int[] A = { 1, 3, 5, 4 };
             int[] B = { 1, 2, 3, 7 };
             Batch4 b4 = new Batch4();
-            int num=    b4.MinSwap(A, B);
-    
+            int num = b4.MinSwap(A, B);
+
+        }
+
+        [TestMethod()]
+        public void FindNumberOfLISTest()
+        {
+            int[] a = { 1, 2, 4, 3, 5, 4, 7, 2 };
+            Batch4 b4 = new Batch4();
+            int result = b4.FindNumberOfLIS(a);
         }
     }
 }
